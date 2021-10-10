@@ -190,7 +190,6 @@ export class ToDoListComponent implements OnInit {
       );
     } else {
       this.filteredTodos = this.usersToDos;
-      console.log('else happened');
     }
   }
 

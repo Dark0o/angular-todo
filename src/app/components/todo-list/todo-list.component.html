@@ -7,7 +7,14 @@
     <input type="text" [(ngModel)]="filter" placeholder="Search ToDo..." />
     <app-to-do-input (onToDoAdded)="addToDo($event)"></app-to-do-input>
   </div>
-
+  <div class="inputs">
+    <label for="">Show Important:
+      <input type="checkbox" (click)="toggleImportant()" />
+    </label>
+    <label for="">Show Done:
+      <input type="checkbox" (click)="toggleDone()" />
+    </label>
+  </div>
   <div class="row">
     <div class="column">
       <h2>Title</h2>
