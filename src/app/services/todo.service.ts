@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ITodo } from '../model/todo';
+import { TodoDto, ITodo } from '../model/todo';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToDoService {
-  url = 'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/todos.json';
+  url =
+    'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/todos.json';
   usersTodos = [];
 
   constructor(private http: HttpClient) {}
@@ -34,10 +35,12 @@ export class ToDoService {
   }
 
   getToDoById(id) {
-    return this.http.get(`https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`);
+    return this.http.get(
+      `https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`
+    );
   }
 
-  addToDo(todo: ITodo): Observable<any> {
+  addToDo(todo: TodoDto): Observable<any> {
     console.log(todo);
 
     return this.http.post(this.url, todo);
@@ -53,6 +56,8 @@ export class ToDoService {
   }
 
   deleteToDo(id) {
-    return this.http.delete(`https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`);
+    return this.http.delete(
+      `https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`
+    );
   }
 }

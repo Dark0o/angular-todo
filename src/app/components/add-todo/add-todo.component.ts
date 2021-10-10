@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TodoDto, ITodo } from 'src/app/model/todo';
 import { ToDoService } from 'src/app/services/todo.service';
 
 @Component({
@@ -23,10 +24,19 @@ export class AddToDoComponent implements OnInit {
   ngOnInit(): void {}
 
   addNewToDo() {
+    const todo: TodoDto = {
+      title: this.title,
+      description: this.description,
+      isImportant: this.important,
+      isCompleted: this.completed,
+      isPublic: this.public,
+      createdAt: Date.now(),
+      userID: this.userId,
+    };
     this.addingNewToDoStatus = 'Adding...';
-    this.todoService
-      .addToDo({
-        id: null,
+    this.todoService.addToDo(todo).subscribe((data) => {
+      this.todoService.usersTodos.push({
+        id: data.name,
         title: this.title,
         description: this.description,
         isImportant: this.important,
@@ -34,20 +44,9 @@ export class AddToDoComponent implements OnInit {
         isPublic: this.public,
         createdAt: Date.now(),
         userID: this.userId,
-      })
-      .subscribe((data) => {
-        this.todoService.usersTodos.push({
-          id: data.name,
-          title: this.title,
-          description: this.description,
-          isImportant: this.important,
-          isCompleted: this.completed,
-          isPublic: this.public,
-          createdAt: Date.now(),
-          userID: this.userId,
-        });
-        this.addingNewToDoStatus = 'Added!';
       });
+      this.addingNewToDoStatus = 'Added!';
+    });
     setTimeout(() => {
       this.router.navigate(['todos']);
     }, 3000);

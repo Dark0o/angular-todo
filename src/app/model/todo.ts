@@ -1,5 +1,5 @@
 export interface ITodo {
-  id: string | null; // TODO: Make this param required
+  id: string; // TODO: Make this param required
   title: string;
   description: string;
   isImportant: boolean;
@@ -8,3 +8,4 @@ export interface ITodo {
   createdAt: number;
   userID: string;
 }
+export type TodoDto = Omit<ITodo, 'id'>;

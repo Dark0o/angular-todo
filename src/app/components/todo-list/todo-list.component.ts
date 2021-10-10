@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { TodoDto } from 'src/app/model/todo';
 import { UsersService } from 'src/app/services/users.service';
 import { ToDoService } from '../../services/todo.service';
 
@@ -134,32 +135,30 @@ export class ToDoListComponent implements OnInit {
     }
   }
 
-  addToDo(todo) {
-    console.log(todo);
-    this.toDoService
-      .addToDo({
-        id: null,
-        title: todo,
+  addToDo(title) {
+    console.log(title);
+    const todo: TodoDto = {
+      title: title,
+      description: this.description,
+      isImportant: this.important,
+      isCompleted: this.completed,
+      isPublic: this.public,
+      createdAt: Date.now(),
+      userID: this.userId,
+    };
+    this.toDoService.addToDo(todo).subscribe((response) => {
+      console.log(response);
+      this.toDoService.usersTodos.push({
+        title: title,
         description: this.description,
         isImportant: this.important,
         isCompleted: this.completed,
-        isPublic: this.public,
+        id: response.name,
         createdAt: Date.now(),
         userID: this.userId,
-      })
-      .subscribe((response) => {
-        console.log(response);
-        this.toDoService.usersTodos.push({
-          title: todo,
-          description: this.description,
-          isImportant: this.important,
-          isCompleted: this.completed,
-          id: response.name,
-          createdAt: Date.now(),
-          userID: this.userId,
-        });
-        console.log(this.todos);
       });
+      console.log(this.todos);
+    });
 
     //console.log(this.todos);
     console.log(this.filteredTodos);
