@@ -9,7 +9,7 @@ import { TodoDto, ITodo } from '../model/todo';
 })
 export class ToDoService {
   url =
-    'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/todos.json';
+    'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/todo.json';
   usersTodos = [];
 
   constructor(private http: HttpClient) {}

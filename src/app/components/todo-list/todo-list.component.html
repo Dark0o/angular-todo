@@ -1,7 +1,10 @@
-<div *ngIf="loadingState === true" class="loading">
+<div *ngIf="loadingState === true && !error" class="message">
   <h3>Loading...</h3>
 </div>
-<div *ngIf="loadingState === false" class="wrapper">
+<div *ngIf='error' class="message">
+  <h3>{{ error }}</h3>
+</div>
+<div *ngIf="loadingState === false && error === null" class="wrapper">
   <h1>ToDo List</h1>
   <div class="inputs">
     <input type="text" [(ngModel)]="filter" placeholder="Search ToDo..." />

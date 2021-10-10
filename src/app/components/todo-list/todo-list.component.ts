@@ -12,7 +12,7 @@ import { ToDoService } from '../../services/todo.service';
 export class ToDoListComponent implements OnInit {
   todos;
   completed = false;
-  date;
+  date: string;
   important = false;
   description = '';
   public = false;
@@ -28,6 +28,7 @@ export class ToDoListComponent implements OnInit {
     sortImportant: true,
     sortDone: true,
   };
+  error: string = null;
 
   private _filter;
 
@@ -40,7 +41,7 @@ export class ToDoListComponent implements OnInit {
     this.performFilter(this.filter);
   }
 
-  get usersToDos() {
+  get usersTodos() {
     return this.toDoService.usersTodos;
   }
   constructor(private toDoService: ToDoService) {
@@ -49,13 +50,23 @@ export class ToDoListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.toDoService.getToDos(this.userId).subscribe((todos) => {
-      console.log(todos);
-      //this.todos = todos;
-      //this.usersToDos = todos.filter((todo) => todo.userID === this.userId);
-      console.log(this.usersToDos);
-      this.performFilter();
-    });
+    this.toDoService.getToDos(this.userId).subscribe(
+      (todos) => {
+        console.log(todos);
+        //this.todos = todos;
+        //this.usersToDos = todos.filter((todo) => todo.userID === this.userId);
+        console.log(this.usersTodos.length);
+        this.performFilter();
+        if (this.usersTodos.length === 0) {
+          this.error = 'An error occured!';
+          console.log(this.error);
+        }
+      },
+      (error) => {
+        this.error = 'An error occured!';
+        console.log(error);
+      }
+    );
     console.log(this.sortingFlags);
   }
 
@@ -119,7 +130,7 @@ export class ToDoListComponent implements OnInit {
         (todo) => todo.isImportant === true
       );
     } else {
-      this.filteredTodos = this.usersToDos;
+      this.filteredTodos = this.usersTodos;
     }
   }
 
@@ -131,7 +142,7 @@ export class ToDoListComponent implements OnInit {
         (todo) => todo.isCompleted === true
       );
     } else {
-      this.filteredTodos = this.usersToDos;
+      this.filteredTodos = this.usersTodos;
     }
   }
 
@@ -182,14 +193,14 @@ export class ToDoListComponent implements OnInit {
 
   performFilter(filterBy?) {
     if (filterBy) {
-      this.filteredTodos = this.usersToDos.filter(
+      this.filteredTodos = this.usersTodos.filter(
         (todo) =>
           todo.title
             .toLocaleLowerCase()
             .indexOf(filterBy.toLocaleLowerCase()) !== -1
       );
     } else {
-      this.filteredTodos = this.usersToDos;
+      this.filteredTodos = this.usersTodos;
     }
   }
 
