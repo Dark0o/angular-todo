@@ -20,9 +20,13 @@ export class ToDoListComponent implements OnInit {
   userId;
   loadingState: boolean = false;
   filteredTodos = [];
-  sortingOrder: string;
-  titleFlag: boolean = false;
-  dateFlag: boolean = false;
+  isAscending: boolean = true;
+  sortingFlags = {
+    sortTitle: true,
+    sortDate: true,
+    sortImportant: true,
+    sortDone: true,
+  };
 
   private _filter;
 
@@ -51,49 +55,58 @@ export class ToDoListComponent implements OnInit {
       console.log(this.usersToDos);
       this.performFilter();
     });
+    console.log(this.sortingFlags);
   }
 
-  selectChangeHandler(event) {
-    console.log(event.target.value);
-    if (event.target.value === 'name') {
-      this.titleFlag = true;
-      this.sortingOrder = 'Ascending';
+  sortTitle() {
+    if (this.sortingFlags.sortTitle === true) {
       this.sortByName(this.filteredTodos);
-    }
-    if (event.target.value === 'date') {
-      this.titleFlag = false;
-      this.dateFlag = true;
-      console.log(this.sortingOrder);
-      this.sortNewest(this.filteredTodos);
-      this.sortingOrder = 'Ascending';
-      console.log('this happened');
-    }
-    if (event.target.value === '-') {
-      this.titleFlag = false;
-      this.dateFlag = false;
-      this.sortByName(this.filteredTodos);
-    }
-  }
-  toggleSorting() {
-    console.log('click');
-
-    if (this.sortingOrder === 'Descending') {
-      this.sortByName(this.filteredTodos);
-      this.sortingOrder = 'Ascending';
-    } else if (this.sortingOrder === 'Ascending') {
-      this.sortingOrder = 'Descending';
+      this.sortingFlags.sortTitle = false;
+    } else {
       this.sortByNameDesc(this.filteredTodos);
+      this.sortingFlags.sortTitle = true;
     }
   }
 
-  toggleSortingByDate() {
-    console.log('click');
-    if (this.sortingOrder === 'Descending') {
+  sortDate() {
+    if (this.sortingFlags.sortDate === true) {
       this.sortNewest(this.filteredTodos);
-      this.sortingOrder = 'Ascending';
-    } else if (this.sortingOrder === 'Ascending') {
-      this.sortingOrder = 'Descending';
+      this.sortingFlags.sortDate = false;
+    } else {
       this.sortOldest(this.filteredTodos);
+      this.sortingFlags.sortDate = true;
+    }
+  }
+
+  sortImportant() {
+    if (this.sortingFlags.sortImportant === true) {
+      this.filteredTodos
+        .sort((a, b) => {
+          return a.isImportant - b.isImportant;
+        })
+        .reverse();
+      this.sortingFlags.sortImportant = false;
+    } else {
+      this.filteredTodos.sort((a, b) => {
+        return a.isImportant - b.isImportant;
+      });
+      this.sortingFlags.sortImportant = true;
+    }
+  }
+
+  sortDone() {
+    if (this.sortingFlags.sortDone === true) {
+      this.filteredTodos
+        .sort((a, b) => {
+          return a.isCompleted - b.isCompleted;
+        })
+        .reverse();
+      this.sortingFlags.sortDone = false;
+    } else {
+      this.filteredTodos.sort((a, b) => {
+        return a.isCompleted - b.isCompleted;
+      });
+      this.sortingFlags.sortDone = true;
     }
   }
 
