@@ -2,6 +2,7 @@
 # Firebase
 /.firebaserc
 firebase.json
+/.firebase
 # compiled output
 /dist
 /tmp
