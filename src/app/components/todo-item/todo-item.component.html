@@ -1,0 +1,21 @@
+<div class="list-item">
+  <div class="to-do-item">
+    <label>
+      <input
+        type="checkbox"
+        [checked]="todoItem.isCompleted"
+        (click)="toggleCheckbox(todoItem)"
+      />
+      <span
+        [ngClass]="{
+          completed: todoItem.isCompleted,
+          important: todoItem.isImportant
+        }"
+        (click)="openToDoDetails(todoItem)"
+        >{{ todoItem.title }}, added: {{ date }}
+      </span>
+    </label>
+  </div>
+
+  <button (click)="onItemDeleted(todoItem)">x</button>
+</div>

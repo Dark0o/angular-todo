@@ -1,0 +1,25 @@
+.container {
+  padding: 10px;
+}
+h3 {
+  display: flex;
+  justify-content: center;
+}
+
+table {
+  width: 100%;
+}
+
+a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+button {
+  margin-top: 15px;
+  cursor: pointer;
+  height: 30px;
+  background-color: #8899;
+  border: none;
+}

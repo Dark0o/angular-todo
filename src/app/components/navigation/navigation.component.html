@@ -1,0 +1,27 @@
+<div class="container">
+  <h1 *ngIf="hasRoute('/login')">ToDo App</h1>
+  <button
+    class="btn"
+    *ngIf="hasRoute('/todos') || this.router.url.includes('todos')"
+    (click)="addNew()"
+  >
+    Add New
+  </button>
+  <a
+    *ngIf="hasRoute('/todos') || hasRoute('/todos/new')"
+    [routerLink]="['/todos/shared']"
+    ><button class="btn">Show Shared</button></a
+  >
+
+  <button
+    class="btn"
+    *ngIf="
+      hasRoute('/todos/new') ||
+      hasRoute('/todos') ||
+      this.router.url.includes('todos')
+    "
+    (click)="onLogOut()"
+  >
+    LogOut
+  </button>
+</div>

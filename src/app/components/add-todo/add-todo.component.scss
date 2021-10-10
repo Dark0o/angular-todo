@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form input {
+  margin-top: 5px;
+  height: 20px;
+}
+
+button {
+  cursor: pointer;
+  margin-top: 5px;
+  height: 30px;
+  background-color: #8899;
+  border: none;
+}
+
+.label input {
+  cursor: pointer;
+  vertical-align: middle;
+}
+.label label {
+  vertical-align: middle;
+}
+
+.statusMessage {
+  display: flex;
+  justify-content: center;
+}

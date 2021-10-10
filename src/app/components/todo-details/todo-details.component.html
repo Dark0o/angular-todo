@@ -1,0 +1,81 @@
+<div *ngIf="deleteStatus" class="delete">
+  <h3>{{ deleteStatus }}</h3>
+</div>
+
+<div *ngIf="!deleteStatus" class="container">
+  <h1>ToDo Item Details</h1>
+  <table>
+    <tr>
+      <td>Title:</td>
+      <td>{{ todo.title }}</td>
+    </tr>
+    <tr>
+      <td>Description:</td>
+      <td>{{ todo.description }}</td>
+    </tr>
+    <tr>
+      <td>Important:</td>
+      <td>{{ todo.isImportant }}</td>
+    </tr>
+    <tr>
+      <td>Done:</td>
+      <td>{{ todo.isCompleted }}</td>
+    </tr>
+    <tr>
+      <td>Created at:</td>
+      <td>{{ date }}</td>
+    </tr>
+  </table>
+  <div class="btns">
+    <button (click)="navigateBack()">Back to the list</button>
+    <button *ngIf="showEdit !== true" (click)="onEdit()">Edit</button>
+    <button *ngIf="showEdit === true" (click)="cancelEditing()">
+      Cancel Edit
+    </button>
+    <button (click)="deleteTodo()">Delete</button>
+  </div>
+
+  <div>
+    <div *ngIf="editStatus">
+      <h3>{{ editStatus }}</h3>
+    </div>
+    <div *ngIf="showEdit && editStatus === undefined" class="form">
+      <h3>Edit Todo</h3>
+      <div>
+        <input type="text" placeholder="Title" [(ngModel)]="todo.title" />
+      </div>
+      <div>
+        <input
+          type="text"
+          placeholder="Description"
+          [(ngModel)]="todo.description"
+        />
+      </div>
+      <div class="label">
+        <label>Important</label>
+        <input
+          type="checkbox"
+          [checked]="todo.isImportant"
+          (click)="markImportant()"
+        />
+      </div>
+      <div class="label">
+        <label>Public</label>
+        <input
+          type="checkbox"
+          [checked]="todo.isPublic"
+          (click)="markPublic()"
+        />
+      </div>
+      <div class="label">
+        <label>Done</label>
+        <input
+          type="checkbox"
+          [checked]="todo.isCompleted"
+          (click)="markDone()"
+        />
+      </div>
+      <button (click)="edit()">Save</button>
+    </div>
+  </div>
+</div>

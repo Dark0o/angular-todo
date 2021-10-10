@@ -1,0 +1,51 @@
+input {
+  width: 15px;
+  height: 15px;
+}
+
+span {
+  cursor: pointer;
+}
+
+button {
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+.list-item {
+  width: 600px;
+  height: 50px;
+  border: 1px solid black;
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.to-do-item {
+  padding: 5px;
+  display: flex;
+}
+
+.to-do-item input {
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.to-do-item label span {
+  font-size: 20px;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.completed {
+  text-decoration: line-through;
+}
+
+.important {
+  color: red;
+}

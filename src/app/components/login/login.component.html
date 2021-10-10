@@ -1,0 +1,12 @@
+<div class="container">
+  <form>
+    <div class="input-container">
+      <input class="fields" type="text" name="email" placeholder="email" [(ngModel)]="email" />
+      <input class="fields" type="password" name="password" placeholder="password" [(ngModel)]="password" />
+    </div>
+    <div class="btn-container">
+      <button class="btn" (click)="onLogIn(email, password)">Log In</button>
+      <button class="btn" (click)="onSignUp(email, password)">Sign Up</button>
+    </div>
+  </form>
+</div>
