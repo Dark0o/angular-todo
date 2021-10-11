@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -10,7 +11,7 @@ export class UserProfileComponent implements OnInit {
   user;
   userId;
 
-  constructor(private usersService: UsersService) {
+  constructor(private usersService: UsersService, private router: Router) {
     this.userId = localStorage.getItem('userId');
     console.log(this.userId);
   }
@@ -20,5 +21,9 @@ export class UserProfileComponent implements OnInit {
       this.user = user;
       console.log(this.user);
     });
+  }
+
+  navigateBack() {
+    this.router.navigate(['todos']);
   }
 }

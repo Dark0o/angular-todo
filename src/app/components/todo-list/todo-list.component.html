@@ -5,7 +5,11 @@
   <h3>{{ error }}</h3>
 </div>
 <div *ngIf="loadingState === false && errorMessage === null" class="wrapper">
-  <h1>{{ usersName }}'s Todo List</h1>
+  <div class="heading">
+    <div style="width: 100px;"></div>
+    <h1>{{ usersName }}'s Todo List</h1>
+    <a [routerLink]="['/profile']"><button>Profile</button></a>
+  </div>
   <div class="inputs">
     <input type="text" [(ngModel)]="filter" placeholder="Search ToDo..." />
     <app-to-do-input (onToDoAdded)="addToDo($event)"></app-to-do-input>
