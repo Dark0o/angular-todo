@@ -5,7 +5,7 @@ export interface ITodo {
   isImportant: boolean;
   isCompleted: boolean;
   isPublic: boolean;
-  createdAt: number;
+  createdAt: string;
   userID: string;
 }
 export type TodoDto = Omit<ITodo, 'id'>;

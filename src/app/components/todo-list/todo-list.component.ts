@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { isThisSecond } from 'date-fns';
 import { Observable } from 'rxjs';
 import { TodoDto } from 'src/app/model/todo';
 import { UsersService } from 'src/app/services/users.service';
@@ -81,6 +82,11 @@ export class ToDoListComponent implements OnInit {
   }
 
   sortDate() {
+    this.filteredTodos = this.filteredTodos.map((todo) => {
+      todo.createdAt = new Date(todo.createdAt);
+      todo.createdAt = todo.createdAt.getTime();
+      return todo;
+    });
     if (this.sortingFlags.sortDate === true) {
       this.sortNewest(this.filteredTodos);
       this.sortingFlags.sortDate = false;
@@ -154,7 +160,7 @@ export class ToDoListComponent implements OnInit {
       isImportant: this.important,
       isCompleted: this.completed,
       isPublic: this.public,
-      createdAt: Date.now(),
+      createdAt: new Date().toISOString(),
       userID: this.userId,
     };
     this.toDoService.addToDo(todo).subscribe((response) => {
@@ -165,7 +171,7 @@ export class ToDoListComponent implements OnInit {
         isImportant: this.important,
         isCompleted: this.completed,
         id: response.name,
-        createdAt: Date.now(),
+        createdAt: new Date().toISOString(),
         userID: this.userId,
       });
       console.log(this.todos);

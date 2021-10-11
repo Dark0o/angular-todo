@@ -30,7 +30,7 @@ export class AddToDoComponent implements OnInit {
       isImportant: this.important,
       isCompleted: this.completed,
       isPublic: this.public,
-      createdAt: Date.now(),
+      createdAt: new Date().toISOString(),
       userID: this.userId,
     };
     this.addingNewToDoStatus = 'Adding...';
@@ -42,7 +42,7 @@ export class AddToDoComponent implements OnInit {
         isImportant: this.important,
         isCompleted: this.completed,
         isPublic: this.public,
-        createdAt: Date.now(),
+        createdAt: new Date().toISOString(),
         userID: this.userId,
       });
       this.addingNewToDoStatus = 'Added!';
