@@ -19,7 +19,7 @@ export class ToDoListComponent implements OnInit {
   public = false;
   toggleImp = false;
   toggleComplete = false;
-  userId;
+  userId: string;
   loadingState: boolean = false;
   filteredTodos = [];
   isAscending: boolean = true;
@@ -29,7 +29,7 @@ export class ToDoListComponent implements OnInit {
     sortImportant: true,
     sortDone: true,
   };
-  error: string = null;
+  errorMessage: string = null;
 
   private _filter;
 
@@ -59,12 +59,12 @@ export class ToDoListComponent implements OnInit {
         console.log(this.usersTodos.length);
         this.performFilter();
         if (this.usersTodos.length === 0) {
-          this.error = 'An error occured!';
-          console.log(this.error);
+          this.errorMessage = 'An error occured!';
+          console.log(this.errorMessage);
         }
       },
       (error) => {
-        this.error = 'An error occured!';
+        this.errorMessage = 'An error occured!';
         console.log(error);
       }
     );
@@ -174,7 +174,7 @@ export class ToDoListComponent implements OnInit {
         createdAt: new Date().toISOString(),
         userID: this.userId,
       });
-      console.log(this.todos);
+      console.log(this.toDoService.usersTodos);
     });
 
     //console.log(this.todos);
@@ -190,7 +190,6 @@ export class ToDoListComponent implements OnInit {
     );
     this.toDoService.deleteToDo(todo.id).subscribe();
     this.toDoService.usersTodos = this.filteredTodos;
-    console.log(this.todos);
   }
 
   onItemChecked(todo) {
