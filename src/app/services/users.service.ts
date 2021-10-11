@@ -9,7 +9,8 @@ import { map } from 'rxjs/operators';
 })
 export class UsersService {
   users = [];
-  url = 'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/users.json';
+  url =
+    'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/users.json';
 
   constructor(private http: HttpClient) {}
 
@@ -31,8 +32,10 @@ export class UsersService {
     );
   }
 
-  getuserById(id): Observable<any> {
-    return this.http.get(`https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/users/${id}.json`);
+  getUserById(id): Observable<any> {
+    return this.http.get(
+      `https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/users/${id}.json`
+    );
   }
 
   addUser(user): Observable<any> {
@@ -48,7 +51,9 @@ export class UsersService {
   userExists(email: string, password: string) {
     console.log(this.users);
 
-    let existingUser = this.users.filter((u) => u.email === email && u.password === password);
+    let existingUser = this.users.filter(
+      (u) => u.email === email && u.password === password
+    );
     if (existingUser.length === 1) {
       console.log(existingUser[0].id);
 

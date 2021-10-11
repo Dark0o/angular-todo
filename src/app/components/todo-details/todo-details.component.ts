@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DateFormatter } from 'src/app/date-formatter';
 import { ITodo } from 'src/app/model/todo';
 import { ToDoService } from 'src/app/services/todo.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-to-do-details',
@@ -15,9 +16,17 @@ export class ToDoDetailsComponent implements OnInit {
   showEdit: boolean = false;
   editStatus: string;
   deleteStatus: string;
+  userId: string;
+  usersName: string;
 
-  constructor(private router: Router, private todoService: ToDoService, private route: ActivatedRoute) {
+  constructor(
+    private router: Router,
+    private todoService: ToDoService,
+    private route: ActivatedRoute,
+    private usersService: UsersService
+  ) {
     this.todo = this.router.getCurrentNavigation().extras.state;
+    this.userId = localStorage.getItem('userId');
     console.log(this.todo);
   }
 
@@ -25,11 +34,16 @@ export class ToDoDetailsComponent implements OnInit {
     if (this.todo) {
       this.date = DateFormatter.formatDate(this.todo.createdAt);
     } else {
-      this.todoService.getToDoById(this.route.snapshot.params.id).subscribe((todo) => {
-        this.todo = todo;
-        this.date = DateFormatter.formatDate(this.todo.createdAt);
-      });
+      this.todoService
+        .getToDoById(this.route.snapshot.params.id)
+        .subscribe((todo) => {
+          this.todo = todo;
+          this.date = DateFormatter.formatDate(this.todo.createdAt);
+        });
     }
+    this.usersService.getUserById(this.userId).subscribe((user) => {
+      this.usersName = user.fullName;
+    });
   }
 
   navigateBack() {
@@ -38,7 +52,9 @@ export class ToDoDetailsComponent implements OnInit {
 
   deleteTodo() {
     this.deleteStatus = 'Deleteing...';
-    this.todoService.usersTodos = this.todoService.usersTodos.filter((todo) => todo.id !== this.todo.id);
+    this.todoService.usersTodos = this.todoService.usersTodos.filter(
+      (todo) => todo.id !== this.todo.id
+    );
     this.todoService.deleteToDo(this.todo.id).subscribe(() => {
       this.deleteStatus = 'ToDo Deleted!';
       setTimeout(() => {

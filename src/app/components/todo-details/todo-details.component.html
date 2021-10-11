@@ -3,7 +3,7 @@
 </div>
 
 <div *ngIf="!deleteStatus" class="container">
-  <h1>ToDo Item Details</h1>
+  <h1>Todo Item Details</h1>
   <table>
     <tr>
       <td>Title:</td>
@@ -25,6 +25,10 @@
       <td>Created at:</td>
       <td>{{ date }}</td>
     </tr>
+    <tr>
+      <td>Author:</td>
+      <td>{{ usersName }}</td>
+    </tr>
   </table>
   <div class="btns">
     <button (click)="navigateBack()">Back to the list</button>
@@ -45,35 +49,19 @@
         <input type="text" placeholder="Title" [(ngModel)]="todo.title" />
       </div>
       <div>
-        <input
-          type="text"
-          placeholder="Description"
-          [(ngModel)]="todo.description"
-        />
+        <input type="text" placeholder="Description" [(ngModel)]="todo.description" />
       </div>
       <div class="label">
         <label>Important</label>
-        <input
-          type="checkbox"
-          [checked]="todo.isImportant"
-          (click)="markImportant()"
-        />
+        <input type="checkbox" [checked]="todo.isImportant" (click)="markImportant()" />
       </div>
       <div class="label">
         <label>Public</label>
-        <input
-          type="checkbox"
-          [checked]="todo.isPublic"
-          (click)="markPublic()"
-        />
+        <input type="checkbox" [checked]="todo.isPublic" (click)="markPublic()" />
       </div>
       <div class="label">
         <label>Done</label>
-        <input
-          type="checkbox"
-          [checked]="todo.isCompleted"
-          (click)="markDone()"
-        />
+        <input type="checkbox" [checked]="todo.isCompleted" (click)="markDone()" />
       </div>
       <button (click)="edit()">Save</button>
     </div>

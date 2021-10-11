@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { isThisSecond } from 'date-fns';
 import { Observable } from 'rxjs';
 import { TodoDto } from 'src/app/model/todo';
 import { UsersService } from 'src/app/services/users.service';
@@ -11,11 +10,10 @@ import { ToDoService } from '../../services/todo.service';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class ToDoListComponent implements OnInit {
-  todos;
   completed = false;
   date: string;
   important = false;
-  description = '';
+  description: string = '';
   public = false;
   toggleImp = false;
   toggleComplete = false;
@@ -30,8 +28,9 @@ export class ToDoListComponent implements OnInit {
     sortDone: true,
   };
   errorMessage: string = null;
+  usersName: string;
 
-  private _filter;
+  private _filter: string;
 
   get filter() {
     return this._filter;
@@ -45,7 +44,10 @@ export class ToDoListComponent implements OnInit {
   get usersTodos() {
     return this.toDoService.usersTodos;
   }
-  constructor(private toDoService: ToDoService) {
+  constructor(
+    private toDoService: ToDoService,
+    private usersService: UsersService
+  ) {
     this.userId = localStorage.getItem('userId');
     console.log(this.userId);
   }
@@ -54,8 +56,6 @@ export class ToDoListComponent implements OnInit {
     this.toDoService.getToDos(this.userId).subscribe(
       (todos) => {
         console.log(todos);
-        //this.todos = todos;
-        //this.usersToDos = todos.filter((todo) => todo.userID === this.userId);
         console.log(this.usersTodos.length);
         this.performFilter();
         if (this.usersTodos.length === 0) {
@@ -68,7 +68,9 @@ export class ToDoListComponent implements OnInit {
         console.log(error);
       }
     );
-    console.log(this.sortingFlags);
+    this.usersService.getUserById(this.userId).subscribe((user) => {
+      this.usersName = user.fullName;
+    });
   }
 
   sortTitle() {
