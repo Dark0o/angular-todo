@@ -47,16 +47,12 @@ export class ToDoListComponent implements OnInit {
   constructor(
     private toDoService: ToDoService,
     private usersService: UsersService
-  ) {
-    this.userId = localStorage.getItem('userId');
-    console.log(this.userId);
-  }
+  ) {}
 
   ngOnInit() {
+    this.userId = JSON.parse(localStorage.getItem('user')).userId;
     this.toDoService.getToDos(this.userId).subscribe(
       (todos) => {
-        console.log(todos);
-        console.log(this.usersTodos.length);
         this.performFilter();
         if (this.usersTodos.length === 0) {
           this.errorMessage = 'An error occured!';

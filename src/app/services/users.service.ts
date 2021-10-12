@@ -8,33 +8,27 @@ import { map } from 'rxjs/operators';
 })
 export class UsersService {
   users = [];
-  url =
-    'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/users.json';
+  url: string =
+    'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/users';
 
   constructor(private http: HttpClient) {}
 
   getSignedUpUsers(): Observable<any> {
     if (this.users.length > 0) {
-      console.log(this.users);
       return of(this.users);
     }
-    return this.http.get(this.url).pipe(
+    return this.http.get(`${this.url}.json`).pipe(
       map((data) => {
-        console.log(data);
         for (const key in data) {
           this.users.push({ ...data[key], id: key });
         }
-        console.log(this.users);
-
         return this.users;
       })
     );
   }
 
   getUserById(id): Observable<any> {
-    return this.http.get(
-      `https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/users/${id}.json`
-    );
+    return this.http.get(`${this.url}/${id}.json`);
   }
 
   addUser(user): Observable<any> {
@@ -44,21 +38,15 @@ export class UsersService {
         return;
       }
     }
-    return this.http.post(this.url, user);
+    return this.http.post(`${this.url}.json`, user);
   }
 
   userExists(email: string, password: string) {
-    console.log(this.users);
-
-    let existingUser = this.users.filter(
-      (u) => u.email === email && u.password === password
+    let user = this.users.find(
+      (user) => user.email === email && user.password === password
     );
-    if (existingUser.length === 1) {
-      console.log(existingUser[0].id);
+    if (user) return user;
 
-      localStorage.setItem('userId', existingUser[0].id);
-      return true;
-    }
     return false;
   }
 }
