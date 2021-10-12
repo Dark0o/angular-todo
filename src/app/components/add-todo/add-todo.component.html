@@ -1,8 +1,8 @@
-<div class="statusMessage" *ngIf="addingNewToDoStatus">
+<div class="statusMessage" *ngIf="addingNewTodoStatus">
   <h3>{{ addingNewToDoStatus }}</h3>
 </div>
 
-<div *ngIf="!addingNewToDoStatus" class="container">
+<div *ngIf="!addingNewTodoStatus" class="container">
   <h3>Add New ToDo</h3>
   <div class="form">
     <div>
@@ -21,7 +21,7 @@
     </div>
   </div>
   <div>
-    <button (click)="addNewToDo()">Add</button>
+    <button (click)="addNewTodo()">Add</button>
   </div>
   <div>
     <a [routerLink]="['/todos']"><button>Back to the private list</button></a>

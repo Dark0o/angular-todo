@@ -15,15 +15,15 @@ export class AddToDoComponent implements OnInit {
   completed: boolean = false;
   public: boolean = false;
   userId: string;
-  addingNewToDoStatus: string;
+  addingNewTodoStatus: string;
 
-  constructor(private todoService: ToDoService, private router: Router) {
-    this.userId = localStorage.getItem('userId');
+  constructor(private todoService: ToDoService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.userId = JSON.parse(localStorage.getItem('user')).userId;
   }
 
-  ngOnInit(): void {}
-
-  addNewToDo() {
+  addNewTodo() {
     const todo: TodoDto = {
       title: this.title,
       description: this.description,
@@ -34,7 +34,7 @@ export class AddToDoComponent implements OnInit {
       userID: this.userId,
     };
 
-    this.addingNewToDoStatus = 'Adding...';
+    this.addingNewTodoStatus = 'Adding...';
 
     this.todoService.addTodo(todo).subscribe((data) => {
       this.todoService.usersTodos.push({
@@ -48,7 +48,7 @@ export class AddToDoComponent implements OnInit {
         userID: this.userId,
       });
 
-      this.addingNewToDoStatus = 'Added!';
+      this.addingNewTodoStatus = 'Added!';
     });
 
     setTimeout(() => {

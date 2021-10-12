@@ -11,12 +11,10 @@ export class UserProfileComponent implements OnInit {
   user;
   userId;
 
-  constructor(private usersService: UsersService, private router: Router) {
-    this.userId = localStorage.getItem('userId');
-    console.log(this.userId);
-  }
+  constructor(private usersService: UsersService, private router: Router) {}
 
   ngOnInit(): void {
+    this.userId = JSON.parse(localStorage.getItem('user')).userId;
     this.usersService.getUserById(this.userId).subscribe((user) => {
       this.user = user;
       console.log(this.user);

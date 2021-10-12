@@ -24,23 +24,18 @@ export class ToDoDetailsComponent implements OnInit {
     private todoService: ToDoService,
     private route: ActivatedRoute,
     private usersService: UsersService
-  ) {
-    this.todo = this.router.getCurrentNavigation().extras.state;
-    this.userId = localStorage.getItem('userId');
-    console.log(this.todo);
-  }
+  ) {}
 
   ngOnInit(): void {
-    if (this.todo) {
-      this.date = DateFormatter.formatDate(this.todo.createdAt);
-    } else {
-      this.todoService
-        .getTodoById(this.route.snapshot.params.id)
-        .subscribe((todo) => {
-          this.todo = todo;
-          this.date = DateFormatter.formatDate(this.todo.createdAt);
-        });
-    }
+    this.userId = JSON.parse(localStorage.getItem('user')).userId;
+
+    this.todoService
+      .getTodoById(this.route.snapshot.params.id)
+      .subscribe((todo) => {
+        this.todo = todo;
+        this.date = DateFormatter.formatDate(this.todo.createdAt);
+      });
+
     this.usersService.getUserById(this.userId).subscribe((user) => {
       this.usersName = user.fullName;
     });
