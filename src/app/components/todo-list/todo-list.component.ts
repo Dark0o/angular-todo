@@ -51,7 +51,7 @@ export class ToDoListComponent implements OnInit {
 
   ngOnInit() {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;
-    this.toDoService.getToDos(this.userId).subscribe(
+    this.toDoService.getTodos(this.userId).subscribe(
       (todos) => {
         this.performFilter();
         if (this.usersTodos.length === 0) {
@@ -161,7 +161,7 @@ export class ToDoListComponent implements OnInit {
       createdAt: new Date().toISOString(),
       userID: this.userId,
     };
-    this.toDoService.addToDo(todo).subscribe((response) => {
+    this.toDoService.addTodo(todo).subscribe((response) => {
       console.log(response);
       this.toDoService.usersTodos.push({
         title: title,
@@ -186,12 +186,12 @@ export class ToDoListComponent implements OnInit {
     this.filteredTodos = this.filteredTodos.filter(
       (item) => item.title !== todo.title
     );
-    this.toDoService.deleteToDo(todo.id).subscribe();
+    this.toDoService.deleteTodo(todo.id).subscribe();
     this.toDoService.usersTodos = this.filteredTodos;
   }
 
   onItemChecked(todo) {
-    this.toDoService.updateToDo(todo).subscribe();
+    this.toDoService.updateTodo(todo).subscribe();
   }
 
   performFilter(filterBy?) {

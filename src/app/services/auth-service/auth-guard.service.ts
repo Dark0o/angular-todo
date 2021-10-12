@@ -11,7 +11,6 @@ export class AuthGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean {
     if (!this.authService.isUserLoggedIn()) {
       alert('You are not allowed to view this page');
-      console.log(this.authService.isUserLoggedIn());
       this.router.navigate([''], { queryParams: { retUrl: route.url } });
       return false;
     }

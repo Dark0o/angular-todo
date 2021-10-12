@@ -14,7 +14,7 @@ export class ToDoService {
 
   constructor(private http: HttpClient) {}
 
-  getToDos(id?): Observable<any> {
+  getTodos(id?): Observable<any> {
     return this.http.get(`${this.url}.json`).pipe(
       map((responseData) => {
         const todos = [];
@@ -27,19 +27,19 @@ export class ToDoService {
     );
   }
 
-  getToDoById(id) {
+  getTodoById(id) {
     return this.http.get(`${this.url}/${id}.json`);
   }
 
-  addToDo(todo: TodoDto): Observable<any> {
+  addTodo(todo: TodoDto): Observable<any> {
     return this.http.post(this.url, todo);
   }
 
-  updateToDo(todo) {
+  updateTodo(todo) {
     return this.http.patch(`${this.url}/${todo.id}.json`, todo);
   }
 
-  deleteToDo(id) {
+  deleteTodo(id) {
     return this.http.delete(`${this.url}/${id}.json`);
   }
 }

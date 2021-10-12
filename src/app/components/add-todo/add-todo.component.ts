@@ -36,7 +36,7 @@ export class AddToDoComponent implements OnInit {
 
     this.addingNewToDoStatus = 'Adding...';
 
-    this.todoService.addToDo(todo).subscribe((data) => {
+    this.todoService.addTodo(todo).subscribe((data) => {
       this.todoService.usersTodos.push({
         id: data.name,
         title: this.title,

@@ -35,7 +35,7 @@ export class ToDoDetailsComponent implements OnInit {
       this.date = DateFormatter.formatDate(this.todo.createdAt);
     } else {
       this.todoService
-        .getToDoById(this.route.snapshot.params.id)
+        .getTodoById(this.route.snapshot.params.id)
         .subscribe((todo) => {
           this.todo = todo;
           this.date = DateFormatter.formatDate(this.todo.createdAt);
@@ -55,7 +55,7 @@ export class ToDoDetailsComponent implements OnInit {
     this.todoService.usersTodos = this.todoService.usersTodos.filter(
       (todo) => todo.id !== this.todo.id
     );
-    this.todoService.deleteToDo(this.todo.id).subscribe(() => {
+    this.todoService.deleteTodo(this.todo.id).subscribe(() => {
       this.deleteStatus = 'ToDo Deleted!';
       setTimeout(() => {
         this.router.navigate(['todos']);
@@ -76,7 +76,7 @@ export class ToDoDetailsComponent implements OnInit {
 
   edit() {
     this.editStatus = 'Editing...';
-    this.todoService.updateToDo(this.todo).subscribe(() => {
+    this.todoService.updateTodo(this.todo).subscribe(() => {
       this.editStatus = 'Edited!';
       setInterval(() => {
         this.showEdit = false;
