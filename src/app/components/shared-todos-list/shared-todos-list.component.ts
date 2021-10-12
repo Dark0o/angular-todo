@@ -11,10 +11,19 @@ import { DateFormatter } from 'src/app/date-formatter';
 export class SharedTodosListComponent implements OnInit {
   todo;
   sharedTodos = [];
-  displayedColumns: string[] = ['title', 'description', 'createdAt', 'fullName'];
+  displayedColumns: string[] = [
+    'title',
+    'description',
+    'createdAt',
+    'fullName',
+  ];
 
-  constructor(private todosService: ToDoService, private usersService: UsersService) {}
+  constructor(
+    private todosService: ToDoService,
+    private usersService: UsersService
+  ) {}
 
+  // TODO revisit all this functionallity
   ngOnInit(): void {
     if (this.usersService.users.length === 0) {
       this.usersService.getSignedUpUsers().subscribe((users) => {
@@ -24,7 +33,9 @@ export class SharedTodosListComponent implements OnInit {
     this.todosService.getToDos().subscribe((todos) => {
       this.sharedTodos = todos.filter((todo) => todo.isPublic === true);
       this.sharedTodos.map((todo) => {
-        let foundUser = this.usersService.users.find((user) => user.id === todo.userID);
+        let foundUser = this.usersService.users.find(
+          (user) => user.id === todo.userID
+        );
         if (foundUser.fullName) {
           todo.fullName = foundUser.fullName;
         }

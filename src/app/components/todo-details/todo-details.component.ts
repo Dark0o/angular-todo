@@ -51,7 +51,7 @@ export class ToDoDetailsComponent implements OnInit {
   }
 
   deleteTodo() {
-    this.deleteStatus = 'Deleteing...';
+    this.deleteStatus = 'Deleting...';
     this.todoService.usersTodos = this.todoService.usersTodos.filter(
       (todo) => todo.id !== this.todo.id
     );

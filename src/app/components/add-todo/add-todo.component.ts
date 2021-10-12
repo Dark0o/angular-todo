@@ -33,7 +33,9 @@ export class AddToDoComponent implements OnInit {
       createdAt: new Date().toISOString(),
       userID: this.userId,
     };
+
     this.addingNewToDoStatus = 'Adding...';
+
     this.todoService.addToDo(todo).subscribe((data) => {
       this.todoService.usersTodos.push({
         id: data.name,
@@ -45,8 +47,10 @@ export class AddToDoComponent implements OnInit {
         createdAt: new Date().toISOString(),
         userID: this.userId,
       });
+
       this.addingNewToDoStatus = 'Added!';
     });
+
     setTimeout(() => {
       this.router.navigate(['todos']);
     }, 3000);

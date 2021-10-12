@@ -1,5 +1,5 @@
 export interface ITodo {
-  id: string; // TODO: Make this param required
+  id: string;
   title: string;
   description: string;
   isImportant: boolean;
