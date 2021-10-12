@@ -11,7 +11,7 @@ export class ToDoItemComponent implements OnInit {
   @Input() todoItem;
   @Output() itemDeleted = new EventEmitter();
   @Output() itemChecked = new EventEmitter();
-  date;
+  date: string;
 
   constructor(private router: Router) {}
 

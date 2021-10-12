@@ -9,7 +9,7 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class UserProfileComponent implements OnInit {
   user;
-  userId;
+  userId: string;
 
   constructor(private usersService: UsersService, private router: Router) {}
 
@@ -17,7 +17,6 @@ export class UserProfileComponent implements OnInit {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;
     this.usersService.getUserById(this.userId).subscribe((user) => {
       this.user = user;
-      console.log(this.user);
     });
   }
 

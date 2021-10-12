@@ -58,7 +58,6 @@ export class AddToDoComponent implements OnInit {
 
   markImportant() {
     this.important = !this.important;
-    console.log(this.important);
   }
   markPublic() {
     this.public = !this.public;

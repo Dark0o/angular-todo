@@ -42,21 +42,20 @@ export class ToDoListComponent implements OnInit {
   }
 
   get usersTodos() {
-    return this.toDoService.usersTodos;
+    return this.todoService.usersTodos;
   }
   constructor(
-    private toDoService: ToDoService,
+    private todoService: ToDoService,
     private usersService: UsersService
   ) {}
 
   ngOnInit() {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;
-    this.toDoService.getTodos(this.userId).subscribe(
-      (todos) => {
+    this.todoService.getTodos(this.userId).subscribe(
+      () => {
         this.performFilter();
         if (this.usersTodos.length === 0) {
           this.errorMessage = 'An error occured!';
-          console.log(this.errorMessage);
         }
       },
       (error) => {
@@ -150,8 +149,7 @@ export class ToDoListComponent implements OnInit {
     }
   }
 
-  addToDo(title) {
-    console.log(title);
+  addTodo(title) {
     const todo: TodoDto = {
       title: title,
       description: this.description,
@@ -161,9 +159,9 @@ export class ToDoListComponent implements OnInit {
       createdAt: new Date().toISOString(),
       userID: this.userId,
     };
-    this.toDoService.addTodo(todo).subscribe((response) => {
-      console.log(response);
-      this.toDoService.usersTodos.push({
+
+    this.todoService.addTodo(todo).subscribe((response) => {
+      this.todoService.usersTodos.push({
         title: title,
         description: this.description,
         isImportant: this.important,
@@ -172,26 +170,19 @@ export class ToDoListComponent implements OnInit {
         createdAt: new Date().toISOString(),
         userID: this.userId,
       });
-      console.log(this.toDoService.usersTodos);
     });
-
-    //console.log(this.todos);
-    console.log(this.filteredTodos);
-    //console.log(this.toDoService.todos);
   }
 
   onDelete(todo) {
-    console.log(todo);
-    console.log('delete');
     this.filteredTodos = this.filteredTodos.filter(
       (item) => item.title !== todo.title
     );
-    this.toDoService.deleteTodo(todo.id).subscribe();
-    this.toDoService.usersTodos = this.filteredTodos;
+    this.todoService.deleteTodo(todo.id).subscribe();
+    this.todoService.usersTodos = this.filteredTodos;
   }
 
   onItemChecked(todo) {
-    this.toDoService.updateTodo(todo).subscribe();
+    this.todoService.updateTodo(todo).subscribe();
   }
 
   performFilter(filterBy?) {

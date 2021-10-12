@@ -47,11 +47,13 @@ export class ToDoDetailsComponent implements OnInit {
 
   deleteTodo() {
     this.deleteStatus = 'Deleting...';
+
     this.todoService.usersTodos = this.todoService.usersTodos.filter(
       (todo) => todo.id !== this.todo.id
     );
     this.todoService.deleteTodo(this.todo.id).subscribe(() => {
       this.deleteStatus = 'ToDo Deleted!';
+
       setTimeout(() => {
         this.router.navigate(['todos']);
       }, 3000);
@@ -71,6 +73,7 @@ export class ToDoDetailsComponent implements OnInit {
 
   edit() {
     this.editStatus = 'Editing...';
+
     this.todoService.updateTodo(this.todo).subscribe(() => {
       this.editStatus = 'Edited!';
       setInterval(() => {
@@ -78,8 +81,8 @@ export class ToDoDetailsComponent implements OnInit {
         this.editStatus = undefined;
       }, 3000);
     });
+
     this.showEdit = false;
-    console.log('saved');
   }
 
   onEdit() {
