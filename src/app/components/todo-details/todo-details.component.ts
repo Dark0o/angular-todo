@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DateFormatter } from 'src/app/date-formatter';
-import { ITodo } from 'src/app/model/todo';
+import { ITodo } from 'src/app/shared/model/todo';
 import { ToDoService } from 'src/app/services/todo.service';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -37,7 +36,6 @@ export class ToDoDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.componentDesteroyed$))
       .subscribe((todo) => {
         this.todo = todo;
-        this.date = DateFormatter.formatDate(this.todo.createdAt);
       });
 
     this.usersService

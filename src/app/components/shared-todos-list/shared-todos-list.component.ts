@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToDoService } from 'src/app/services/todo.service';
 import { UsersService } from 'src/app/services/users.service';
-import { DateFormatter } from 'src/app/date-formatter';
 import { Subject } from 'rxjs';
 import { mergeMap, takeUntil } from 'rxjs/operators';
 
@@ -48,7 +47,6 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
           if (foundUser.fullName) {
             todo.fullName = foundUser.fullName;
           }
-          todo.createdAt = DateFormatter.formatDate(todo.createdAt);
           return todo;
         });
         console.log(this.sharedTodos);

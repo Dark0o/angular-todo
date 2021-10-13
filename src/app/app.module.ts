@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from '../app/app-routing.module';
-import { MaterialModule } from './material/material.module';
+import { MaterialModule } from './shared/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -18,6 +18,7 @@ import {
   SharedTodosListComponent,
   UserProfileComponent,
 } from './components/index';
+import { DatePipe } from './shared/pipe/date.pipe';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {
     AddToDoComponent,
     SharedTodosListComponent,
     UserProfileComponent,
+    DatePipe,
   ],
   imports: [
     BrowserModule,

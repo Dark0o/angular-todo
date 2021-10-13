@@ -1,23 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { DateFormatter } from 'src/app/date-formatter';
 
 @Component({
   selector: 'app-to-do-item',
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.scss'],
 })
-export class ToDoItemComponent implements OnInit {
+export class ToDoItemComponent {
   @Input() todoItem;
   @Output() itemDeleted = new EventEmitter();
   @Output() itemChecked = new EventEmitter();
-  date: string;
 
   constructor(private router: Router) {}
-
-  ngOnInit(): void {
-    this.date = DateFormatter.formatDate(this.todoItem.createdAt);
-  }
 
   onItemDeleted(todo) {
     this.itemDeleted.emit(todo);
