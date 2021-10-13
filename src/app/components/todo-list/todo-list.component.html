@@ -7,7 +7,7 @@
 <div *ngIf="loadingState === false && errorMessage === null" class="wrapper">
   <div class="heading">
     <div style="width: 100px;"></div>
-    <h1>{{ usersName }}'s Todo List</h1>
+    <h1>{{ usersHeading }}</h1>
     <a [routerLink]="['/profile']"><button>Profile</button></a>
   </div>
   <div class="inputs">

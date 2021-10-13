@@ -18,7 +18,7 @@ export class ToDoListComponent implements OnInit {
   toggleImp = false;
   toggleComplete = false;
   userId: string;
-  loadingState: boolean = false;
+  loadingState: boolean = true;
   filteredTodos = [];
   isAscending: boolean = true;
   sortingFlags = {
@@ -28,7 +28,7 @@ export class ToDoListComponent implements OnInit {
     sortDone: true,
   };
   errorMessage: string = null;
-  usersName: string;
+  usersHeading: string;
 
   private _filter: string;
 
@@ -57,6 +57,7 @@ export class ToDoListComponent implements OnInit {
         if (this.usersTodos.length === 0) {
           this.errorMessage = 'An error occured!';
         }
+        this.loadingState = false;
       },
       (error) => {
         this.errorMessage = 'An error occured!';
@@ -64,7 +65,7 @@ export class ToDoListComponent implements OnInit {
       }
     );
     this.usersService.getUserById(this.userId).subscribe((user) => {
-      this.usersName = user.fullName;
+      this.usersHeading = `${user.fullName}'s Todo list`;
     });
   }
 
