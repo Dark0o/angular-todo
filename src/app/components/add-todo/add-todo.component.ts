@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { TodoDto, ITodo } from 'src/app/model/todo';
 import { ToDoService } from 'src/app/services/todo.service';
 
@@ -8,7 +9,7 @@ import { ToDoService } from 'src/app/services/todo.service';
   templateUrl: './add-todo.component.html',
   styleUrls: ['./add-todo.component.scss'],
 })
-export class AddToDoComponent implements OnInit {
+export class AddToDoComponent implements OnInit, OnDestroy {
   title: string;
   description: string;
   important: boolean = false;
@@ -16,6 +17,7 @@ export class AddToDoComponent implements OnInit {
   public: boolean = false;
   userId: string;
   addingNewTodoStatus: string;
+  sub: Subscription;
 
   constructor(private todoService: ToDoService, private router: Router) {}
 
@@ -36,7 +38,7 @@ export class AddToDoComponent implements OnInit {
 
     this.addingNewTodoStatus = 'Adding...';
 
-    this.todoService.addTodo(todo).subscribe((data) => {
+    this.sub = this.todoService.addTodo(todo).subscribe((data) => {
       this.todoService.usersTodos.push({
         id: data.name,
         title: this.title,
@@ -61,5 +63,9 @@ export class AddToDoComponent implements OnInit {
   }
   markPublic() {
     this.public = !this.public;
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 }

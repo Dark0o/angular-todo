@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { TodoDto } from 'src/app/model/todo';
 import { UsersService } from 'src/app/services/users.service';
 import { ToDoService } from '../../services/todo.service';
@@ -9,7 +10,7 @@ import { ToDoService } from '../../services/todo.service';
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
 })
-export class ToDoListComponent implements OnInit {
+export class ToDoListComponent implements OnInit, OnDestroy {
   completed = false;
   date: string;
   important = false;
@@ -29,6 +30,7 @@ export class ToDoListComponent implements OnInit {
   };
   errorMessage: string = null;
   usersHeading: string;
+  componentDesteroyed$: Subject<boolean> = new Subject();
 
   private _filter: string;
 
@@ -51,22 +53,28 @@ export class ToDoListComponent implements OnInit {
 
   ngOnInit() {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;
-    this.todoService.getTodos(this.userId).subscribe(
-      () => {
-        this.performFilter();
-        if (this.usersTodos.length === 0) {
+    this.todoService
+      .getTodos(this.userId)
+      .pipe(takeUntil(this.componentDesteroyed$))
+      .subscribe(
+        () => {
+          this.performFilter();
+          if (this.usersTodos.length === 0) {
+            this.errorMessage = 'An error occured!';
+          }
+          this.loadingState = false;
+        },
+        (error) => {
           this.errorMessage = 'An error occured!';
+          console.log(error);
         }
-        this.loadingState = false;
-      },
-      (error) => {
-        this.errorMessage = 'An error occured!';
-        console.log(error);
-      }
-    );
-    this.usersService.getUserById(this.userId).subscribe((user) => {
-      this.usersHeading = `${user.fullName}'s Todo list`;
-    });
+      );
+    this.usersService
+      .getUserById(this.userId)
+      .pipe(takeUntil(this.componentDesteroyed$))
+      .subscribe((user) => {
+        this.usersHeading = `${user.fullName}'s Todo list`;
+      });
   }
 
   sortTitle() {
@@ -161,29 +169,38 @@ export class ToDoListComponent implements OnInit {
       userID: this.userId,
     };
 
-    this.todoService.addTodo(todo).subscribe((response) => {
-      this.todoService.usersTodos.push({
-        title: title,
-        description: this.description,
-        isImportant: this.important,
-        isCompleted: this.completed,
-        id: response.name,
-        createdAt: new Date().toISOString(),
-        userID: this.userId,
+    this.todoService
+      .addTodo(todo)
+      .pipe(takeUntil(this.componentDesteroyed$))
+      .subscribe((response) => {
+        this.todoService.usersTodos.push({
+          title: title,
+          description: this.description,
+          isImportant: this.important,
+          isCompleted: this.completed,
+          id: response.name,
+          createdAt: new Date().toISOString(),
+          userID: this.userId,
+        });
       });
-    });
   }
 
   onDelete(todo) {
     this.filteredTodos = this.filteredTodos.filter(
       (item) => item.title !== todo.title
     );
-    this.todoService.deleteTodo(todo.id).subscribe();
+    this.todoService
+      .deleteTodo(todo.id)
+      .pipe(takeUntil(this.componentDesteroyed$))
+      .subscribe();
     this.todoService.usersTodos = this.filteredTodos;
   }
 
   onItemChecked(todo) {
-    this.todoService.updateTodo(todo).subscribe();
+    this.todoService
+      .updateTodo(todo)
+      .pipe(takeUntil(this.componentDesteroyed$))
+      .subscribe();
   }
 
   performFilter(filterBy?) {
@@ -223,5 +240,10 @@ export class ToDoListComponent implements OnInit {
     arr.sort((a, b) => {
       return a.createdAt - b.createdAt;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.componentDesteroyed$.next();
+    this.componentDesteroyed$.complete();
   }
 }

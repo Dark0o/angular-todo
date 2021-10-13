@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { DateFormatter } from 'src/app/date-formatter';
 import { ITodo } from 'src/app/model/todo';
 import { ToDoService } from 'src/app/services/todo.service';
@@ -10,7 +12,7 @@ import { UsersService } from 'src/app/services/users.service';
   templateUrl: './todo-details.component.html',
   styleUrls: ['./todo-details.component.scss'],
 })
-export class ToDoDetailsComponent implements OnInit {
+export class ToDoDetailsComponent implements OnInit, OnDestroy {
   todo;
   date: string;
   showEdit: boolean = false;
@@ -18,6 +20,7 @@ export class ToDoDetailsComponent implements OnInit {
   deleteStatus: string;
   userId: string;
   usersName: string;
+  componentDesteroyed$: Subject<boolean> = new Subject();
 
   constructor(
     private router: Router,
@@ -31,14 +34,18 @@ export class ToDoDetailsComponent implements OnInit {
 
     this.todoService
       .getTodoById(this.route.snapshot.params.id)
+      .pipe(takeUntil(this.componentDesteroyed$))
       .subscribe((todo) => {
         this.todo = todo;
         this.date = DateFormatter.formatDate(this.todo.createdAt);
       });
 
-    this.usersService.getUserById(this.userId).subscribe((user) => {
-      this.usersName = user.fullName;
-    });
+    this.usersService
+      .getUserById(this.userId)
+      .pipe(takeUntil(this.componentDesteroyed$))
+      .subscribe((user) => {
+        this.usersName = user.fullName;
+      });
   }
 
   navigateBack() {
@@ -51,13 +58,16 @@ export class ToDoDetailsComponent implements OnInit {
     this.todoService.usersTodos = this.todoService.usersTodos.filter(
       (todo) => todo.id !== this.todo.id
     );
-    this.todoService.deleteTodo(this.todo.id).subscribe(() => {
-      this.deleteStatus = 'ToDo Deleted!';
+    this.todoService
+      .deleteTodo(this.todo.id)
+      .pipe(takeUntil(this.componentDesteroyed$))
+      .subscribe(() => {
+        this.deleteStatus = 'ToDo Deleted!';
 
-      setTimeout(() => {
-        this.router.navigate(['todos']);
-      }, 3000);
-    });
+        setTimeout(() => {
+          this.router.navigate(['todos']);
+        }, 3000);
+      });
   }
 
   markImportant() {
@@ -74,13 +84,16 @@ export class ToDoDetailsComponent implements OnInit {
   edit() {
     this.editStatus = 'Editing...';
 
-    this.todoService.updateTodo(this.todo).subscribe(() => {
-      this.editStatus = 'Edited!';
-      setInterval(() => {
-        this.showEdit = false;
-        this.editStatus = undefined;
-      }, 3000);
-    });
+    this.todoService
+      .updateTodo(this.todo)
+      .pipe(takeUntil(this.componentDesteroyed$))
+      .subscribe(() => {
+        this.editStatus = 'Edited!';
+        setInterval(() => {
+          this.showEdit = false;
+          this.editStatus = undefined;
+        }, 3000);
+      });
 
     this.showEdit = false;
   }
@@ -91,5 +104,9 @@ export class ToDoDetailsComponent implements OnInit {
 
   cancelEditing() {
     this.showEdit = false;
+  }
+  ngOnDestroy(): void {
+    this.componentDesteroyed$.next();
+    this.componentDesteroyed$.complete();
   }
 }

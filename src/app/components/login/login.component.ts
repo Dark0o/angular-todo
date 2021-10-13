@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../services/auth-service/auth.service';
 import { UsersService } from '../../services/users.service';
 
@@ -7,9 +9,10 @@ import { UsersService } from '../../services/users.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   email: string;
   password: string;
+  componentDesteroyed$: Subject<boolean> = new Subject();
 
   constructor(
     private userService: UsersService,
@@ -17,7 +20,10 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.getSignedUpUsers().subscribe();
+    this.userService
+      .getSignedUpUsers()
+      .pipe(takeUntil(this.componentDesteroyed$))
+      .subscribe();
   }
 
   onLogIn(email: string, password: string) {
@@ -29,7 +35,15 @@ export class LoginComponent implements OnInit {
       alert('Please enter e-mail and password');
       return;
     }
-    this.userService.addUser({ email, password }).subscribe();
+    this.userService
+      .addUser({ email, password })
+      .pipe(takeUntil(this.componentDesteroyed$))
+      .subscribe();
     this.userService.users.push({ email, password });
+  }
+
+  ngOnDestroy(): void {
+    this.componentDesteroyed$.next();
+    this.componentDesteroyed$.complete();
   }
 }
