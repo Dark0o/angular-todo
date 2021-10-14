@@ -3,6 +3,7 @@ import { ToDoService } from 'src/app/services/todo.service';
 import { UsersService } from 'src/app/services/users.service';
 import { Subject } from 'rxjs';
 import { mergeMap, takeUntil } from 'rxjs/operators';
+import { ITodo } from 'src/app/shared/model/todo';
 
 @Component({
   selector: 'app-shared-todos-list',
@@ -10,7 +11,7 @@ import { mergeMap, takeUntil } from 'rxjs/operators';
   styleUrls: ['./shared-todos-list.component.scss'],
 })
 export class SharedTodosListComponent implements OnInit, OnDestroy {
-  todo;
+  todo: ITodo;
   sharedTodos = [];
   displayedColumns: string[] = [
     'title',

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TodoDto } from 'src/app/shared/model/todo';
+import { ITodo, TodoDto } from 'src/app/shared/model/todo';
 import { UsersService } from 'src/app/services/users.service';
 import { ToDoService } from '../../services/todo.service';
 
@@ -15,9 +15,9 @@ export class ToDoListComponent implements OnInit, OnDestroy {
   date: string;
   important = false;
   description: string = '';
-  public = false;
-  toggleImp = false;
-  toggleComplete = false;
+  isPublic: boolean = false;
+  toggleImp: boolean = false;
+  toggleComplete: boolean = false;
   userId: string;
   loadingState: boolean = true;
   filteredTodos = [];
@@ -43,7 +43,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     this.performFilter(this.filter);
   }
 
-  get usersTodos() {
+  get usersTodos(): ITodo[] {
     return this.todoService.usersTodos;
   }
   constructor(
@@ -51,7 +51,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     private usersService: UsersService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;
     this.todoService
       .getTodos(this.userId)
@@ -77,7 +77,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
       });
   }
 
-  sortTitle() {
+  sortTitle(): void {
     if (this.sortingFlags.sortTitle === true) {
       this.sortByName(this.filteredTodos);
       this.sortingFlags.sortTitle = false;
@@ -87,7 +87,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     }
   }
 
-  sortDate() {
+  sortDate(): void {
     this.filteredTodos = this.filteredTodos.map((todo) => {
       todo.createdAt = new Date(todo.createdAt);
       todo.createdAt = todo.createdAt.getTime();
@@ -102,7 +102,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     }
   }
 
-  sortImportant() {
+  sortImportant(): void {
     if (this.sortingFlags.sortImportant === true) {
       this.filteredTodos
         .sort((a, b) => {
@@ -118,7 +118,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     }
   }
 
-  sortDone() {
+  sortDone(): void {
     if (this.sortingFlags.sortDone === true) {
       this.filteredTodos
         .sort((a, b) => {
@@ -134,7 +134,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleImportant() {
+  toggleImportant(): void {
     this.toggleImp = !this.toggleImp;
 
     if (this.toggleImp === true) {
@@ -146,7 +146,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleDone() {
+  toggleDone(): void {
     this.toggleComplete = !this.toggleComplete;
 
     if (this.toggleComplete === true) {
@@ -158,13 +158,15 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     }
   }
 
-  addTodo(title) {
+  addTodo(title): void {
+    console.log(title);
+
     const todo: TodoDto = {
       title: title,
       description: this.description,
       isImportant: this.important,
       isCompleted: this.completed,
-      isPublic: this.public,
+      isPublic: this.isPublic,
       createdAt: new Date().toISOString(),
       userID: this.userId,
     };
@@ -185,7 +187,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
       });
   }
 
-  onDelete(todo) {
+  onDelete(todo): void {
     this.filteredTodos = this.filteredTodos.filter(
       (item) => item.title !== todo.title
     );
@@ -196,14 +198,14 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     this.todoService.usersTodos = this.filteredTodos;
   }
 
-  onItemChecked(todo) {
+  onItemChecked(todo): void {
     this.todoService
       .updateTodo(todo)
       .pipe(takeUntil(this.componentDesteroyed$))
       .subscribe();
   }
 
-  performFilter(filterBy?) {
+  performFilter(filterBy?): void {
     if (filterBy) {
       this.filteredTodos = this.usersTodos.filter(
         (todo) =>
@@ -216,13 +218,13 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     }
   }
 
-  sortByName(arr) {
+  sortByName(arr): void {
     arr.sort((a, b) => {
       return a.title.localeCompare(b.title);
     });
   }
 
-  sortByNameDesc(arr) {
+  sortByNameDesc(arr): void {
     arr.sort((a, b) => {
       if (a.title > b.title) return -1;
       if (a.title < b.title) return 1;
@@ -230,13 +232,13 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     });
   }
 
-  sortNewest(arr) {
+  sortNewest(arr): void {
     arr.sort((a, b) => {
       return b.createdAt - a.createdAt;
     });
   }
 
-  sortOldest(arr) {
+  sortOldest(arr): void {
     arr.sort((a, b) => {
       return a.createdAt - b.createdAt;
     });

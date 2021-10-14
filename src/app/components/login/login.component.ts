@@ -26,11 +26,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  onLogIn(email: string, password: string) {
+  onLogIn(email: string, password: string): void {
     this.authService.login(email, password);
   }
 
-  onSignUp(email: string, password: string) {
+  onSignUp(email: string, password: string): void {
     if (email === '' || password === '') {
       alert('Please enter e-mail and password');
       return;

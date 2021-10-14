@@ -10,20 +10,20 @@ import { AuthService } from 'src/app/services/auth-service/auth.service';
 export class NavigationComponent {
   constructor(public router: Router, private authService: AuthService) {}
 
-  onLogOut() {
+  onLogOut(): void {
     this.router.navigate(['']);
     this.authService.logoutUser();
   }
 
-  addNew() {
+  addNew(): void {
     this.router.navigate(['todos/new']);
   }
 
-  goBack() {
+  goBack(): void {
     this.router.navigate(['todos']);
   }
 
-  hasRoute(route) {
+  hasRoute(route): boolean {
     if (this.router.url === route) {
       return true;
     }

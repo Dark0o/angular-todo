@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { ITodo } from 'src/app/shared/model/todo';
 
 @Component({
   selector: 'app-to-do-input',
@@ -6,11 +7,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./todo-input.component.scss'],
 })
 export class ToDoInputComponent {
-  todo;
+  todoTitle: string;
   @Output() onToDoAdded = new EventEmitter<string>();
 
-  onAddToDo(todo) {
+  onAddToDo(todo: string) {
     this.onToDoAdded.emit(todo);
-    this.todo = '';
+    this.todoTitle = '';
   }
 }

@@ -17,7 +17,7 @@ export class AddToDoComponent implements OnInit, OnDestroy {
   public: boolean = false;
   userId: string;
   addingNewTodoStatus: string;
-  sub: Subscription;
+  sub$: Subscription;
 
   constructor(private todoService: ToDoService, private router: Router) {}
 
@@ -25,7 +25,7 @@ export class AddToDoComponent implements OnInit, OnDestroy {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;
   }
 
-  addNewTodo() {
+  addNewTodo(): void {
     const todo: TodoDto = {
       title: this.title,
       description: this.description,
@@ -38,7 +38,7 @@ export class AddToDoComponent implements OnInit, OnDestroy {
 
     this.addingNewTodoStatus = 'Adding...';
 
-    this.sub = this.todoService.addTodo(todo).subscribe((data) => {
+    this.sub$ = this.todoService.addTodo(todo).subscribe((data) => {
       this.todoService.usersTodos.push({
         id: data.name,
         title: this.title,
@@ -58,14 +58,14 @@ export class AddToDoComponent implements OnInit, OnDestroy {
     }, 3000);
   }
 
-  markImportant() {
+  markImportant(): void {
     this.important = !this.important;
   }
-  markPublic() {
+  markPublic(): void {
     this.public = !this.public;
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.sub$.unsubscribe();
   }
 }

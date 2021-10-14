@@ -12,7 +12,7 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./todo-details.component.scss'],
 })
 export class ToDoDetailsComponent implements OnInit, OnDestroy {
-  todo;
+  todo: ITodo;
   date: string;
   showEdit: boolean = false;
   editStatus: string;
@@ -34,7 +34,7 @@ export class ToDoDetailsComponent implements OnInit, OnDestroy {
     this.todoService
       .getTodoById(this.route.snapshot.params.id)
       .pipe(takeUntil(this.componentDesteroyed$))
-      .subscribe((todo) => {
+      .subscribe((todo: ITodo) => {
         this.todo = todo;
       });
 
@@ -46,11 +46,11 @@ export class ToDoDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  navigateBack() {
+  navigateBack(): void {
     this.router.navigate(['todos']);
   }
 
-  deleteTodo() {
+  deleteTodo(): void {
     this.deleteStatus = 'Deleting...';
 
     this.todoService.usersTodos = this.todoService.usersTodos.filter(
@@ -68,18 +68,18 @@ export class ToDoDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  markImportant() {
+  markImportant(): void {
     this.todo.isImportant = !this.todo.isImportant;
   }
 
-  markDone() {
+  markDone(): void {
     this.todo.isCompleted = !this.todo.isCompleted;
   }
-  markPublic() {
+  markPublic(): void {
     this.todo.isPublic = !this.todo.isPublic;
   }
 
-  edit() {
+  edit(): void {
     this.editStatus = 'Editing...';
 
     this.todoService
@@ -96,13 +96,14 @@ export class ToDoDetailsComponent implements OnInit, OnDestroy {
     this.showEdit = false;
   }
 
-  onEdit() {
+  onEdit(): void {
     this.showEdit = true;
   }
 
-  cancelEditing() {
+  cancelEditing(): void {
     this.showEdit = false;
   }
+
   ngOnDestroy(): void {
     this.componentDesteroyed$.next();
     this.componentDesteroyed$.complete();
