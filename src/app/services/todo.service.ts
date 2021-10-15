@@ -34,7 +34,7 @@ export class ToDoService {
   addTodo(todo: TodoDto): Observable<any> {
     console.log(todo);
 
-    return this.http.post(this.url, todo);
+    return this.http.post(`${this.url}.json`, todo);
   }
 
   updateTodo(todo) {
