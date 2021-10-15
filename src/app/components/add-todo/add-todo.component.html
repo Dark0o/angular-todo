@@ -2,7 +2,11 @@
   <h3>{{ addingNewToDoStatus }}</h3>
 </div>
 
-<div *ngIf="!addingNewTodoStatus" class="container">
+<div *ngIf='errorMessage' class="errorMessage">
+  <h3>{{ errorMessage }}</h3>
+</div>
+
+<div *ngIf="!addingNewTodoStatus && !errorMessage" class="container">
   <h3>Add New ToDo</h3>
   <div class="form">
     <div>

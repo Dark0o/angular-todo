@@ -17,6 +17,7 @@ export class AddToDoComponent implements OnInit, OnDestroy {
   public: boolean = false;
   userId: string;
   addingNewTodoStatus: string;
+  errorMessage: string;
   sub$: Subscription;
 
   constructor(private todoService: ToDoService, private router: Router) {}
@@ -38,20 +39,26 @@ export class AddToDoComponent implements OnInit, OnDestroy {
 
     this.addingNewTodoStatus = 'Adding...';
 
-    this.sub$ = this.todoService.addTodo(todo).subscribe((data) => {
-      this.todoService.usersTodos.push({
-        id: data.name,
-        title: this.title,
-        description: this.description,
-        isImportant: this.important,
-        isCompleted: this.completed,
-        isPublic: this.public,
-        createdAt: new Date().toISOString(),
-        userID: this.userId,
-      });
+    this.sub$ = this.todoService.addTodo(todo).subscribe(
+      (data) => {
+        this.todoService.usersTodos.push({
+          id: data.name,
+          title: this.title,
+          description: this.description,
+          isImportant: this.important,
+          isCompleted: this.completed,
+          isPublic: this.public,
+          createdAt: new Date().toISOString(),
+          userID: this.userId,
+        });
 
-      this.addingNewTodoStatus = 'Added!';
-    });
+        this.addingNewTodoStatus = 'Added!';
+      },
+      (error) => {
+        this.errorMessage = 'Adding todo failed';
+        console.log(error);
+      }
+    );
 
     setTimeout(() => {
       this.router.navigate(['todos']);

@@ -19,6 +19,7 @@ export class ToDoDetailsComponent implements OnInit, OnDestroy {
   deleteStatus: string;
   userId: string;
   usersName: string;
+  errorMessage: string;
   componentDesteroyed$: Subject<boolean> = new Subject();
 
   constructor(
@@ -34,16 +35,28 @@ export class ToDoDetailsComponent implements OnInit, OnDestroy {
     this.todoService
       .getTodoById(this.route.snapshot.params.id)
       .pipe(takeUntil(this.componentDesteroyed$))
-      .subscribe((todo: ITodo) => {
-        this.todo = todo;
-      });
+      .subscribe(
+        (todo: ITodo) => {
+          this.todo = todo;
+        },
+        (error) => {
+          this.errorMessage = 'Couldnt get todo!';
+          console.log(error);
+        }
+      );
 
     this.usersService
       .getUserById(this.userId)
       .pipe(takeUntil(this.componentDesteroyed$))
-      .subscribe((user) => {
-        this.usersName = user.fullName;
-      });
+      .subscribe(
+        (user) => {
+          this.usersName = user.fullName;
+        },
+        (error) => {
+          this.errorMessage = 'Couldnt get the user!';
+          console.log(error);
+        }
+      );
   }
 
   navigateBack(): void {
@@ -53,19 +66,27 @@ export class ToDoDetailsComponent implements OnInit, OnDestroy {
   deleteTodo(): void {
     this.deleteStatus = 'Deleting...';
 
-    this.todoService.usersTodos = this.todoService.usersTodos.filter(
-      (todo) => todo.id !== this.todo.id
-    );
     this.todoService
       .deleteTodo(this.todo.id)
       .pipe(takeUntil(this.componentDesteroyed$))
-      .subscribe(() => {
-        this.deleteStatus = 'ToDo Deleted!';
+      .subscribe(
+        () => {
+          this.deleteStatus = 'ToDo Deleted!';
 
-        setTimeout(() => {
-          this.router.navigate(['todos']);
-        }, 3000);
-      });
+          setTimeout(() => {
+            this.router.navigate(['todos']);
+          }, 3000);
+        },
+        (error) => {
+          this.errorMessage = 'Couldnt delete todo';
+          console.log(error);
+        },
+        () => {
+          this.todoService.usersTodos = this.todoService.usersTodos.filter(
+            (todo) => todo.id !== this.todo.id
+          );
+        }
+      );
   }
 
   markImportant(): void {
@@ -85,13 +106,19 @@ export class ToDoDetailsComponent implements OnInit, OnDestroy {
     this.todoService
       .updateTodo(this.todo)
       .pipe(takeUntil(this.componentDesteroyed$))
-      .subscribe(() => {
-        this.editStatus = 'Edited!';
-        setInterval(() => {
-          this.showEdit = false;
-          this.editStatus = undefined;
-        }, 3000);
-      });
+      .subscribe(
+        () => {
+          this.editStatus = 'Edited!';
+          setInterval(() => {
+            this.showEdit = false;
+            this.editStatus = undefined;
+          }, 3000);
+        },
+        (error) => {
+          this.errorMessage = 'Couldnt edit todo';
+          console.log(error);
+        }
+      );
 
     this.showEdit = false;
   }

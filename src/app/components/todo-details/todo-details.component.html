@@ -1,8 +1,12 @@
+<div *ngIf='errorMessage' class="message">
+  <h3>{{ errorMessage }}</h3>
+</div>
+
 <div *ngIf="deleteStatus" class="delete">
   <h3>{{ deleteStatus }}</h3>
 </div>
 
-<div *ngIf="!deleteStatus" class="container">
+<div *ngIf="!deleteStatus && !errorMessage" class="container">
   <h1>Todo Item Details</h1>
   <table>
     <tr>

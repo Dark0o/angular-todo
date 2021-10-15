@@ -59,22 +59,29 @@ export class ToDoListComponent implements OnInit, OnDestroy {
       .subscribe(
         () => {
           this.performFilter();
+
           if (this.usersTodos.length === 0) {
             this.errorMessage = 'An error occured!';
           }
           this.loadingState = false;
         },
         (error) => {
-          this.errorMessage = 'An error occured!';
+          this.errorMessage = 'Couldnt get todos';
           console.log(error);
         }
       );
     this.usersService
       .getUserById(this.userId)
       .pipe(takeUntil(this.componentDesteroyed$))
-      .subscribe((user) => {
-        this.usersHeading = `${user.fullName}'s Todo list`;
-      });
+      .subscribe(
+        (user) => {
+          this.usersHeading = `${user.fullName}'s Todo list`;
+        },
+        (error) => {
+          this.errorMessage = 'Couldnt get the users';
+          console.log(error);
+        }
+      );
   }
 
   sortTitle(): void {
@@ -174,17 +181,23 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     this.todoService
       .addTodo(todo)
       .pipe(takeUntil(this.componentDesteroyed$))
-      .subscribe((response) => {
-        this.todoService.usersTodos.push({
-          title: title,
-          description: this.description,
-          isImportant: this.important,
-          isCompleted: this.completed,
-          id: response.name,
-          createdAt: new Date().toISOString(),
-          userID: this.userId,
-        });
-      });
+      .subscribe(
+        (response) => {
+          this.todoService.usersTodos.push({
+            title: title,
+            description: this.description,
+            isImportant: this.important,
+            isCompleted: this.completed,
+            id: response.name,
+            createdAt: new Date().toISOString(),
+            userID: this.userId,
+          });
+        },
+        (error) => {
+          this.errorMessage = 'Adding todo failed';
+          console.log(error);
+        }
+      );
   }
 
   onDelete(todo): void {
@@ -194,15 +207,31 @@ export class ToDoListComponent implements OnInit, OnDestroy {
     this.todoService
       .deleteTodo(todo.id)
       .pipe(takeUntil(this.componentDesteroyed$))
-      .subscribe();
-    this.todoService.usersTodos = this.filteredTodos;
+      .subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          this.errorMessage = 'Deleting failed';
+          console.log(error);
+        },
+        () => (this.todoService.usersTodos = this.filteredTodos)
+      );
   }
 
   onItemChecked(todo): void {
     this.todoService
       .updateTodo(todo)
       .pipe(takeUntil(this.componentDesteroyed$))
-      .subscribe();
+      .subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          this.errorMessage = 'Updating failed';
+          console.log(error);
+        }
+      );
   }
 
   performFilter(filterBy?): void {

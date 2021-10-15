@@ -27,13 +27,11 @@ export class ToDoService {
     );
   }
 
-  getTodoById(id) {
+  getTodoById(id: string) {
     return this.http.get(`${this.url}/${id}.json`);
   }
 
   addTodo(todo: TodoDto): Observable<any> {
-    console.log(todo);
-
     return this.http.post(`${this.url}.json`, todo);
   }
 
