@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToDoService } from 'src/app/services/todo.service';
 import { UsersService } from 'src/app/services/users.service';
-import { of, Subject } from 'rxjs';
-import { mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ITodo } from 'src/app/shared/model/todo';
 
 @Component({

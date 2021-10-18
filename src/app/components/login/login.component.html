@@ -1,12 +1,28 @@
 <div class="container">
-  <form>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="input-container">
-      <input class="fields" type="text" name="email" placeholder="email" [(ngModel)]="email" />
-      <input class="fields" type="password" name="password" placeholder="password" [(ngModel)]="password" />
+      <div>
+        <input class="fields" type="text" name="email" placeholder="email" formControlName="email" />
+        <span *ngIf="loginForm.get('email').errors?.required && loginForm.get('email').touched">
+          Please enter your email.
+        </span>
+        <span *ngIf="loginForm.get('email').errors?.email">
+          Please enter valid email address.
+        </span>
+      </div>
+      <div>
+        <input class="fields" type="password" name="password" placeholder="password" formControlName="password" />
+        <span *ngIf="loginForm.get('password').errors?.required && loginForm.get('password').touched">
+          Please enter your password.
+        </span>
+        <span *ngIf="loginForm.get('password').errors?.minlength && loginForm.get('password').touched">
+          Password should be at least 5 characters long.
+        </span>
+      </div>
+
     </div>
     <div class="btn-container">
-      <button class="btn" (click)="onLogIn(email, password)">Log In</button>
-      <button class="btn" (click)="onSignUp(email, password)">Sign Up</button>
+      <button class="btn" type="submit">Log In</button>
     </div>
   </form>
 </div>

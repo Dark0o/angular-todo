@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../services/auth-service/auth.service';
@@ -10,13 +11,18 @@ import { UsersService } from '../../services/users.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  email: string;
-  password: string;
+  loginForm: FormGroup;
   componentDesteroyed$: Subject<boolean> = new Subject();
+
+  private validationMessages = {
+    required: 'Please enter your email address.',
+    email: 'Please enter a valid email address',
+  };
 
   constructor(
     private userService: UsersService,
-    private authService: AuthService
+    private authService: AuthService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -24,11 +30,26 @@ export class LoginComponent implements OnInit, OnDestroy {
       .getSignedUpUsers()
       .pipe(takeUntil(this.componentDesteroyed$))
       .subscribe();
+
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(5)]],
+    });
   }
 
-  onLogIn(email: string, password: string): void {
-    this.authService.login(email, password);
+  onSubmit() {
+    if (this.loginForm.invalid) {
+      return;
+    }
+    this.authService.login(
+      this.loginForm.get('email').value,
+      this.loginForm.get('password').value
+    );
   }
+
+  // onLogIn(email: string, password: string): void {
+  //   this.authService.login(email, password);
+  // }
 
   onSignUp(email: string, password: string): void {
     if (email === '' || password === '') {
