@@ -29,6 +29,7 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
 
   // TODO revisit all this functionallity
   ngOnInit(): void {
+    console.log(this.usersService.users);
     if (this.usersService.users.length === 0) {
       this.usersService
         .getSignedUpUsers()
@@ -39,19 +40,45 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
             .getTodos()
             .pipe(takeUntil(this.componentDesteroyed$))
             .subscribe((todos) => {
-              this.sharedTodos = todos.filter((todo) => todo.isPublic === true);
+              this.sharedTodos = todos.filter(
+                (todo: ITodo) => todo.isPublic === true
+              );
               console.log(this.sharedTodos);
 
               this.sharedTodos.map((todo) => {
-                let foundUser = this.usersService.users.find(
+                const foundUser = this.usersService.users.find(
                   (user) => user.id === todo.userID
                 );
-                if (foundUser.fullName) {
-                  todo.fullName = foundUser.fullName;
+                console.log(foundUser);
+
+                if (foundUser) {
+                  todo.fullName = `${foundUser.firstName} ${foundUser.lastName}`;
                 }
                 return todo;
               });
             });
+        });
+    } else {
+      this.todosService
+        .getTodos()
+        .pipe(takeUntil(this.componentDesteroyed$))
+        .subscribe((todos) => {
+          this.sharedTodos = todos.filter(
+            (todo: ITodo) => todo.isPublic === true
+          );
+          console.log(this.sharedTodos);
+
+          this.sharedTodos.map((todo) => {
+            const foundUser = this.usersService.users.find(
+              (user) => user.id === todo.userID
+            );
+            console.log(foundUser);
+
+            if (foundUser) {
+              todo.fullName = `${foundUser.firstName} ${foundUser.lastName}`;
+            }
+            return todo;
+          });
         });
     }
   }

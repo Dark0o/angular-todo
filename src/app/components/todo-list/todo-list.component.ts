@@ -75,7 +75,7 @@ export class ToDoListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.componentDesteroyed$))
       .subscribe(
         (user) => {
-          this.usersHeading = `${user.fullName}'s Todo list`;
+          this.usersHeading = `${user.firstName}'s Todo list`;
         },
         (error) => {
           this.errorMessage = 'Couldnt get the users';

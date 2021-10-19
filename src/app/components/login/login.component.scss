@@ -26,7 +26,6 @@
 }
 
 .btn {
-  margin-top: 5px;
   cursor: pointer;
   width: 220px;
   border: none;
@@ -36,4 +35,9 @@ span {
   color: red;
   font-size: 15px;
   padding: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }

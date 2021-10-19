@@ -7,10 +7,12 @@ import { ToDoListComponent } from './components/todo-list/todo-list.component';
 import { AddToDoComponent } from './components/add-todo/add-todo.component';
 import { SharedTodosListComponent } from './components/shared-todos-list/shared-todos-list.component';
 import { UserProfileComponent } from './components';
+import { SignupComponent } from './components/signup/signup.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
   {
     path: 'todos',
     component: ToDoListComponent,

@@ -19,6 +19,7 @@ import {
   UserProfileComponent,
 } from './components/index';
 import { DatePipe } from './shared/pipe/date.pipe';
+import { SignupComponent } from './components/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { DatePipe } from './shared/pipe/date.pipe';
     SharedTodosListComponent,
     UserProfileComponent,
     DatePipe,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
