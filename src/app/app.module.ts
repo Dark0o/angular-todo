@@ -8,13 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import {
-  ToDoListComponent,
-  ToDoInputComponent,
-  ToDoItemComponent,
+  TodoListComponent,
+  TodoInputComponent,
+  TodoItemComponent,
   LoginComponent,
-  ToDoDetailsComponent,
+  TodoDetailsComponent,
   NavigationComponent,
-  AddToDoComponent,
+  AddTodoComponent,
   SharedTodosListComponent,
   UserProfileComponent,
 } from './components/index';
@@ -24,13 +24,13 @@ import { SignupComponent } from './components/signup/signup.component';
 @NgModule({
   declarations: [
     AppComponent,
-    ToDoListComponent,
-    ToDoInputComponent,
-    ToDoItemComponent,
+    TodoListComponent,
+    TodoInputComponent,
+    TodoItemComponent,
     LoginComponent,
-    ToDoDetailsComponent,
+    TodoDetailsComponent,
     NavigationComponent,
-    AddToDoComponent,
+    AddTodoComponent,
     SharedTodosListComponent,
     UserProfileComponent,
     DatePipe,

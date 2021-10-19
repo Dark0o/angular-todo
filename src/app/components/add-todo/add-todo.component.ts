@@ -9,7 +9,7 @@ import { ToDoService } from 'src/app/services/todo.service';
   templateUrl: './add-todo.component.html',
   styleUrls: ['./add-todo.component.scss'],
 })
-export class AddToDoComponent implements OnInit, OnDestroy {
+export class AddTodoComponent implements OnInit, OnDestroy {
   title: string;
   description: string;
   important: boolean = false;

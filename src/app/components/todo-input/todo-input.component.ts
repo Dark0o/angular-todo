@@ -6,7 +6,7 @@ import { ITodo } from 'src/app/shared/model/todo';
   templateUrl: './todo-input.component.html',
   styleUrls: ['./todo-input.component.scss'],
 })
-export class ToDoInputComponent {
+export class TodoInputComponent {
   todoTitle: string;
   @Output() onToDoAdded = new EventEmitter<string>();
 

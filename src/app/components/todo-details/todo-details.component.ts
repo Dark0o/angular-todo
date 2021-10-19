@@ -11,7 +11,7 @@ import { UsersService } from 'src/app/services/users.service';
   templateUrl: './todo-details.component.html',
   styleUrls: ['./todo-details.component.scss'],
 })
-export class ToDoDetailsComponent implements OnInit, OnDestroy {
+export class TodoDetailsComponent implements OnInit, OnDestroy {
   todo: ITodo;
   date: string;
   showEdit: boolean = false;

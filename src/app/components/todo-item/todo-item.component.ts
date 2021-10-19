@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.scss'],
 })
-export class ToDoItemComponent {
+export class TodoItemComponent {
   @Input() todoItem;
   @Output() itemDeleted = new EventEmitter();
   @Output() itemChecked = new EventEmitter();

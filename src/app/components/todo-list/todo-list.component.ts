@@ -10,7 +10,7 @@ import { ToDoService } from '../../services/todo.service';
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
 })
-export class ToDoListComponent implements OnInit, OnDestroy {
+export class TodoListComponent implements OnInit, OnDestroy {
   completed = false;
   date: string;
   important = false;
