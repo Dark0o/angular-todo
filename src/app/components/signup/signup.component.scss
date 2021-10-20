@@ -8,6 +8,8 @@
 }
 .input-container {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .input-container input {
@@ -19,4 +21,7 @@
 button {
   margin-top: 10px;
   cursor: pointer;
+}
+span {
+  margin-top: 5px;
 }

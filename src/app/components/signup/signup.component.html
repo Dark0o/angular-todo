@@ -4,19 +4,49 @@
     <div>
       <div class="input-container">
         <input type="text" placeholder="First name" formControlName="firstName">
+        <span *ngIf="signupForm.get('firstName').errors?.required && signupForm.get('firstName').touched">
+          Please enter your name.
+        </span>
       </div>
       <div class="input-container">
         <input type="text" placeholder="Last name" formControlName="lastName">
+        <span *ngIf="signupForm.get('lastName').errors?.required && signupForm.get('lastName').touched">
+          Please enter last name.
+        </span>
       </div>
       <div class="input-container">
         <input type="email" placeholder="E-mail" formControlName="email">
+        <span *ngIf="signupForm.get('email').errors?.required && signupForm.get('email').touched">
+          Please enter your email.
+        </span>
+        <span *ngIf="signupForm.get('email').errors?.email">
+          Please enter valid email address.
+        </span>
       </div>
-      <div class="input-container">
-        <input type="password" placeholder="Password" formControlName="password">
+      <div formGroupName="passwordGroup">
+        <div class="input-container">
+          <input type="password" placeholder="Password" formControlName="password">
+          <span
+            *ngIf="signupForm.get('passwordGroup.password').errors?.required && signupForm.get('passwordGroup.password').touched">
+            Please enter your password.
+          </span>
+          <span
+            *ngIf="signupForm.get('passwordGroup.password').errors?.minlength && signupForm.get('passwordGroup.password').touched">
+            Password should be at least 5 characters long.
+          </span>
+          <span
+            *ngIf="signupForm.get('passwordGroup.password').errors?.pattern && signupForm.get('passwordGroup.password').touched">
+            Password should contain at least one number.
+          </span>
+        </div>
+        <div class="input-container">
+          <input type="password" placeholder="Confirm password" formControlName="confirmPassword">
+          <span *ngIf="signupForm.get('passwordGroup').errors?.match">
+            Passwords dont match.
+          </span>
+        </div>
       </div>
-      <div class="input-container">
-        <input type="password" placeholder="Confirm password" formControlName="password">
-      </div>
+
       <div class="input-container">
         <input type="date" formControlName="dateOfBirth">
       </div>

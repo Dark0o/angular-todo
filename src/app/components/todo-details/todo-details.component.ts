@@ -50,7 +50,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.componentDesteroyed$))
       .subscribe(
         (user) => {
-          this.usersName = user.fullName;
+          this.usersName = `${user.firstName} ${user.lastName}`;
         },
         (error) => {
           this.errorMessage = 'Couldnt get the user!';
