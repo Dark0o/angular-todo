@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -6,6 +6,9 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { UsersService } from 'src/app/services/users.service';
 
 function comparePasswords(c: AbstractControl): ValidationErrors | null {
@@ -27,10 +30,18 @@ function comparePasswords(c: AbstractControl): ValidationErrors | null {
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   signupForm: FormGroup;
   regex = /\d/;
-  constructor(private fb: FormBuilder, private userService: UsersService) {}
+  warningMessage: string;
+  signedUpMessage: string;
+  componentDesteroyed$: Subject<boolean> = new Subject();
+
+  constructor(
+    private fb: FormBuilder,
+    private userService: UsersService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -53,20 +64,41 @@ export class SignupComponent implements OnInit {
       ),
       dateOfBirth: ['', Validators.required],
     });
-    console.log(this.signupForm.get('passwordGroup.password').value);
   }
 
   onSubmit(): void {
     if (this.signupForm.invalid) {
+      this.warningMessage = 'Please fill out all required fileds';
       return;
     }
     const dateOfBirth: string = new Date(
       this.signupForm.get('dateOfBirth').value
     ).toISOString();
 
-    const user = Object.assign({}, this.signupForm.value, { dateOfBirth });
+    const user = {
+      firstName: this.signupForm.get('firstName').value,
+      lastName: this.signupForm.get('lastName').value,
+      email: this.signupForm.get('email').value,
+      password: this.signupForm.get('passwordGroup.password').value,
+      dateOfBirth,
+    };
     console.log(user);
 
-    this.userService.addUser(user).subscribe();
+    this.userService
+      .addUser(user)
+      .pipe(takeUntil(this.componentDesteroyed$))
+      .subscribe(() => {
+        this.userService.users.push(user);
+        this.signedUpMessage = 'You have singed up! Go to log in.';
+      });
+  }
+
+  goToLogIn(): void {
+    this.router.navigate(['login']);
+  }
+
+  ngOnDestroy(): void {
+    this.componentDesteroyed$.next();
+    this.componentDesteroyed$.complete();
   }
 }

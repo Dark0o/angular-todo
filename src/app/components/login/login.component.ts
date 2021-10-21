@@ -15,11 +15,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   componentDesteroyed$: Subject<boolean> = new Subject();
 
-  // private validationMessages = {
-  //   required: 'Please enter your email address.',
-  //   email: 'Please enter a valid email address',
-  // };
-
   constructor(
     private userService: UsersService,
     private authService: AuthService,
@@ -32,6 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       .getSignedUpUsers()
       .pipe(takeUntil(this.componentDesteroyed$))
       .subscribe();
+
+    console.log(this.userService.users);
 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
