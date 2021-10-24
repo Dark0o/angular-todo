@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ITodo, TodoDto } from 'src/app/shared/model/todo';
-import { UsersService } from 'src/app/services/users.service';
-import { ToDoService } from '../../services/todo.service';
+import { ITodo, TodoDto } from '../todo';
+import { UsersService } from 'src/app/users.service';
+import { ToDoService } from '../todo.service';
 
 @Component({
   selector: 'app-to-do-list',

@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ToDoService } from 'src/app/services/todo.service';
-import { UsersService } from 'src/app/services/users.service';
+import { ToDoService } from 'src/app/todo/todo.service';
+import { UsersService } from 'src/app/users.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ITodo } from 'src/app/shared/model/todo';
+import { ITodo } from '../todo';
 
 @Component({
   selector: 'app-shared-todos-list',

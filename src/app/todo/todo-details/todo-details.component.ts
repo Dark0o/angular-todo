@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ITodo } from 'src/app/shared/model/todo';
-import { ToDoService } from 'src/app/services/todo.service';
-import { UsersService } from 'src/app/services/users.service';
+import { ITodo } from '../todo';
+import { ToDoService } from 'src/app/todo/todo.service';
+import { UsersService } from 'src/app/users.service';
 
 @Component({
   selector: 'app-to-do-details',

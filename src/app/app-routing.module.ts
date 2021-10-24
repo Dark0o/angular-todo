@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
-import { AuthGuardService } from './services/auth-service/auth-guard.service';
-import { TodoDetailsComponent } from './components/todo-details/todo-details.component';
-import { TodoListComponent } from './components/todo-list/todo-list.component';
-import { AddTodoComponent } from './components/add-todo/add-todo.component';
-import { SharedTodosListComponent } from './components/shared-todos-list/shared-todos-list.component';
-import { UserProfileComponent } from './components';
-import { SignupComponent } from './components/signup/signup.component';
+import { LoginComponent } from './auth/login/login.component';
+import { AuthGuardService } from './auth/auth-service/auth-guard.service';
+import { TodoDetailsComponent } from './todo/todo-details/todo-details.component';
+import { TodoListComponent } from './todo/todo-list/todo-list.component';
+import { AddTodoComponent } from './todo/add-todo/add-todo.component';
+import { SharedTodosListComponent } from './todo/shared-todos-list/shared-todos-list.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },

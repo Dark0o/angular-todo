@@ -3,47 +3,27 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from '../app/app-routing.module';
-import { MaterialModule } from './shared/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { SharedModule } from './shared/shared.module';
+import { TodoModule } from './todo/todo.module';
+import { AuthModule } from './auth/auth.module';
+
 import { AppComponent } from './app.component';
-import {
-  TodoListComponent,
-  TodoInputComponent,
-  TodoItemComponent,
-  LoginComponent,
-  TodoDetailsComponent,
-  NavigationComponent,
-  AddTodoComponent,
-  SharedTodosListComponent,
-  UserProfileComponent,
-} from './components/index';
-import { DatePipe } from './shared/pipe/date.pipe';
-import { SignupComponent } from './components/signup/signup.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    TodoListComponent,
-    TodoInputComponent,
-    TodoItemComponent,
-    LoginComponent,
-    TodoDetailsComponent,
-    NavigationComponent,
-    AddTodoComponent,
-    SharedTodosListComponent,
-    UserProfileComponent,
-    DatePipe,
-    SignupComponent,
-  ],
+  declarations: [AppComponent, UserProfileComponent],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule,
     ReactiveFormsModule,
+    SharedModule,
+    TodoModule,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

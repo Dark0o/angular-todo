@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { ITodo } from 'src/app/shared/model/todo';
+import { ITodo } from '../todo';
 
 @Component({
   selector: 'app-to-do-input',

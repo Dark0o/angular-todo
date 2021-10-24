@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { TodoDto, ITodo } from 'src/app/shared/model/todo';
-import { ToDoService } from 'src/app/services/todo.service';
+import { TodoDto, ITodo } from '../todo';
+import { ToDoService } from '../todo.service';
 
 @Component({
   selector: 'app-add-todo',
@@ -73,6 +73,8 @@ export class AddTodoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub$.unsubscribe();
+    if (this.sub$) {
+      this.sub$.unsubscribe();
+    }
   }
 }

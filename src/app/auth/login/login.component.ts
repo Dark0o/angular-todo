@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AuthService } from '../../services/auth-service/auth.service';
-import { UsersService } from '../../services/users.service';
+import { AuthService } from '../auth-service/auth.service';
+import { UsersService } from '../../users.service';
 
 @Component({
   selector: 'app-login',
@@ -27,8 +27,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       .getSignedUpUsers()
       .pipe(takeUntil(this.componentDesteroyed$))
       .subscribe();
-
-    console.log(this.userService.users);
 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
