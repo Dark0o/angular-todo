@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ITodo } from '../todo';
 import { ToDoService } from 'src/app/todo/todo.service';
-import { UsersService } from 'src/app/users.service';
+import { UsersService } from '../../users.service';
 
 @Component({
   selector: 'app-to-do-details',
