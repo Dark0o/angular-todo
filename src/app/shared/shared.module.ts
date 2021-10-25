@@ -9,6 +9,6 @@ import { NavigationComponent } from './navigation/navigation.component';
 @NgModule({
   declarations: [DatePipe, NavigationComponent],
   imports: [CommonModule, RouterModule],
-  exports: [CommonModule, MaterialModule, NavigationComponent, DatePipe],
+  exports: [MaterialModule, NavigationComponent, DatePipe, CommonModule],
 })
 export class SharedModule {}

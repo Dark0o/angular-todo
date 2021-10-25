@@ -48,3 +48,4 @@
   <app-to-do-item *ngFor="let todo of filteredTodos" [todoItem]="todo" (itemDeleted)="onDelete($event)"
     (itemChecked)="onItemChecked($event)"></app-to-do-item>
 </div>
+<router-outlet></router-outlet>

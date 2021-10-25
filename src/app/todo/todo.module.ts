@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
+import { TodoRoutingModule } from './todo-routing.module';
 
 import {
   TodoListComponent,
@@ -23,6 +22,6 @@ import {
     SharedTodosListComponent,
     TodoDetailsComponent,
   ],
-  imports: [CommonModule, FormsModule, RouterModule, SharedModule],
+  imports: [FormsModule, SharedModule, TodoRoutingModule],
 })
 export class TodoModule {}
