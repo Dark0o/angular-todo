@@ -20,7 +20,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
   userId: string;
   usersName: string;
   errorMessage: string;
-  componentDesteroyed$: Subject<boolean> = new Subject();
+  private isDestroyed$ = new Subject();
 
   constructor(
     private router: Router,
@@ -34,7 +34,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
 
     this.todoService
       .getTodoById(this.route.snapshot.params.id)
-      .pipe(takeUntil(this.componentDesteroyed$))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         (todo: ITodo) => {
           this.todo = todo;
@@ -47,7 +47,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
 
     this.usersService
       .getUserById(this.userId)
-      .pipe(takeUntil(this.componentDesteroyed$))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         (user) => {
           this.usersName = `${user.firstName} ${user.lastName}`;
@@ -68,7 +68,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
 
     this.todoService
       .deleteTodo(this.todo.id)
-      .pipe(takeUntil(this.componentDesteroyed$))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         () => {
           this.deleteStatus = 'ToDo Deleted!';
@@ -105,7 +105,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
 
     this.todoService
       .updateTodo(this.todo)
-      .pipe(takeUntil(this.componentDesteroyed$))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         () => {
           this.editStatus = 'Edited!';
@@ -132,7 +132,6 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.componentDesteroyed$.next();
-    this.componentDesteroyed$.complete();
+    this.isDestroyed$.next();
   }
 }

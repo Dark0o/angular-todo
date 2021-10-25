@@ -20,7 +20,7 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
     'fullName',
   ];
 
-  componentDesteroyed$: Subject<boolean> = new Subject();
+  private isDestroyed$ = new Subject();
 
   constructor(
     private todosService: ToDoService,
@@ -33,12 +33,12 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
     if (this.usersService.users.length === 0) {
       this.usersService
         .getSignedUpUsers()
-        .pipe(takeUntil(this.componentDesteroyed$))
+        .pipe(takeUntil(this.isDestroyed$))
         .subscribe((users) => {
           this.usersService.users = users;
           this.todosService
             .getTodos()
-            .pipe(takeUntil(this.componentDesteroyed$))
+            .pipe(takeUntil(this.isDestroyed$))
             .subscribe((todos) => {
               this.sharedTodos = todos.filter(
                 (todo: ITodo) => todo.isPublic === true
@@ -61,7 +61,7 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
     } else {
       this.todosService
         .getTodos()
-        .pipe(takeUntil(this.componentDesteroyed$))
+        .pipe(takeUntil(this.isDestroyed$))
         .subscribe((todos) => {
           this.sharedTodos = todos.filter(
             (todo: ITodo) => todo.isPublic === true
@@ -84,7 +84,6 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.componentDesteroyed$.next();
-    this.componentDesteroyed$.complete();
+    this.isDestroyed$.next();
   }
 }

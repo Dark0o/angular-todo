@@ -30,7 +30,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   };
   errorMessage: string = null;
   usersHeading: string;
-  componentDesteroyed$: Subject<boolean> = new Subject();
+  private isDestroyed$ = new Subject();
 
   private _filter: string;
 
@@ -55,7 +55,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;
     this.todoService
       .getTodos(this.userId)
-      .pipe(takeUntil(this.componentDesteroyed$))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         () => {
           this.performFilter();
@@ -72,7 +72,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
       );
     this.usersService
       .getUserById(this.userId)
-      .pipe(takeUntil(this.componentDesteroyed$))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         (user) => {
           this.usersHeading = `${user.firstName}'s Todo list`;
@@ -180,7 +180,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
 
     this.todoService
       .addTodo(todo)
-      .pipe(takeUntil(this.componentDesteroyed$))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         (response) => {
           this.todoService.usersTodos.push({
@@ -206,7 +206,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
     );
     this.todoService
       .deleteTodo(todo.id)
-      .pipe(takeUntil(this.componentDesteroyed$))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         (response) => {
           console.log(response);
@@ -222,7 +222,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   onItemChecked(todo): void {
     this.todoService
       .updateTodo(todo)
-      .pipe(takeUntil(this.componentDesteroyed$))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         (response) => {
           console.log(response);
@@ -274,7 +274,6 @@ export class TodoListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.componentDesteroyed$.next();
-    this.componentDesteroyed$.complete();
+    this.isDestroyed$.next();
   }
 }

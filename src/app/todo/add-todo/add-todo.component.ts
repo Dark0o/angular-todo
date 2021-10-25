@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { TodoDto, ITodo } from '../todo';
 import { ToDoService } from '../todo.service';
 
@@ -18,7 +19,7 @@ export class AddTodoComponent implements OnInit, OnDestroy {
   userId: string;
   addingNewTodoStatus: string;
   errorMessage: string;
-  sub$: Subscription;
+  private isDestroyed$ = new Subject();
 
   constructor(private todoService: ToDoService, private router: Router) {}
 
@@ -39,26 +40,29 @@ export class AddTodoComponent implements OnInit, OnDestroy {
 
     this.addingNewTodoStatus = 'Adding...';
 
-    this.sub$ = this.todoService.addTodo(todo).subscribe(
-      (data) => {
-        this.todoService.usersTodos.push({
-          id: data.name,
-          title: this.title,
-          description: this.description,
-          isImportant: this.important,
-          isCompleted: this.completed,
-          isPublic: this.public,
-          createdAt: new Date().toISOString(),
-          userID: this.userId,
-        });
+    this.todoService
+      .addTodo(todo)
+      .pipe(takeUntil(this.isDestroyed$))
+      .subscribe(
+        (data) => {
+          this.todoService.usersTodos.push({
+            id: data.name,
+            title: this.title,
+            description: this.description,
+            isImportant: this.important,
+            isCompleted: this.completed,
+            isPublic: this.public,
+            createdAt: new Date().toISOString(),
+            userID: this.userId,
+          });
 
-        this.addingNewTodoStatus = 'Added!';
-      },
-      (error) => {
-        this.errorMessage = 'Adding todo failed';
-        console.log(error);
-      }
-    );
+          this.addingNewTodoStatus = 'Added!';
+        },
+        (error) => {
+          this.errorMessage = 'Adding todo failed';
+          console.log(error);
+        }
+      );
 
     setTimeout(() => {
       this.router.navigate(['todos']);
@@ -73,8 +77,6 @@ export class AddTodoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.sub$) {
-      this.sub$.unsubscribe();
-    }
+    this.isDestroyed$.next();
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { UsersService } from '../users.service';
 
 @Component({
@@ -11,13 +11,13 @@ import { UsersService } from '../users.service';
 export class UserProfileComponent implements OnInit, OnDestroy {
   user;
   userId: string;
-  sub: Subscription;
+  private isDestroyed$ = new Subject();
 
   constructor(private usersService: UsersService, private router: Router) {}
 
   ngOnInit(): void {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;
-    this.sub = this.usersService.getUserById(this.userId).subscribe((user) => {
+    this.usersService.getUserById(this.userId).subscribe((user) => {
       this.user = user;
     });
   }
@@ -27,6 +27,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.isDestroyed$.next();
   }
 }

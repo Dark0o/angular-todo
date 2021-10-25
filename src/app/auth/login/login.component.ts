@@ -13,7 +13,7 @@ import { UsersService } from '../../users.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
-  componentDesteroyed$: Subject<boolean> = new Subject();
+  private isDestroyed$ = new Subject();
 
   constructor(
     private userService: UsersService,
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userService
       .getSignedUpUsers()
-      .pipe(takeUntil(this.componentDesteroyed$))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe();
 
     this.loginForm = this.fb.group({
@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.componentDesteroyed$.next();
-    this.componentDesteroyed$.complete();
+    this.isDestroyed$.next();
   }
 }

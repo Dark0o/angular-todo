@@ -35,7 +35,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   regex = /\d/;
   warningMessage: string;
   signedUpMessage: string;
-  componentDesteroyed$: Subject<boolean> = new Subject();
+  private isDestroyed$ = new Subject();
 
   constructor(
     private fb: FormBuilder,
@@ -86,7 +86,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     this.userService
       .addUser(user)
-      .pipe(takeUntil(this.componentDesteroyed$))
+      .pipe(takeUntil(this.isDestroyed$))
       .subscribe(() => {
         this.userService.users.push(user);
         this.signedUpMessage = 'You have singed up! Go to log in.';
@@ -98,7 +98,6 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.componentDesteroyed$.next();
-    this.componentDesteroyed$.complete();
+    this.isDestroyed$.next();
   }
 }
