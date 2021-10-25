@@ -1,0 +1,33 @@
+<div class="statusMessage" *ngIf="addingNewTodoStatus">
+  <h3>{{ addingNewToDoStatus }}</h3>
+</div>
+
+<div *ngIf='errorMessage' class="errorMessage">
+  <h3>{{ errorMessage }}</h3>
+</div>
+
+<div *ngIf="!addingNewTodoStatus && !errorMessage" class="container">
+  <h3>Add New Todo</h3>
+  <div class="form">
+    <div>
+      <input type="text" placeholder="Title" [(ngModel)]="title" />
+    </div>
+    <div>
+      <input type="text" placeholder="Description" [(ngModel)]="description" />
+    </div>
+    <div class="label">
+      <label>Important</label>
+      <input type="checkbox" [checked]="important" (click)="markImportant()" />
+    </div>
+    <div class="label">
+      <label>Public</label>
+      <input type="checkbox" [checked]="public" (click)="markPublic()" />
+    </div>
+  </div>
+  <div>
+    <button (click)="addNewTodo()">Add</button>
+  </div>
+  <div>
+    <a [routerLink]="['/todos']"><button>Back to the private list</button></a>
+  </div>
+</div>
