@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToDoService } from 'src/app/todo/todo.service';
-import { UsersService } from 'src/app/users.service';
+import { UsersService } from 'src/app/user/users.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ITodo } from '../todo';
