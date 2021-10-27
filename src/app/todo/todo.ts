@@ -1,4 +1,4 @@
-export interface ITodo {
+export interface Todo {
   id: string;
   title: string;
   description: string;
@@ -8,4 +8,4 @@ export interface ITodo {
   createdAt: string;
   userID: string;
 }
-export type TodoDto = Omit<ITodo, 'id'>;
+export type TodoDto = Omit<Todo, 'id'>;

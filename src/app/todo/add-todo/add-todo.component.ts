@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TodoDto, ITodo } from '../todo';
+import { TodoDto } from '../todo';
 import { ToDoService } from '../todo.service';
 
 @Component({

@@ -3,7 +3,7 @@ import { ToDoService } from 'src/app/todo/todo.service';
 import { UsersService } from 'src/app/user/users.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ITodo } from '../todo';
+import { Todo } from '../todo';
 
 @Component({
   selector: 'app-shared-todos-list',
@@ -11,7 +11,7 @@ import { ITodo } from '../todo';
   styleUrls: ['./shared-todos-list.component.scss'],
 })
 export class SharedTodosListComponent implements OnInit, OnDestroy {
-  todo: ITodo;
+  todo: Todo;
   sharedTodos = [];
   displayedColumns: string[] = [
     'title',
@@ -41,7 +41,7 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.isDestroyed$))
             .subscribe((todos) => {
               this.sharedTodos = todos.filter(
-                (todo: ITodo) => todo.isPublic === true
+                (todo: Todo) => todo.isPublic === true
               );
               console.log(this.sharedTodos);
 
@@ -64,7 +64,7 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.isDestroyed$))
         .subscribe((todos) => {
           this.sharedTodos = todos.filter(
-            (todo: ITodo) => todo.isPublic === true
+            (todo: Todo) => todo.isPublic === true
           );
           console.log(this.sharedTodos);
 

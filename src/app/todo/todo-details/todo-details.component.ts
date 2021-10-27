@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ITodo } from '../todo';
+import { Todo } from '../todo';
 import { ToDoService } from 'src/app/todo/todo.service';
 import { UsersService } from '../../user/users.service';
 
@@ -12,7 +12,7 @@ import { UsersService } from '../../user/users.service';
   styleUrls: ['./todo-details.component.scss'],
 })
 export class TodoDetailsComponent implements OnInit, OnDestroy {
-  todo: ITodo;
+  todo: Todo;
   date: string;
   showEdit: boolean = false;
   editStatus: string;
@@ -36,7 +36,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
       .getTodoById(this.route.snapshot.params.id)
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
-        (todo: ITodo) => {
+        (todo: Todo) => {
           this.todo = todo;
         },
         (error) => {
