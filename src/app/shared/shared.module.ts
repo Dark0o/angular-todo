@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from './material/material.module';
 import { RouterModule } from '@angular/router';
 
-import { DatePipe } from './pipe/date.pipe';
+import { CustomDatePipe } from './pipe/date.pipe';
 import { NavigationComponent } from './navigation/navigation.component';
 
 @NgModule({
-  declarations: [DatePipe, NavigationComponent],
+  declarations: [CustomDatePipe, NavigationComponent],
   imports: [CommonModule, RouterModule],
-  exports: [MaterialModule, NavigationComponent, DatePipe, CommonModule],
+  exports: [MaterialModule, NavigationComponent, CustomDatePipe, CommonModule],
 })
 export class SharedModule {}

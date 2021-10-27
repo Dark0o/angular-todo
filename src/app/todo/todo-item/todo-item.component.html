@@ -5,7 +5,7 @@
       <span [ngClass]="{
           completed: todoItem.isCompleted,
           important: todoItem.isImportant
-        }" (click)="openToDoDetails(todoItem)">{{ todoItem.title }}, added: {{ todoItem.createdAt | date }}
+        }" (click)="openToDoDetails(todoItem)">{{ todoItem.title }}, added: {{ todoItem.createdAt  | customDate}}
       </span>
     </label>
   </div>
