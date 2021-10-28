@@ -14,12 +14,13 @@ import { UsersService } from '../../user/users.service';
 export class TodoDetailsComponent implements OnInit, OnDestroy {
   todo: Todo;
   date: string;
-  showEdit: boolean = false;
   editStatus: string;
   deleteStatus: string;
   userId: string;
   usersName: string;
   errorMessage: string;
+  editTitle: boolean = false;
+  editDescription: boolean = false;
   private isDestroyed$ = new Subject();
 
   constructor(
@@ -58,6 +59,26 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         }
       );
   }
+  editFiled(event) {
+    if (event.target.id === 'public') {
+      this.todo.isPublic = !this.todo.isPublic;
+    }
+    if (event.target.id === 'completed') {
+      this.todo.isCompleted = !this.todo.isCompleted;
+    }
+    if (event.target.id === 'important') {
+      this.todo.isImportant = !this.todo.isImportant;
+    }
+  }
+
+  editInput(event) {
+    if (event.target.id === 'title') {
+      this.editTitle = true;
+    }
+    if (event.target.id === 'description') {
+      this.editDescription = true;
+    }
+  }
 
   navigateBack(): void {
     this.router.navigate(['todos']);
@@ -72,10 +93,6 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
       .subscribe(
         () => {
           this.deleteStatus = 'ToDo Deleted!';
-
-          setTimeout(() => {
-            this.router.navigate(['todos']);
-          }, 3000);
         },
         (error) => {
           this.errorMessage = 'Couldnt delete todo';
@@ -88,18 +105,6 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         }
       );
   }
-
-  markImportant(): void {
-    this.todo.isImportant = !this.todo.isImportant;
-  }
-
-  markDone(): void {
-    this.todo.isCompleted = !this.todo.isCompleted;
-  }
-  markPublic(): void {
-    this.todo.isPublic = !this.todo.isPublic;
-  }
-
   edit(): void {
     this.editStatus = 'Editing...';
 
@@ -109,26 +114,14 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
       .subscribe(
         () => {
           this.editStatus = 'Edited!';
-          setInterval(() => {
-            this.showEdit = false;
-            this.editStatus = undefined;
-          }, 3000);
+          this.editDescription = false;
+          this.editTitle = false;
         },
         (error) => {
           this.errorMessage = 'Couldnt edit todo';
           console.log(error);
         }
       );
-
-    this.showEdit = false;
-  }
-
-  onEdit(): void {
-    this.showEdit = true;
-  }
-
-  cancelEditing(): void {
-    this.showEdit = false;
   }
 
   ngOnDestroy(): void {

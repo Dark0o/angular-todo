@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { UserDto } from 'src/app/user/user';
 import { UsersService } from '../../user/users.service';
 
 function comparePasswords(c: AbstractControl): ValidationErrors | null {
@@ -75,14 +76,13 @@ export class SignupComponent implements OnInit, OnDestroy {
       this.signupForm.get('dateOfBirth').value
     ).toISOString();
 
-    const user = {
+    const user: UserDto = {
       firstName: this.signupForm.get('firstName').value,
       lastName: this.signupForm.get('lastName').value,
       email: this.signupForm.get('email').value,
       password: this.signupForm.get('passwordGroup.password').value,
       dateOfBirth,
     };
-    console.log(user);
 
     this.userService
       .addUser(user)

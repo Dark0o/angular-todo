@@ -11,23 +11,30 @@
   <table>
     <tr>
       <td>Title:</td>
-      <td>{{ todo.title }}</td>
+      <td id="title" *ngIf='!editTitle' (click)='editInput($event)' style="cursor: pointer;"> {{ todo.title }}</td>
+      <td *ngIf='editTitle'><input autofocus type="text" [(ngModel)]="todo.title"></td>
     </tr>
     <tr>
       <td>Description:</td>
-      <td>{{ todo.description }}</td>
+      <td id="description" *ngIf='!editDescription' (click)='editInput($event)'>{{ todo.description }}</td>
+      <td *ngIf='editDescription'><input autofocus type="text" [(ngModel)]="todo.description"></td>
+    </tr>
+    <tr>
+      <td>Public:</td>
+      <td id="public" (click)='editFiled($event)' style="cursor: pointer;">{{ todo.isPublic }}</td>
     </tr>
     <tr>
       <td>Important:</td>
-      <td>{{ todo.isImportant }}</td>
+      <td id="important" (click)='editFiled($event)' style="cursor: pointer;">{{ todo.isImportant }}</td>
     </tr>
     <tr>
-      <td>Done:</td>
-      <td>{{ todo.isCompleted }}</td>
+      <td>Completed:</td>
+      <td id="completed" (click)='editFiled($event)' style="cursor: pointer;">{{ todo.isCompleted }}</td>
     </tr>
     <tr>
       <td>Created at:</td>
-      <td>{{ todo.createdAt | date }}</td>
+      <td>{{ todo.createdAt | customDate }}</td>
+
     </tr>
     <tr>
       <td>Author:</td>
@@ -36,38 +43,13 @@
   </table>
   <div class="btns">
     <button (click)="navigateBack()">Back to the list</button>
-    <button *ngIf="showEdit !== true" (click)="onEdit()">Edit</button>
-    <button *ngIf="showEdit === true" (click)="cancelEditing()">
-      Cancel Edit
-    </button>
+    <button (click)="edit()">Save changes</button>
     <button (click)="deleteTodo()">Delete</button>
   </div>
 
   <div>
     <div *ngIf="editStatus">
       <h3>{{ editStatus }}</h3>
-    </div>
-    <div *ngIf="showEdit && editStatus === undefined" class="form">
-      <h3>Edit Todo</h3>
-      <div>
-        <input type="text" placeholder="Title" [(ngModel)]="todo.title" />
-      </div>
-      <div>
-        <input type="text" placeholder="Description" [(ngModel)]="todo.description" />
-      </div>
-      <div class="label">
-        <label>Important</label>
-        <input type="checkbox" [checked]="todo.isImportant" (click)="markImportant()" />
-      </div>
-      <div class="label">
-        <label>Public</label>
-        <input type="checkbox" [checked]="todo.isPublic" (click)="markPublic()" />
-      </div>
-      <div class="label">
-        <label>Done</label>
-        <input type="checkbox" [checked]="todo.isCompleted" (click)="markDone()" />
-      </div>
-      <button (click)="edit()">Save</button>
     </div>
   </div>
 </div>

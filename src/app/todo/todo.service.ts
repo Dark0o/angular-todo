@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TodoDto } from './todo';
+import { Todo, TodoDto } from './todo';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +27,7 @@ export class ToDoService {
     );
   }
 
-  getTodoById(id: string) {
+  getTodoById(id: string): Observable<any> {
     return this.http.get(`${this.url}/${id}.json`);
   }
 
@@ -35,11 +35,11 @@ export class ToDoService {
     return this.http.post(`${this.url}.json`, todo);
   }
 
-  updateTodo(todo) {
+  updateTodo(todo: Todo): Observable<any> {
     return this.http.patch(`${this.url}/${todo.id}.json`, todo);
   }
 
-  deleteTodo(id) {
+  deleteTodo(id: string): Observable<any> {
     return this.http.delete(`${this.url}/${id}.json`);
   }
 }
