@@ -80,10 +80,6 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  navigateBack(): void {
-    this.router.navigate(['todos']);
-  }
-
   deleteTodo(): void {
     this.deleteStatus = 'Deleting...';
 
@@ -122,6 +118,9 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
           console.log(error);
         }
       );
+  }
+  navigateBack(): void {
+    this.router.navigate(['todos']);
   }
 
   ngOnDestroy(): void {
