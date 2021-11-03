@@ -29,15 +29,8 @@ td {
   border: none;
 }
 
-.form {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-}
-
-.form input {
-  margin-top: 5px;
-  height: 20px;
+.clickable {
+  cursor: pointer;
 }
 
 button {
