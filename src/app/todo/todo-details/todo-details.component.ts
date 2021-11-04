@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Todo } from '../todo';
-import { ToDoService } from 'src/app/todo/todo.service';
+import { TodoService } from 'src/app/todo/todo.service';
 import { UsersService } from '../../user/users.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private todoService: ToDoService,
+    private todoService: TodoService,
     private route: ActivatedRoute,
     private usersService: UsersService
   ) {}

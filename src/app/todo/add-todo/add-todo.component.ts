@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TodoDto } from '../todo';
-import { ToDoService } from '../todo.service';
+import { TodoService } from '../todo.service';
 
 @Component({
   selector: 'app-add-todo',
@@ -21,7 +21,7 @@ export class AddTodoComponent implements OnInit, OnDestroy {
   errorMessage: string;
   private isDestroyed$ = new Subject();
 
-  constructor(private todoService: ToDoService, private router: Router) {}
+  constructor(private todoService: TodoService, private router: Router) {}
 
   ngOnInit(): void {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;

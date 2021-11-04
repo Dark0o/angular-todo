@@ -7,7 +7,7 @@ import { Todo, TodoDto } from './todo';
 @Injectable({
   providedIn: 'root',
 })
-export class ToDoService {
+export class TodoService {
   url: string =
     'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/todos';
   usersTodos = [];

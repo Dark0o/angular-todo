@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Todo, TodoDto } from '../todo';
 import { UsersService } from '../../user/users.service';
-import { ToDoService } from '../todo.service';
+import { TodoService } from '../todo.service';
 
 @Component({
   selector: 'app-to-do-list',
@@ -47,7 +47,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
     return this.todoService.usersTodos;
   }
   constructor(
-    private todoService: ToDoService,
+    private todoService: TodoService,
     private usersService: UsersService
   ) {}
 

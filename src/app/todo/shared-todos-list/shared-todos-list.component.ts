@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ToDoService } from 'src/app/todo/todo.service';
+import { TodoService } from 'src/app/todo/todo.service';
 import { UsersService } from 'src/app/user/users.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -23,7 +23,7 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
   private isDestroyed$ = new Subject();
 
   constructor(
-    private todosService: ToDoService,
+    private todosService: TodoService,
     private usersService: UsersService
   ) {}
 
