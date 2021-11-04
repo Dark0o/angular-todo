@@ -3,11 +3,11 @@
   <table>
     <tr>
       <td>Name:</td>
-      <td>{{ user.fullName }}</td>
+      <td>{{ user?.firstName }}</td>
     </tr>
     <tr>
       <td>E-mail:</td>
-      <td>{{ user.email }}</td>
+      <td>{{ user?.email }}</td>
     </tr>
   </table>
   <button (click)='navigateBack()'>Back to the list</button>

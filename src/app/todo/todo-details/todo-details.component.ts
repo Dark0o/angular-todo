@@ -52,7 +52,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         (user) => {
           this.usersName = `${user.firstName} ${user.lastName}`;
         },
-        (error) => {
+        () => {
           this.errorMessage = 'Couldnt get the user!';
         }
       );
@@ -96,7 +96,23 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveEdit() {}
+  saveEdit(): void {
+    console.log('fired');
+    console.log(this.todo);
+
+    this.todoService.updateTodo(this.todo).subscribe(
+      (res) => {
+        console.log(res);
+      },
+      () => {
+        this.errorMessage = 'Updating failed';
+      }
+    );
+    if ((this.editDescription || this.editTitle) === true) {
+      this.editTitle = false;
+      this.editDescription = false;
+    }
+  }
   deleteTodo(): void {
     this.deleteStatus = 'Deleting...';
 
@@ -117,23 +133,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         }
       );
   }
-  edit(): void {
-    this.editStatus = 'Editing...';
 
-    this.todoService
-      .updateTodo(this.todo)
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe(
-        () => {
-          this.editStatus = 'Edited!';
-          this.editDescription = false;
-          this.editTitle = false;
-        },
-        () => {
-          this.errorMessage = 'Couldnt edit todo';
-        }
-      );
-  }
   navigateBack(): void {
     this.router.navigate(['todos']);
   }
