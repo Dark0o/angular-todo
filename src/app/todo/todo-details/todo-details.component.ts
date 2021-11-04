@@ -60,21 +60,27 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
   editFiled(event) {
     if (event.target.id === 'public') {
       this.todo.isPublic = !this.todo.isPublic;
-      this.todoService.updateTodo(this.todo).subscribe(
-        () => {},
-        () => {
-          this.errorMessage = 'Updating failed';
-        }
-      );
+      this.todoService
+        .updateTodo(this.todo)
+        .pipe(takeUntil(this.isDestroyed$))
+        .subscribe(
+          () => {},
+          () => {
+            this.errorMessage = 'Updating failed';
+          }
+        );
     }
     if (event.target.id === 'completed') {
       this.todo.isCompleted = !this.todo.isCompleted;
-      this.todoService.updateTodo(this.todo).subscribe(
-        () => {},
-        () => {
-          this.errorMessage = 'Updating failed';
-        }
-      );
+      this.todoService
+        .updateTodo(this.todo)
+        .pipe(takeUntil(this.isDestroyed$))
+        .subscribe(
+          () => {},
+          () => {
+            this.errorMessage = 'Updating failed';
+          }
+        );
     }
     if (event.target.id === 'important') {
       this.todo.isImportant = !this.todo.isImportant;
@@ -100,14 +106,17 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     console.log('fired');
     console.log(this.todo);
 
-    this.todoService.updateTodo(this.todo).subscribe(
-      (res) => {
-        console.log(res);
-      },
-      () => {
-        this.errorMessage = 'Updating failed';
-      }
-    );
+    this.todoService
+      .updateTodo(this.todo)
+      .pipe(takeUntil(this.isDestroyed$))
+      .subscribe(
+        (res) => {
+          console.log(res);
+        },
+        () => {
+          this.errorMessage = 'Updating failed';
+        }
+      );
     if ((this.editDescription || this.editTitle) === true) {
       this.editTitle = false;
       this.editDescription = false;
