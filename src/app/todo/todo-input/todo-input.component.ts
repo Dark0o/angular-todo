@@ -9,7 +9,7 @@ export class TodoInputComponent {
   todoTitle: string;
   @Output() onToDoAdded = new EventEmitter<string>();
 
-  onAddToDo(todo: string) {
+  onAddToDo(todo: string): void {
     this.onToDoAdded.emit(todo);
     this.todoTitle = '';
   }

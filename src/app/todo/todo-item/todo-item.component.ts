@@ -13,17 +13,17 @@ export class TodoItemComponent {
 
   constructor(private router: Router) {}
 
-  onItemDeleted(todo) {
+  onItemDeleted(todo): void {
     this.itemDeleted.emit(todo);
   }
 
-  toggleCheckbox(todo) {
+  toggleCheckbox(todo): void {
     todo.isCompleted = !todo.isCompleted;
 
     this.itemChecked.emit(todo);
   }
 
-  openToDoDetails(todo) {
+  openToDoDetails(todo): void {
     this.router.navigate([`todos/${todo.id}`], {
       state: this.todoItem,
     });

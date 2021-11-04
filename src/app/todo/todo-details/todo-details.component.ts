@@ -57,7 +57,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         }
       );
   }
-  editFiled(event) {
+  editFiled(event): void {
     if (event.target.id === 'public') {
       this.todo.isPublic = !this.todo.isPublic;
       this.todoService
@@ -96,7 +96,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  editInput(event) {
+  editInput(event): void {
     if (event.target.id === 'title') {
       this.editTitle = true;
     }
