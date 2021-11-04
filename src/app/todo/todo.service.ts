@@ -14,7 +14,7 @@ export class ToDoService {
 
   constructor(private http: HttpClient) {}
 
-  getTodos(id?): Observable<any> {
+  getTodos(id?: string): Observable<any> {
     return this.http.get(`${this.url}.json`).pipe(
       map((responseData) => {
         const todos = [];
@@ -22,6 +22,7 @@ export class ToDoService {
           todos.push({ ...responseData[key], id: key });
           this.usersTodos = todos.filter((todo) => todo.userID === id);
         }
+
         return todos;
       })
     );

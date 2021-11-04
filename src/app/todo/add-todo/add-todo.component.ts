@@ -12,7 +12,7 @@ import { ToDoService } from '../todo.service';
 })
 export class AddTodoComponent implements OnInit, OnDestroy {
   title: string;
-  description: string;
+  description: string = '';
   important: boolean = false;
   completed: boolean = false;
   public: boolean = false;
@@ -58,9 +58,8 @@ export class AddTodoComponent implements OnInit, OnDestroy {
 
           this.addingNewTodoStatus = 'Added!';
         },
-        (error) => {
+        () => {
           this.errorMessage = 'Adding todo failed';
-          console.log(error);
         }
       );
 

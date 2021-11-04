@@ -29,7 +29,6 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
 
   // TODO revisit all this functionallity
   ngOnInit(): void {
-    console.log(this.usersService.users);
     if (this.usersService.users.length === 0) {
       this.usersService
         .getSignedUpUsers()
@@ -43,13 +42,11 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
               this.sharedTodos = todos.filter(
                 (todo: Todo) => todo.isPublic === true
               );
-              console.log(this.sharedTodos);
 
               this.sharedTodos.map((todo) => {
                 const foundUser = this.usersService.users.find(
                   (user) => user.id === todo.userID
                 );
-                console.log(foundUser);
 
                 if (foundUser) {
                   todo.fullName = `${foundUser.firstName} ${foundUser.lastName}`;
@@ -66,13 +63,11 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
           this.sharedTodos = todos.filter(
             (todo: Todo) => todo.isPublic === true
           );
-          console.log(this.sharedTodos);
 
           this.sharedTodos.map((todo) => {
             const foundUser = this.usersService.users.find(
               (user) => user.id === todo.userID
             );
-            console.log(foundUser);
 
             if (foundUser) {
               todo.fullName = `${foundUser.firstName} ${foundUser.lastName}`;

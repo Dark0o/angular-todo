@@ -53,6 +53,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;
+
     this.todoService
       .getTodos(this.userId)
       .pipe(takeUntil(this.isDestroyed$))
@@ -65,9 +66,8 @@ export class TodoListComponent implements OnInit, OnDestroy {
           }
           this.loadingState = false;
         },
-        (error) => {
+        () => {
           this.errorMessage = 'Couldnt get todos';
-          console.log(error);
         }
       );
     this.usersService
@@ -77,9 +77,8 @@ export class TodoListComponent implements OnInit, OnDestroy {
         (user) => {
           this.usersHeading = `${user.firstName}'s Todo list`;
         },
-        (error) => {
+        () => {
           this.errorMessage = 'Couldnt get the users';
-          console.log(error);
         }
       );
   }
@@ -166,8 +165,6 @@ export class TodoListComponent implements OnInit, OnDestroy {
   }
 
   addTodo(title): void {
-    console.log(title);
-
     const todo: TodoDto = {
       title: title,
       description: this.description,
@@ -193,9 +190,8 @@ export class TodoListComponent implements OnInit, OnDestroy {
             userID: this.userId,
           });
         },
-        (error) => {
+        () => {
           this.errorMessage = 'Adding todo failed';
-          console.log(error);
         }
       );
   }
@@ -208,12 +204,9 @@ export class TodoListComponent implements OnInit, OnDestroy {
       .deleteTodo(todo.id)
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
+        () => {},
+        () => {
           this.errorMessage = 'Deleting failed';
-          console.log(error);
         },
         () => (this.todoService.usersTodos = this.filteredTodos)
       );
@@ -224,12 +217,9 @@ export class TodoListComponent implements OnInit, OnDestroy {
       .updateTodo(todo)
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
+        () => {},
+        () => {
           this.errorMessage = 'Updating failed';
-          console.log(error);
         }
       );
   }

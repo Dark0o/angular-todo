@@ -40,9 +40,8 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         (todo: Todo) => {
           this.todo = todo;
         },
-        (error) => {
+        () => {
           this.errorMessage = 'Couldnt get todo!';
-          console.log(error);
         }
       );
 
@@ -55,19 +54,36 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         },
         (error) => {
           this.errorMessage = 'Couldnt get the user!';
-          console.log(error);
         }
       );
   }
   editFiled(event) {
     if (event.target.id === 'public') {
       this.todo.isPublic = !this.todo.isPublic;
+      this.todoService.updateTodo(this.todo).subscribe(
+        () => {},
+        () => {
+          this.errorMessage = 'Updating failed';
+        }
+      );
     }
     if (event.target.id === 'completed') {
       this.todo.isCompleted = !this.todo.isCompleted;
+      this.todoService.updateTodo(this.todo).subscribe(
+        () => {},
+        () => {
+          this.errorMessage = 'Updating failed';
+        }
+      );
     }
     if (event.target.id === 'important') {
       this.todo.isImportant = !this.todo.isImportant;
+      this.todoService.updateTodo(this.todo).subscribe(
+        () => {},
+        () => {
+          this.errorMessage = 'Updating failed';
+        }
+      );
     }
   }
 
@@ -80,6 +96,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  saveEdit() {}
   deleteTodo(): void {
     this.deleteStatus = 'Deleting...';
 
@@ -90,9 +107,8 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         () => {
           this.deleteStatus = 'ToDo Deleted!';
         },
-        (error) => {
+        () => {
           this.errorMessage = 'Couldnt delete todo';
-          console.log(error);
         },
         () => {
           this.todoService.usersTodos = this.todoService.usersTodos.filter(
@@ -113,9 +129,8 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
           this.editDescription = false;
           this.editTitle = false;
         },
-        (error) => {
+        () => {
           this.errorMessage = 'Couldnt edit todo';
-          console.log(error);
         }
       );
   }
