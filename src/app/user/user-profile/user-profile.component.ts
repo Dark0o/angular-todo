@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { UsersService } from '../users.service';
 
 @Component({
@@ -17,9 +18,12 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;
-    this.usersService.getUserById(this.userId).subscribe((user) => {
-      this.user = user;
-    });
+    this.usersService
+      .getUserById(this.userId)
+      .pipe(takeUntil(this.isDestroyed$))
+      .subscribe((user) => {
+        this.user = user;
+      });
   }
 
   navigateBack() {

@@ -1,16 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsersService } from '../../user/users.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnInit {
   isLoggedIn: boolean;
   loggedInUser: string = 'user';
   user;
 
-  constructor(private userService: UsersService, private router: Router) {
+  constructor(private userService: UsersService, private router: Router) {}
+
+  ngOnInit(): void {
     let user = JSON.parse(localStorage.getItem(this.loggedInUser));
 
     if (user !== null) {
@@ -42,7 +44,7 @@ export class AuthService {
     return this.isLoggedIn;
   }
 
-  logoutUser() {
+  logoutUser(): void {
     this.isLoggedIn = false;
     localStorage.removeItem(this.loggedInUser);
   }

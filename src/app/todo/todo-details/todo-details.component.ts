@@ -84,12 +84,15 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     }
     if (event.target.id === 'important') {
       this.todo.isImportant = !this.todo.isImportant;
-      this.todoService.updateTodo(this.todo).subscribe(
-        () => {},
-        () => {
-          this.errorMessage = 'Updating failed';
-        }
-      );
+      this.todoService
+        .updateTodo(this.todo)
+        .pipe(takeUntil(this.isDestroyed$))
+        .subscribe(
+          () => {},
+          () => {
+            this.errorMessage = 'Updating failed';
+          }
+        );
     }
   }
 
