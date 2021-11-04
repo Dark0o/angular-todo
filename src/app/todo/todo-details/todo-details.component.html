@@ -11,25 +11,26 @@
   <table>
     <tr>
       <td>Title:</td>
-      <td id="title" *ngIf='!editTitle' (click)='editInput($event)' style="cursor: pointer;"> {{ todo.title }}</td>
+      <td id="title" class="clickable" *ngIf='!editTitle' (click)='editInput($event)'> {{ todo.title }}</td>
       <td *ngIf='editTitle'><input autofocus type="text" [(ngModel)]="todo.title"></td>
     </tr>
     <tr>
       <td>Description:</td>
-      <td id="description" *ngIf='!editDescription' (click)='editInput($event)'>{{ todo.description }}</td>
+      <td id="description" class="clickable" *ngIf='!editDescription' (click)='editInput($event)'>{{ todo.description }}
+      </td>
       <td *ngIf='editDescription'><input autofocus type="text" [(ngModel)]="todo.description"></td>
     </tr>
     <tr>
       <td>Public:</td>
-      <td id="public" (click)='editFiled($event)' style="cursor: pointer;">{{ todo.isPublic }}</td>
+      <td id="public" class="clickable" (click)='editFiled($event)'>{{ todo.isPublic }}</td>
     </tr>
     <tr>
       <td>Important:</td>
-      <td id="important" (click)='editFiled($event)' style="cursor: pointer;">{{ todo.isImportant }}</td>
+      <td id="important" class="clickable" (click)='editFiled($event)'>{{ todo.isImportant }}</td>
     </tr>
     <tr>
       <td>Completed:</td>
-      <td id="completed" (click)='editFiled($event)' style="cursor: pointer;">{{ todo.isCompleted }}</td>
+      <td id="completed" class="clickable" (click)='editFiled($event)'>{{ todo.isCompleted }}</td>
     </tr>
     <tr>
       <td>Created at:</td>
