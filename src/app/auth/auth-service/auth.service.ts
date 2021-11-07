@@ -1,18 +1,16 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsersService } from '../../user/users.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService implements OnInit {
+export class AuthService {
   isLoggedIn: boolean;
   loggedInUser: string = 'user';
   user;
 
-  constructor(private userService: UsersService, private router: Router) {}
-
-  ngOnInit(): void {
+  constructor(private userService: UsersService, private router: Router) {
     let user = JSON.parse(localStorage.getItem(this.loggedInUser));
 
     if (user !== null) {

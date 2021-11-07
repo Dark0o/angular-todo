@@ -214,7 +214,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
 
   onItemChecked(todo): void {
     this.todoService
-      .updateTodo(todo)
+      .updateTodo({ isCompleted: todo.isCompleted }, todo.id)
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         () => {},

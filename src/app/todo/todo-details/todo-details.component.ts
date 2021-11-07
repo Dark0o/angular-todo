@@ -38,7 +38,12 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         (todo: Todo) => {
+          if (todo === null) {
+            this.errorMessage = 'Couldnt get todo!';
+          }
           this.todo = todo;
+          console.log(this.todo);
+          console.log(this.route.snapshot.params.id);
         },
         () => {
           this.errorMessage = 'Couldnt get todo!';
@@ -61,7 +66,10 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     if (event.target.id === 'public') {
       this.todo.isPublic = !this.todo.isPublic;
       this.todoService
-        .updateTodo(this.todo)
+        .updateTodo(
+          { isPublic: this.todo.isPublic },
+          this.route.snapshot.params.id
+        )
         .pipe(takeUntil(this.isDestroyed$))
         .subscribe(
           () => {},
@@ -73,7 +81,10 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     if (event.target.id === 'completed') {
       this.todo.isCompleted = !this.todo.isCompleted;
       this.todoService
-        .updateTodo(this.todo)
+        .updateTodo(
+          { isCompleted: this.todo.isCompleted },
+          this.route.snapshot.params.id
+        )
         .pipe(takeUntil(this.isDestroyed$))
         .subscribe(
           () => {},
@@ -85,7 +96,10 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     if (event.target.id === 'important') {
       this.todo.isImportant = !this.todo.isImportant;
       this.todoService
-        .updateTodo(this.todo)
+        .updateTodo(
+          { isImportant: this.todo.isImportant },
+          this.route.snapshot.params.id
+        )
         .pipe(takeUntil(this.isDestroyed$))
         .subscribe(
           () => {},
@@ -105,31 +119,49 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveEdit(): void {
-    console.log('fired');
-    console.log(this.todo);
+  saveEdit(event): void {
+    if (event.target.id === 'titleInput') {
+      console.log(this.todo.title);
+      this.todoService
+        .updateTodo({ title: this.todo.title }, this.route.snapshot.params.id)
+        .pipe(takeUntil(this.isDestroyed$))
+        .subscribe(
+          (res) => {
+            console.log(res);
+          },
+          () => {
+            this.errorMessage = 'Updating failed';
+          }
+        );
+    }
+    if (event.target.id === 'descriptionInput') {
+      this.todoService
+        .updateTodo(
+          { description: this.todo.description },
+          this.route.snapshot.params.id
+        )
+        .pipe(takeUntil(this.isDestroyed$))
+        .subscribe(
+          (res) => {
+            console.log(res);
+          },
+          () => {
+            this.errorMessage = 'Updating failed';
+          }
+        );
+    }
 
-    this.todoService
-      .updateTodo(this.todo)
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe(
-        (res) => {
-          console.log(res);
-        },
-        () => {
-          this.errorMessage = 'Updating failed';
-        }
-      );
     if ((this.editDescription || this.editTitle) === true) {
       this.editTitle = false;
       this.editDescription = false;
     }
   }
+
   deleteTodo(): void {
     this.deleteStatus = 'Deleting...';
 
     this.todoService
-      .deleteTodo(this.todo.id)
+      .deleteTodo(this.route.snapshot.params.id)
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         () => {

@@ -36,8 +36,8 @@ export class TodoService {
     return this.http.post(`${this.url}.json`, todo);
   }
 
-  updateTodo(todo: Todo): Observable<any> {
-    return this.http.patch(`${this.url}/${todo.id}.json`, todo);
+  updateTodo(todoProperty, todoId): Observable<any> {
+    return this.http.patch(`${this.url}/${todoId}.json`, todoProperty);
   }
 
   deleteTodo(id: string): Observable<any> {

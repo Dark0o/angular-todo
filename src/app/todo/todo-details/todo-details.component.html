@@ -12,14 +12,16 @@
     <tr>
       <td>Title:</td>
       <td id="title" class="clickable" *ngIf='!editTitle' (click)='editInput($event)'> {{ todo?.title }}</td>
-      <td *ngIf='editTitle'><input autofocus (focusout)="saveEdit()" type="text" [(ngModel)]="todo.title"></td>
+      <td *ngIf='editTitle'><input id="titleInput" autofocus (focusout)="saveEdit($event)" type="text"
+          [(ngModel)]="todo.title"></td>
     </tr>
     <tr>
       <td>Description:</td>
       <td id="description" class="clickable" *ngIf='!editDescription' (click)='editInput($event)'>
         {{ todo?.description }}
       </td>
-      <td *ngIf='editDescription'><input autofocus (focusout)="saveEdit()" type="text" [(ngModel)]="todo.description">
+      <td *ngIf='editDescription'><input id="descriptionInput" autofocus (focusout)="saveEdit($event)" type="text"
+          [(ngModel)]="todo.description">
       </td>
     </tr>
     <tr>
