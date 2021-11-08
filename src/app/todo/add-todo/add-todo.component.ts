@@ -44,9 +44,9 @@ export class AddTodoComponent implements OnInit, OnDestroy {
       .addTodo(todo)
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
-        (data) => {
+        (responseData) => {
           this.todoService.usersTodos.push({
-            id: data.name,
+            id: responseData.name,
             title: this.title,
             description: this.description,
             isImportant: this.important,

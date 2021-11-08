@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/user/user';
 import { UsersService } from '../../user/users.service';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { UsersService } from '../../user/users.service';
 export class AuthService {
   isLoggedIn: boolean;
   loggedInUser: string = 'user';
-  user;
+  user: User;
 
   constructor(private userService: UsersService, private router: Router) {
     let user = JSON.parse(localStorage.getItem(this.loggedInUser));

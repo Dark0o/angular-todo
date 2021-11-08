@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { User } from '../user/user';
 import { Todo, TodoDto } from './todo';
 
 @Injectable({
@@ -10,20 +11,46 @@ import { Todo, TodoDto } from './todo';
 export class TodoService {
   url: string =
     'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/todos';
-  usersTodos = [];
+  usersTodos: Todo[] = [];
+  sharedTodos: Todo[] = [];
 
   constructor(private http: HttpClient) {}
 
-  getTodos(id?: string): Observable<any> {
+  getUsersTodos(id: string): Observable<Todo[]> {
+    if (this.usersTodos.length > 0) {
+      console.log('if happened');
+
+      return of(this.usersTodos);
+    }
     return this.http.get(`${this.url}.json`).pipe(
       map((responseData) => {
-        const todos = [];
+        console.log('else happened');
         for (const key in responseData) {
-          todos.push({ ...responseData[key], id: key });
-          this.usersTodos = todos.filter((todo) => todo.userID === id);
+          this.usersTodos.push({ ...responseData[key], id: key });
         }
+        this.usersTodos = this.usersTodos.filter((todo) => todo.userID === id);
 
-        return todos;
+        return this.usersTodos;
+      })
+    );
+  }
+
+  getSharedTodos(): Observable<any> {
+    if (this.sharedTodos.length > 0) {
+      console.log('if happened');
+      return of(this.sharedTodos);
+    }
+    return this.http.get(`${this.url}.json`).pipe(
+      map((responseData) => {
+        console.log('else happened');
+
+        for (const key in responseData) {
+          this.sharedTodos.push({ ...responseData[key], id: key });
+        }
+        this.sharedTodos = this.sharedTodos.filter(
+          (todo: Todo) => todo.isPublic === true
+        );
+        return this.sharedTodos;
       })
     );
   }

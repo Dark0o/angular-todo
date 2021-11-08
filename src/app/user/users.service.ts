@@ -16,10 +16,13 @@ export class UsersService {
 
   getSignedUpUsers(): Observable<any> {
     if (this.users.length > 0) {
+      console.log('if happened');
+
       return of(this.users);
     }
     return this.http.get(`${this.url}.json`).pipe(
       map((data) => {
+        console.log('else happened');
         for (const key in data) {
           this.users.push({ ...data[key], id: key });
         }

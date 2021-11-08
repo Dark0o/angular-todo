@@ -12,7 +12,7 @@ import { Todo } from '../todo';
 })
 export class SharedTodosListComponent implements OnInit, OnDestroy {
   todo: Todo;
-  sharedTodos = [];
+  sharedTodos: Todo[] = [];
   displayedColumns: string[] = [
     'title',
     'description',
@@ -29,53 +29,26 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
 
   // TODO revisit all this functionallity
   ngOnInit(): void {
-    if (this.usersService.users.length === 0) {
-      this.usersService
-        .getSignedUpUsers()
-        .pipe(takeUntil(this.isDestroyed$))
-        .subscribe((users) => {
-          this.usersService.users = users;
-          this.todosService
-            .getTodos()
-            .pipe(takeUntil(this.isDestroyed$))
-            .subscribe((todos) => {
-              this.sharedTodos = todos.filter(
-                (todo: Todo) => todo.isPublic === true
-              );
+    this.usersService
+      .getSignedUpUsers()
+      .pipe(takeUntil(this.isDestroyed$))
+      .subscribe(() => {});
 
-              this.sharedTodos.map((todo) => {
-                const foundUser = this.usersService.users.find(
-                  (user) => user.id === todo.userID
-                );
-
-                if (foundUser) {
-                  todo.fullName = `${foundUser.firstName} ${foundUser.lastName}`;
-                }
-                return todo;
-              });
-            });
-        });
-    } else {
-      this.todosService
-        .getTodos()
-        .pipe(takeUntil(this.isDestroyed$))
-        .subscribe((todos) => {
-          this.sharedTodos = todos.filter(
-            (todo: Todo) => todo.isPublic === true
+    this.todosService
+      .getSharedTodos()
+      .pipe(takeUntil(this.isDestroyed$))
+      .subscribe((todos) => {
+        this.sharedTodos = todos.map((todo) => {
+          const foundUser = this.usersService.users.find(
+            (user) => user.id === todo.userID
           );
-
-          this.sharedTodos.map((todo) => {
-            const foundUser = this.usersService.users.find(
-              (user) => user.id === todo.userID
-            );
-
-            if (foundUser) {
-              todo.fullName = `${foundUser.firstName} ${foundUser.lastName}`;
-            }
-            return todo;
-          });
+          if (foundUser) {
+            todo.fullName = `${foundUser.firstName} ${foundUser.lastName}`;
+          }
+          return todo;
         });
-    }
+        console.log(this.sharedTodos);
+      });
   }
 
   ngOnDestroy(): void {

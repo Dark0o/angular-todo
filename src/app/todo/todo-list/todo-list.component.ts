@@ -55,7 +55,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;
 
     this.todoService
-      .getTodos(this.userId)
+      .getUsersTodos(this.userId)
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         () => {
@@ -185,6 +185,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
             description: this.description,
             isImportant: this.important,
             isCompleted: this.completed,
+            isPublic: this.isPublic,
             id: response.name,
             createdAt: new Date().toISOString(),
             userID: this.userId,

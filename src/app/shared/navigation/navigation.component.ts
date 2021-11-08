@@ -23,7 +23,7 @@ export class NavigationComponent {
     this.router.navigate(['todos']);
   }
 
-  hasRoute(route): boolean {
+  hasRoute(route: string): boolean {
     if (this.router.url === route) {
       return true;
     }
