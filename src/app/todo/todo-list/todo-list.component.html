@@ -12,7 +12,7 @@
   </div>
   <div class="inputs">
     <input type="text" [(ngModel)]="filter" placeholder="Search ToDo..." />
-    <app-to-do-input (onToDoAdded)="addTodo($event)"></app-to-do-input>
+    <app-todo-input (onToDoAdded)="addTodo($event)"></app-todo-input>
   </div>
   <div class="inputs">
     <label for="">Show Important:
@@ -40,11 +40,11 @@
     </div>
     <div class="column">
       <h2>Done</h2>
-      <button (click)="sortDone()"><img [ngClass]="{'rotated': sortingFlags.sortDone}" src="./assets/img/arrow.svg"
+      <button (click)="sortCompleted()"><img [ngClass]="{'rotated': sortingFlags.sortDone}" src="./assets/img/arrow.svg"
           alt=""></button>
     </div>
   </div>
 
-  <app-to-do-item *ngFor="let todo of filteredTodos" [todoItem]="todo" (itemDeleted)="onDelete($event)"
-    (itemChecked)="onItemChecked($event)"></app-to-do-item>
+  <app-todo-item *ngFor="let todo of filteredTodos" [todoItem]="todo" (itemDeleted)="onDelete($event)"
+    (itemChecked)="onItemChecked($event)"></app-todo-item>
 </div>

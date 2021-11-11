@@ -11,17 +11,9 @@ export class AuthService {
   loggedInUser: string = 'user';
   user: User;
 
-  constructor(private userService: UsersService, private router: Router) {
-    let user = JSON.parse(localStorage.getItem(this.loggedInUser));
+  constructor(private userService: UsersService, private router: Router) {}
 
-    if (user !== null) {
-      this.isLoggedIn = user.isUserLoggedIn;
-    } else {
-      this.isLoggedIn = false;
-    }
-  }
-
-  login(email: string, password: string) {
+  login(email: string, password: string): void {
     if (this.userService.userExists(email, password)) {
       this.isLoggedIn = true;
       localStorage.setItem(
@@ -32,15 +24,13 @@ export class AuthService {
           userId: this.userService.userExists(email, password).id,
         })
       );
-
       this.router.navigate(['todos']);
-
-      return this.isLoggedIn;
     } else alert('Incorrect email or password!');
   }
 
   isUserLoggedIn(): boolean {
-    return this.isLoggedIn;
+    if (JSON.parse(localStorage.getItem(this.loggedInUser))) return true;
+    else return false;
   }
 
   logoutUser(): void {

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-to-do-input',
+  selector: 'app-todo-input',
   templateUrl: './todo-input.component.html',
   styleUrls: ['./todo-input.component.scss'],
 })

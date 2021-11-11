@@ -62,7 +62,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         }
       );
   }
-  editFiled(event): void {
+  editFiled(event: { target: { id: string } }): void {
     if (event.target.id === 'public') {
       this.todo.isPublic = !this.todo.isPublic;
       this.todoService
@@ -110,7 +110,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  editInput(event): void {
+  editInput(event: { target: { id: string } }): void {
     if (event.target.id === 'title') {
       this.editTitle = true;
     }
@@ -119,7 +119,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveEdit(event): void {
+  saveEdit(event: { target: { id: string } }): void {
     if (event.target.id === 'titleInput') {
       console.log(this.todo.title);
       this.todoService

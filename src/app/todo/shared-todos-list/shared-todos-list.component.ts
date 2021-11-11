@@ -45,7 +45,7 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
     this.todosService
       .getSharedTodos()
       .pipe(
-        mergeMap((todos) => {
+        mergeMap((todos: Todo[]) => {
           return of(
             todos.map((todo: Todo) => {
               const foundUser: User = this.usersService.users.find(
