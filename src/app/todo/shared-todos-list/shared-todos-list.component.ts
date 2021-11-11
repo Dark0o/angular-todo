@@ -1,9 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TodoService } from 'src/app/todo/todo.service';
 import { UsersService } from 'src/app/user/users.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { mergeMap, takeUntil } from 'rxjs/operators';
 import { Todo } from '../todo';
+import { User } from 'src/app/user/user';
+
+interface SharedTodo {
+  title: string;
+  description: string;
+  createdAt: string;
+  usersName: string;
+}
 
 @Component({
   selector: 'app-shared-todos-list',
@@ -12,7 +20,7 @@ import { Todo } from '../todo';
 })
 export class SharedTodosListComponent implements OnInit, OnDestroy {
   todo: Todo;
-  sharedTodos: Todo[] = [];
+  sharedTodos: SharedTodo[] = [];
   displayedColumns: string[] = [
     'title',
     'description',
@@ -32,21 +40,33 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
     this.usersService
       .getSignedUpUsers()
       .pipe(takeUntil(this.isDestroyed$))
-      .subscribe(() => {});
+      .subscribe();
 
     this.todosService
       .getSharedTodos()
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe((todos) => {
-        this.sharedTodos = todos.map((todo) => {
-          const foundUser = this.usersService.users.find(
-            (user) => user.id === todo.userID
+      .pipe(
+        mergeMap((todos) => {
+          return of(
+            todos.map((todo: Todo) => {
+              const foundUser: User = this.usersService.users.find(
+                (user) => user.id === todo.userID
+              );
+              if (foundUser) {
+                const sharedTodo: SharedTodo = {
+                  title: todo.title,
+                  description: todo.description,
+                  createdAt: todo.createdAt,
+                  usersName: `${foundUser.firstName} ${foundUser.lastName}`,
+                };
+                return sharedTodo;
+              }
+            })
           );
-          if (foundUser) {
-            todo.fullName = `${foundUser.firstName} ${foundUser.lastName}`;
-          }
-          return todo;
-        });
+        }),
+        takeUntil(this.isDestroyed$)
+      )
+      .subscribe((todos) => {
+        this.sharedTodos = todos;
         console.log(this.sharedTodos);
       });
   }
