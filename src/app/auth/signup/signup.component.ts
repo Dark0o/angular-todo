@@ -16,11 +16,11 @@ function comparePasswords(c: AbstractControl): ValidationErrors | null {
   const password = c.get('password');
   const confirmPassword = c.get('confirmPassword');
 
-  if (password.pristine || confirmPassword.pristine) {
+  if (password!.pristine || confirmPassword!.pristine) {
     return null;
   }
 
-  if (password.value === confirmPassword.value) {
+  if (password!.value === confirmPassword!.value) {
     return null;
   }
   return { match: true };
@@ -32,10 +32,10 @@ function comparePasswords(c: AbstractControl): ValidationErrors | null {
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit, OnDestroy {
-  signupForm: FormGroup;
+  signupForm!: FormGroup;
   regex = /\d/;
-  warningMessage: string;
-  signedUpMessage: string;
+  warningMessage!: string;
+  signedUpMessage!: string;
   private isDestroyed$ = new Subject();
 
   constructor(
@@ -73,14 +73,14 @@ export class SignupComponent implements OnInit, OnDestroy {
       return;
     }
     const dateOfBirth: string = new Date(
-      this.signupForm.get('dateOfBirth').value
+      this.signupForm.get('dateOfBirth')!.value
     ).toISOString();
 
     const user: User = {
-      firstName: this.signupForm.get('firstName').value,
-      lastName: this.signupForm.get('lastName').value,
-      email: this.signupForm.get('email').value,
-      password: this.signupForm.get('passwordGroup.password').value,
+      firstName: this.signupForm.get('firstName')!.value,
+      lastName: this.signupForm.get('lastName')!.value,
+      email: this.signupForm.get('email')!.value,
+      password: this.signupForm.get('passwordGroup.password')!.value,
       dateOfBirth,
     };
 

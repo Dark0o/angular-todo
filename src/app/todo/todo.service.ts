@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Todo, TodoDto } from './todo';
+interface Response {
+  [key: string]: string | undefined;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +24,7 @@ export class TodoService {
 
       return of(this.usersTodos);
     }
-    return this.http.get(`${this.url}.json`).pipe(
+    return this.http.get<Todo>(`${this.url}.json`).pipe(
       map((responseData) => {
         console.log('else happened');
         for (const key in responseData) {
@@ -62,7 +65,10 @@ export class TodoService {
     return this.http.post<Todo>(`${this.url}.json`, todo);
   }
 
-  updateTodo(todoProperty, todoId: string): Observable<Todo> {
+  updateTodo(
+    todoProperty: { key: string | boolean },
+    todoId: string
+  ): Observable<Todo> {
     return this.http.patch<Todo>(`${this.url}/${todoId}.json`, todoProperty);
   }
 

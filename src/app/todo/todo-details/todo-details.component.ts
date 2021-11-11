@@ -12,13 +12,13 @@ import { UsersService } from '../../user/users.service';
   styleUrls: ['./todo-details.component.scss'],
 })
 export class TodoDetailsComponent implements OnInit, OnDestroy {
-  todo: Todo;
-  date: string;
-  editStatus: string;
-  deleteStatus: string;
-  userId: string;
-  usersName: string;
-  errorMessage: string;
+  todo!: Todo;
+  date!: string;
+  editStatus!: string;
+  deleteStatus!: string;
+  userId!: string;
+  usersName!: string;
+  errorMessage!: string;
   editTitle: boolean = false;
   editDescription: boolean = false;
   private isDestroyed$ = new Subject();
@@ -34,17 +34,16 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     this.userId = JSON.parse(localStorage.getItem('user')).userId;
 
     this.todoService
-      .getTodoById(this.route.snapshot.params.id)
+      .getTodoById(this.route.snapshot.params['id'])
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         (todo: Todo) => {
-          console.log(todo);
           if (todo === null) {
             this.errorMessage = 'Couldnt get todo!';
           }
           this.todo = todo;
           console.log(this.todo);
-          console.log(this.route.snapshot.params.id);
+          console.log(this.route.snapshot.params['id']);
         },
         () => {
           this.errorMessage = 'Couldnt get todo!';
@@ -63,13 +62,14 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         }
       );
   }
-  editFiled(event: { target: { id: string } }): void {
-    if (event.target.id === 'public') {
+  editFiled(event: MouseEvent): void {
+    const target = event.target as HTMLTableCellElement;
+    if (target.id === 'public') {
       this.todo.isPublic = !this.todo.isPublic;
       this.todoService
         .updateTodo(
           { isPublic: this.todo.isPublic },
-          this.route.snapshot.params.id
+          this.route.snapshot.params['id']
         )
         .pipe(takeUntil(this.isDestroyed$))
         .subscribe(
@@ -79,12 +79,12 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
           }
         );
     }
-    if (event.target.id === 'completed') {
+    if (target.id === 'completed') {
       this.todo.isCompleted = !this.todo.isCompleted;
       this.todoService
         .updateTodo(
           { isCompleted: this.todo.isCompleted },
-          this.route.snapshot.params.id
+          this.route.snapshot.params['id']
         )
         .pipe(takeUntil(this.isDestroyed$))
         .subscribe(
@@ -94,12 +94,12 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
           }
         );
     }
-    if (event.target.id === 'important') {
+    if (target.id === 'important') {
       this.todo.isImportant = !this.todo.isImportant;
       this.todoService
         .updateTodo(
           { isImportant: this.todo.isImportant },
-          this.route.snapshot.params.id
+          this.route.snapshot.params['id']
         )
         .pipe(takeUntil(this.isDestroyed$))
         .subscribe(
@@ -111,20 +111,25 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  editInput(event: { target: { id: string } }): void {
-    if (event.target.id === 'title') {
+  editInput(event: MouseEvent): void {
+    const target = event.target as HTMLTableCellElement;
+    if (target.id === 'title') {
       this.editTitle = true;
     }
-    if (event.target.id === 'description') {
+    if (target.id === 'description') {
       this.editDescription = true;
     }
   }
 
-  saveEdit(event: { target: { id: string } }): void {
-    if (event.target.id === 'titleInput') {
+  saveEdit(event: FocusEvent): void {
+    const target = event.target as HTMLTableCellElement;
+    if (target.id === 'titleInput') {
       console.log(this.todo.title);
       this.todoService
-        .updateTodo({ title: this.todo.title }, this.route.snapshot.params.id)
+        .updateTodo(
+          { title: this.todo.title },
+          this.route.snapshot.params['id']
+        )
         .pipe(takeUntil(this.isDestroyed$))
         .subscribe(
           (res) => {
@@ -135,11 +140,11 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
           }
         );
     }
-    if (event.target.id === 'descriptionInput') {
+    if (target.id === 'descriptionInput') {
       this.todoService
         .updateTodo(
           { description: this.todo.description },
-          this.route.snapshot.params.id
+          this.route.snapshot.params['id']
         )
         .pipe(takeUntil(this.isDestroyed$))
         .subscribe(
@@ -162,7 +167,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
     this.deleteStatus = 'Deleting...';
 
     this.todoService
-      .deleteTodo(this.route.snapshot.params.id)
+      .deleteTodo(this.route.snapshot.params['id'])
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         () => {

@@ -11,20 +11,20 @@ import { TodoService } from '../todo.service';
   styleUrls: ['./add-todo.component.scss'],
 })
 export class AddTodoComponent implements OnInit, OnDestroy {
-  title: string;
+  title!: string;
   description: string = '';
   important: boolean = false;
   completed: boolean = false;
   public: boolean = false;
-  userId: string;
-  addingNewTodoStatus: string;
-  errorMessage: string;
+  userId!: string;
+  addingNewTodoStatus!: string;
+  errorMessage!: string;
   private isDestroyed$ = new Subject();
 
   constructor(private todoService: TodoService, private router: Router) {}
 
   ngOnInit(): void {
-    this.userId = JSON.parse(localStorage.getItem('user')).userId;
+    this.userId = JSON.parse(localStorage.getItem('user')!).userId;
   }
 
   addNewTodo(): void {
@@ -46,7 +46,7 @@ export class AddTodoComponent implements OnInit, OnDestroy {
       .subscribe(
         (responseData) => {
           this.todoService.usersTodos.push({
-            id: responseData.name,
+            id: responseData.name!,
             title: this.title,
             description: this.description,
             isImportant: this.important,

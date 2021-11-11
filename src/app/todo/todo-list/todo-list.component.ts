@@ -12,11 +12,11 @@ import { TodoService } from '../todo.service';
 })
 export class TodoListComponent implements OnInit, OnDestroy {
   completed = false;
-  date: string;
+  date!: string;
   important = false;
   description: string = '';
   isPublic: boolean = false;
-  userId: string;
+  userId!: string;
   filteredTodos: Todo[] = [];
   toggleImp: boolean = false;
   toggleComplete: boolean = false;
@@ -28,11 +28,11 @@ export class TodoListComponent implements OnInit, OnDestroy {
     sortImportant: true,
     sortDone: true,
   };
-  errorMessage: string = null;
-  usersHeading: string;
+  errorMessage: string = '';
+  usersHeading!: string;
   private isDestroyed$ = new Subject();
 
-  private _filter: string;
+  private _filter!: string;
 
   get filter() {
     return this._filter;
@@ -190,7 +190,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
             isImportant: this.important,
             isCompleted: this.completed,
             isPublic: this.isPublic,
-            id: response.name,
+            id: response.name!,
             createdAt: new Date().toISOString(),
             userID: this.userId,
           });

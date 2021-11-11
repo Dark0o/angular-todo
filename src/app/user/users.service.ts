@@ -38,7 +38,6 @@ export class UsersService {
     if (this.users.length > 0) {
       if (!!this.loggedInUser(user.email, user.password)) {
         alert('User already exists, please Log In');
-        return;
       }
     }
     return this.http.post<User>(`${this.url}.json`, user);

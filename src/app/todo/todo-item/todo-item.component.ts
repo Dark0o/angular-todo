@@ -8,7 +8,7 @@ import { Todo } from '../todo';
   styleUrls: ['./todo-item.component.scss'],
 })
 export class TodoItemComponent {
-  @Input() todoItem: Todo;
+  @Input() todoItem!: Todo;
   @Output() itemDeleted = new EventEmitter();
   @Output() itemChecked = new EventEmitter();
 

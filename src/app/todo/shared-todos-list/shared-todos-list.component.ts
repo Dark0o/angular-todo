@@ -19,7 +19,7 @@ interface SharedTodo {
   styleUrls: ['./shared-todos-list.component.scss'],
 })
 export class SharedTodosListComponent implements OnInit, OnDestroy {
-  todo: Todo;
+  todo!: Todo;
   sharedTodos: SharedTodo[] = [];
   displayedColumns: string[] = [
     'title',
@@ -50,7 +50,7 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
             todos.map((todo: Todo) => {
               const foundUser: User = this.usersService.users.find(
                 (user) => user.id === todo.userID
-              );
+              )!;
               if (foundUser) {
                 const sharedTodo: SharedTodo = {
                   title: todo.title,

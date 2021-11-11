@@ -11,8 +11,8 @@ import { UsersService } from '../users.service';
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
-  user: User;
-  userId: string;
+  user!: User;
+  userId!: string;
   private isDestroyed$ = new Subject();
 
   constructor(private usersService: UsersService, private router: Router) {}

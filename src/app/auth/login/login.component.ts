@@ -12,7 +12,7 @@ import { UsersService } from '../../user/users.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  loginForm: FormGroup;
+  loginForm!: FormGroup;
   private isDestroyed$ = new Subject();
 
   constructor(
@@ -38,8 +38,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
     this.authService.login(
-      this.loginForm.get('email').value,
-      this.loginForm.get('password').value
+      this.loginForm.get('email')!.value,
+      this.loginForm.get('password')!.value
     );
   }
 

@@ -26,6 +26,6 @@ export class NavigationComponent {
   hasRoute(route: string): boolean {
     if (this.router.url === route) {
       return true;
-    }
+    } else return false;
   }
 }

@@ -2,19 +2,19 @@
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="input-container">
       <input class="fields" type="email" name="email" placeholder="Email" formControlName="email" />
-      <span *ngIf="loginForm.get('email').errors?.required && loginForm.get('email').touched">
+      <span *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched">
         Please enter your email.
       </span>
-      <span *ngIf="loginForm.get('email').errors?.email">
+      <span *ngIf="loginForm.get('email')?.errors?.['email']">
         Please enter valid email address.
       </span>
     </div>
     <div class="input-container">
       <input class="fields" type="password" name="password" placeholder="Password" formControlName="password" />
-      <span *ngIf="loginForm.get('password').errors?.required && loginForm.get('password').touched">
+      <span *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched">
         Please enter your password.
       </span>
-      <span *ngIf="loginForm.get('password').errors?.minlength && loginForm.get('password').touched">
+      <span *ngIf="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched">
         Password should be at least 5 characters long.
       </span>
     </div>
