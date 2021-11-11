@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Todo, TodoDto } from './todo';
 interface Response {
-  [key: string]: string | undefined;
+  [key: string]: string;
 }
 
 @Injectable({
@@ -24,7 +24,7 @@ export class TodoService {
 
       return of(this.usersTodos);
     }
-    return this.http.get<Todo>(`${this.url}.json`).pipe(
+    return this.http.get<Todo[]>(`${this.url}.json`).pipe(
       map((responseData) => {
         console.log('else happened');
         for (const key in responseData) {
@@ -42,7 +42,7 @@ export class TodoService {
       console.log('if happened');
       return of(this.sharedTodos);
     }
-    return this.http.get(`${this.url}.json`).pipe(
+    return this.http.get<Todo[]>(`${this.url}.json`).pipe(
       map((responseData) => {
         console.log('else happened');
 
@@ -66,7 +66,7 @@ export class TodoService {
   }
 
   updateTodo(
-    todoProperty: { key: string | boolean },
+    todoProperty: { [key: string]: boolean | string },
     todoId: string
   ): Observable<Todo> {
     return this.http.patch<Todo>(`${this.url}/${todoId}.json`, todoProperty);

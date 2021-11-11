@@ -18,7 +18,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   constructor(private usersService: UsersService, private router: Router) {}
 
   ngOnInit(): void {
-    this.userId = JSON.parse(localStorage.getItem('user')).userId;
+    this.userId = JSON.parse(localStorage.getItem('user')!).userId;
     this.usersService
       .getUserById(this.userId)
       .pipe(takeUntil(this.isDestroyed$))

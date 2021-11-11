@@ -15,7 +15,7 @@ export class AuthService {
         'user',
         JSON.stringify({
           email,
-          userId: this.userService.loggedInUser(email, password).id,
+          userId: this.userService.loggedInUser(email, password)!.id,
         })
       );
       this.router.navigate(['todos']);

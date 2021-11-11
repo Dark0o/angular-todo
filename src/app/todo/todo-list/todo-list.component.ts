@@ -52,7 +52,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.userId = JSON.parse(localStorage.getItem('user')).userId;
+    this.userId = JSON.parse(localStorage.getItem('user')!).userId;
 
     this.todoService
       .getUsersTodos(this.userId)

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Todo } from '../todo';
+import { Todo, TodoDto } from '../todo';
 import { TodoService } from 'src/app/todo/todo.service';
 import { UsersService } from '../../user/users.service';
 
@@ -12,7 +12,7 @@ import { UsersService } from '../../user/users.service';
   styleUrls: ['./todo-details.component.scss'],
 })
 export class TodoDetailsComponent implements OnInit, OnDestroy {
-  todo!: Todo;
+  todo!: TodoDto;
   date!: string;
   editStatus!: string;
   deleteStatus!: string;
@@ -31,14 +31,14 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.userId = JSON.parse(localStorage.getItem('user')).userId;
+    this.userId = JSON.parse(localStorage.getItem('user')!).userId;
 
     this.todoService
       .getTodoById(this.route.snapshot.params['id'])
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
-        (todo: Todo) => {
-          if (todo === null) {
+        (todo: TodoDto) => {
+          if (!todo) {
             this.errorMessage = 'Couldnt get todo!';
           }
           this.todo = todo;
@@ -178,7 +178,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         },
         () => {
           this.todoService.usersTodos = this.todoService.usersTodos.filter(
-            (todo) => todo.id !== this.todo.id
+            (todo) => todo.id !== this.route.snapshot.params['id']
           );
         }
       );

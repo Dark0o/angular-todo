@@ -19,7 +19,7 @@ export class UsersService {
       console.log('if happened');
       return of(this.users);
     }
-    return this.http.get(`${this.url}.json`).pipe(
+    return this.http.get<User[]>(`${this.url}.json`).pipe(
       map((data) => {
         console.log('else happened');
         for (const key in data) {
@@ -43,10 +43,11 @@ export class UsersService {
     return this.http.post<User>(`${this.url}.json`, user);
   }
 
-  loggedInUser(email: string, password: string): User {
+  loggedInUser(email: string, password: string): User | null {
     let user = this.users.find(
       (user) => user.email === email && user.password === password
     );
     if (user) return user;
+    else return null;
   }
 }

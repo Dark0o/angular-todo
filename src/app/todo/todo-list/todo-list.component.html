@@ -4,7 +4,7 @@
 <div *ngIf='errorMessage' class="message">
   <h3>{{ errorMessage }}</h3>
 </div>
-<div *ngIf="loadingState === false && errorMessage === null" class="wrapper">
+<div *ngIf="loadingState === false && !errorMessage" class="wrapper">
   <div class="heading">
     <div style="width: 100px;"></div>
     <h1>{{ usersHeading }}</h1>
