@@ -7,5 +7,6 @@ export interface Todo {
   isPublic: boolean;
   createdAt: string;
   userID: string;
+  name?: string;
 }
 export type TodoDto = Omit<Todo, 'id'>;

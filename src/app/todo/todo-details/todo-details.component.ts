@@ -38,6 +38,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         (todo: Todo) => {
+          console.log(todo);
           if (todo === null) {
             this.errorMessage = 'Couldnt get todo!';
           }

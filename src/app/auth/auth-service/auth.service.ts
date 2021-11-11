@@ -14,14 +14,14 @@ export class AuthService {
   constructor(private userService: UsersService, private router: Router) {}
 
   login(email: string, password: string): void {
-    if (this.userService.userExists(email, password)) {
+    if (!!this.userService.loggedInUser(email, password)) {
       this.isLoggedIn = true;
       localStorage.setItem(
         this.loggedInUser,
         JSON.stringify({
           email,
           isUserLoggedIn: this.isLoggedIn,
-          userId: this.userService.userExists(email, password).id,
+          userId: this.userService.loggedInUser(email, password).id,
         })
       );
       this.router.navigate(['todos']);

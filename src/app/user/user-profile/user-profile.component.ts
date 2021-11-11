@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { User } from '../user';
 import { UsersService } from '../users.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { UsersService } from '../users.service';
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
-  user;
+  user: User;
   userId: string;
   private isDestroyed$ = new Subject();
 
@@ -26,7 +27,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       });
   }
 
-  navigateBack() {
+  navigateBack(): void {
     this.router.navigate(['todos']);
   }
 

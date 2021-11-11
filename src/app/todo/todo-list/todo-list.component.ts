@@ -182,6 +182,8 @@ export class TodoListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         (response) => {
+          console.log(typeof response);
+
           this.todoService.usersTodos.push({
             title: title,
             description: this.description,
@@ -220,7 +222,9 @@ export class TodoListComponent implements OnInit, OnDestroy {
       .updateTodo({ isCompleted: todo.isCompleted }, todo.id)
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
-        () => {},
+        (res) => {
+          console.log(res);
+        },
         () => {
           this.errorMessage = 'Updating failed';
         }

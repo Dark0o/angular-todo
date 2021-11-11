@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from '../user/user';
 import { Todo, TodoDto } from './todo';
 
 @Injectable({
@@ -35,7 +34,7 @@ export class TodoService {
     );
   }
 
-  getSharedTodos(): Observable<any> {
+  getSharedTodos(): Observable<Todo[]> {
     if (this.sharedTodos.length > 0) {
       console.log('if happened');
       return of(this.sharedTodos);
@@ -55,19 +54,19 @@ export class TodoService {
     );
   }
 
-  getTodoById(id: string): Observable<any> {
-    return this.http.get(`${this.url}/${id}.json`);
+  getTodoById(id: string): Observable<TodoDto> {
+    return this.http.get<TodoDto>(`${this.url}/${id}.json`);
   }
 
-  addTodo(todo: TodoDto): Observable<any> {
-    return this.http.post(`${this.url}.json`, todo);
+  addTodo(todo: TodoDto): Observable<Todo> {
+    return this.http.post<Todo>(`${this.url}.json`, todo);
   }
 
-  updateTodo(todoProperty, todoId): Observable<any> {
-    return this.http.patch(`${this.url}/${todoId}.json`, todoProperty);
+  updateTodo(todoProperty, todoId: string): Observable<Todo> {
+    return this.http.patch<Todo>(`${this.url}/${todoId}.json`, todoProperty);
   }
 
-  deleteTodo(id: string): Observable<any> {
-    return this.http.delete(`${this.url}/${id}.json`);
+  deleteTodo(id: string): Observable<Todo> {
+    return this.http.delete<Todo>(`${this.url}/${id}.json`);
   }
 }
