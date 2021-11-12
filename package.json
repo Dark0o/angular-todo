@@ -22,7 +22,6 @@
     "@angular/router": "~12.2.0",
     "date-fns": "^2.25.0",
     "firebase": "^9.0.2",
-    "normalize-scss": "^7.0.1",
     "normalize.scss": "^0.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
