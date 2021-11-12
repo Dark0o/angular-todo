@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/user/user';
 import { UsersService } from '../../user/users.service';
 
 @Injectable({
