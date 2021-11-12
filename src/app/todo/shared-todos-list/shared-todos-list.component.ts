@@ -70,11 +70,7 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$)
       )
       .subscribe((todos) => {
-        if (todos) {
-          this.sharedTodos = todos;
-        }
-
-        console.log(this.sharedTodos);
+        this.sharedTodos = todos;
       });
   }
 

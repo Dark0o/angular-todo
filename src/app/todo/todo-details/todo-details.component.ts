@@ -42,8 +42,6 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
             this.errorMessage = 'Couldnt get todo!';
           }
           this.todo = todo;
-          console.log(this.todo);
-          console.log(this.route.snapshot.params['id']);
         },
         () => {
           this.errorMessage = 'Couldnt get todo!';
@@ -124,7 +122,6 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
   saveEdit(event: FocusEvent): void {
     const target = event.target as HTMLTableCellElement;
     if (target.id === 'titleInput') {
-      console.log(this.todo.title);
       this.todoService
         .updateTodo(
           { title: this.todo.title },
@@ -132,9 +129,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         )
         .pipe(takeUntil(this.isDestroyed$))
         .subscribe(
-          (res) => {
-            console.log(res);
-          },
+          () => {},
           () => {
             this.errorMessage = 'Updating failed';
           }
@@ -148,9 +143,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
         )
         .pipe(takeUntil(this.isDestroyed$))
         .subscribe(
-          (res) => {
-            console.log(res);
-          },
+          () => {},
           () => {
             this.errorMessage = 'Updating failed';
           }

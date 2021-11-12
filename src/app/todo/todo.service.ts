@@ -20,13 +20,10 @@ export class TodoService {
 
   getUsersTodos(id: string): Observable<Todo[]> {
     if (this.usersTodos.length > 0) {
-      console.log('if happened');
-
       return of(this.usersTodos);
     }
     return this.http.get<Todo[]>(`${this.url}.json`).pipe(
       map((responseData) => {
-        console.log('else happened');
         for (const key in responseData) {
           this.usersTodos.push({ ...responseData[key], id: key });
         }
@@ -39,13 +36,10 @@ export class TodoService {
 
   getSharedTodos(): Observable<Todo[]> {
     if (this.sharedTodos.length > 0) {
-      console.log('if happened');
       return of(this.sharedTodos);
     }
     return this.http.get<Todo[]>(`${this.url}.json`).pipe(
       map((responseData) => {
-        console.log('else happened');
-
         for (const key in responseData) {
           this.sharedTodos.push({ ...responseData[key], id: key });
         }
