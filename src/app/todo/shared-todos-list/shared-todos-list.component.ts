@@ -20,7 +20,8 @@ interface SharedTodo {
 })
 export class SharedTodosListComponent implements OnInit, OnDestroy {
   todo!: Todo;
-  sharedTodos: SharedTodo[] = [];
+  sharedTodos: (SharedTodo | undefined)[] = [];
+  errorMessage!: string;
   displayedColumns: string[] = [
     'title',
     'description',
@@ -59,6 +60,9 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
                   usersName: `${foundUser.firstName} ${foundUser.lastName}`,
                 };
                 return sharedTodo;
+              } else {
+                this.errorMessage = 'An error occured!';
+                return;
               }
             })
           );
@@ -66,7 +70,10 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
         takeUntil(this.isDestroyed$)
       )
       .subscribe((todos) => {
-        this.sharedTodos = todos;
+        if (todos) {
+          this.sharedTodos = todos;
+        }
+
         console.log(this.sharedTodos);
       });
   }

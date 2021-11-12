@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Todo, TodoDto } from '../todo';
+import { TodoDto } from '../todo';
 import { TodoService } from 'src/app/todo/todo.service';
 import { UsersService } from '../../user/users.service';
 
@@ -171,7 +171,7 @@ export class TodoDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe(
         () => {
-          this.deleteStatus = 'ToDo Deleted!';
+          this.deleteStatus = 'Todo Deleted!';
         },
         () => {
           this.errorMessage = 'Couldnt delete todo';

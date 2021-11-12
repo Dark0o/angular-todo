@@ -1,23 +1,26 @@
-<div class="container">
+<div *ngIf="errorMessage" class="message">
+  <h3>{{ errorMessage}}</h3>
+</div>
+<div *ngIf="!errorMessage" class="container">
   <h3>Shared Todos list</h3>
 
   <table mat-table [dataSource]="sharedTodos" class="mat-elevation-z8">
     <!-- Title Column -->
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef>Title</th>
-      <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+      <td mat-cell *matCellDef="let element">{{ element?.title }}</td>
     </ng-container>
 
     <!-- Description Column -->
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef>Description</th>
-      <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+      <td mat-cell *matCellDef="let element">{{ element?.description }}</td>
     </ng-container>
 
     <!-- createdAt Column -->
     <ng-container matColumnDef="createdAt">
       <th mat-header-cell *matHeaderCellDef>Created at</th>
-      <td mat-cell *matCellDef="let element">{{ element.createdAt | customDate }}</td>
+      <td mat-cell *matCellDef="let element">{{ element?.createdAt | customDate }}</td>
     </ng-container>
 
     <!-- fullName Column -->
