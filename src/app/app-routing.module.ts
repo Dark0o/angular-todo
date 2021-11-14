@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
     path: 'profile',
     loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
@@ -12,7 +12,7 @@ const routes: Routes = [
     loadChildren: () => import('./todo/todo.module').then((m) => m.TodoModule),
   },
   {
-    path: 'home',
+    path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
 ];
