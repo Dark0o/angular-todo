@@ -46,6 +46,7 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
     this.todosService
       .getSharedTodos()
       .pipe(
+        takeUntil(this.isDestroyed$),
         mergeMap((todos: Todo[]) => {
           return of(
             todos.map((todo: Todo) => {
@@ -66,8 +67,7 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
               }
             })
           );
-        }),
-        takeUntil(this.isDestroyed$)
+        })
       )
       .subscribe((todos) => {
         this.sharedTodos = todos;
