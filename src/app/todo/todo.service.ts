@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Todo, TodoDto } from './todo';
 interface Response {
   [key: string]: string;
@@ -12,11 +12,22 @@ interface Response {
 })
 export class TodoService {
   url: string =
-    'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/todos';
+    'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app';
   usersTodos: Todo[] = [];
   sharedTodos: Todo[] = [];
 
   constructor(private http: HttpClient) {}
+
+  private handleError(err: HttpErrorResponse) {
+    let errorMessage: string;
+    if (err.error instanceof Error) {
+      errorMessage = err.error.message;
+    } else {
+      errorMessage = `${err.status}, ${err.message}`;
+    }
+    console.error(err);
+    return throwError(errorMessage);
+  }
 
   getUsersTodos(id: string): Observable<Todo[]> {
     if (this.usersTodos.length > 0) {
@@ -30,7 +41,8 @@ export class TodoService {
         this.usersTodos = this.usersTodos.filter((todo) => todo.userID === id);
 
         return this.usersTodos;
-      })
+      }),
+      catchError(this.handleError)
     );
   }
 
@@ -47,26 +59,35 @@ export class TodoService {
           (todo: Todo) => todo.isPublic === true
         );
         return this.sharedTodos;
-      })
+      }),
+      catchError(this.handleError)
     );
   }
 
   getTodoById(id: string): Observable<TodoDto> {
-    return this.http.get<TodoDto>(`${this.url}/${id}.json`);
+    return this.http
+      .get<TodoDto>(`${this.url}/${id}.json`)
+      .pipe(catchError(this.handleError));
   }
 
   addTodo(todo: TodoDto): Observable<Todo> {
-    return this.http.post<Todo>(`${this.url}.json`, todo);
+    return this.http
+      .post<Todo>(`${this.url}.json`, todo)
+      .pipe(catchError(this.handleError));
   }
 
   updateTodo(
     todoProperty: { [key: string]: boolean | string },
     todoId: string
   ): Observable<Todo> {
-    return this.http.patch<Todo>(`${this.url}/${todoId}.json`, todoProperty);
+    return this.http
+      .patch<Todo>(`${this.url}/${todoId}.json`, todoProperty)
+      .pipe(catchError(this.handleError));
   }
 
   deleteTodo(id: string): Observable<Todo> {
-    return this.http.delete<Todo>(`${this.url}/${id}.json`);
+    return this.http
+      .delete<Todo>(`${this.url}/${id}.json`)
+      .pipe(catchError(this.handleError));
   }
 }

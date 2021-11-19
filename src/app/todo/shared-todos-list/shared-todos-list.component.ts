@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { TodoService } from 'src/app/todo/todo.service';
 import { UsersService } from 'src/app/user/users.service';
-import { EMPTY, forkJoin, Observable, Subject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { EMPTY, forkJoin } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Todo } from '../todo';
 interface SharedTodo {
   title: string;
@@ -25,10 +25,11 @@ export class SharedTodosListComponent {
     'createdAt',
     'fullName',
   ];
-  todos$ = this.todosService.getSharedTodos();
-  users$ = this.usersService.getSignedUpUsers();
 
-  sharedTodos$ = forkJoin([this.todos$, this.users$]).pipe(
+  sharedTodos$ = forkJoin([
+    this.todosService.getSharedTodos(),
+    this.usersService.getSignedUpUsers(),
+  ]).pipe(
     map(([todos, users]) =>
       todos.map((todo) => {
         const foundUser = users.find((user) => user.id === todo.userID);
@@ -43,7 +44,10 @@ export class SharedTodosListComponent {
         } else return EMPTY;
       })
     ),
-    tap((value) => console.log(value))
+    catchError((err) => {
+      this.errorMessage = err;
+      return EMPTY;
+    })
   );
 
   constructor(
