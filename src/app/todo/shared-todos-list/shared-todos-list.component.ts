@@ -1,11 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TodoService } from 'src/app/todo/todo.service';
 import { UsersService } from 'src/app/user/users.service';
-import { of, Subject } from 'rxjs';
-import { mergeMap, takeUntil } from 'rxjs/operators';
+import { EMPTY, forkJoin, Observable, Subject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { Todo } from '../todo';
-import { User } from 'src/app/user/user';
-
 interface SharedTodo {
   title: string;
   description: string;
@@ -18,9 +16,8 @@ interface SharedTodo {
   templateUrl: './shared-todos-list.component.html',
   styleUrls: ['./shared-todos-list.component.scss'],
 })
-export class SharedTodosListComponent implements OnInit, OnDestroy {
+export class SharedTodosListComponent {
   todo!: Todo;
-  sharedTodos: (SharedTodo | undefined)[] = [];
   errorMessage!: string;
   displayedColumns: string[] = [
     'title',
@@ -28,53 +25,29 @@ export class SharedTodosListComponent implements OnInit, OnDestroy {
     'createdAt',
     'fullName',
   ];
+  todos$ = this.todosService.getSharedTodos();
+  users$ = this.usersService.getSignedUpUsers();
 
-  private isDestroyed$ = new Subject();
+  sharedTodos$ = forkJoin([this.todos$, this.users$]).pipe(
+    map(([todos, users]) =>
+      todos.map((todo) => {
+        const foundUser = users.find((user) => user.id === todo.userID);
+        if (foundUser) {
+          const sharedTodo: SharedTodo = {
+            title: todo.title,
+            description: todo.description,
+            createdAt: todo.createdAt,
+            usersName: `${foundUser.firstName} ${foundUser.lastName}`,
+          };
+          return sharedTodo;
+        } else return EMPTY;
+      })
+    ),
+    tap((value) => console.log(value))
+  );
 
   constructor(
     private todosService: TodoService,
     private usersService: UsersService
   ) {}
-
-  // TODO revisit all this functionallity
-  ngOnInit(): void {
-    this.usersService
-      .getSignedUpUsers()
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe();
-
-    this.todosService
-      .getSharedTodos()
-      .pipe(
-        takeUntil(this.isDestroyed$),
-        mergeMap((todos: Todo[]) => {
-          return of(
-            todos.map((todo: Todo) => {
-              const foundUser: User = this.usersService.users.find(
-                (user) => user.id === todo.userID
-              )!;
-              if (foundUser) {
-                const sharedTodo: SharedTodo = {
-                  title: todo.title,
-                  description: todo.description,
-                  createdAt: todo.createdAt,
-                  usersName: `${foundUser.firstName} ${foundUser.lastName}`,
-                };
-                return sharedTodo;
-              } else {
-                this.errorMessage = 'An error occured!';
-                return;
-              }
-            })
-          );
-        })
-      )
-      .subscribe((todos) => {
-        this.sharedTodos = todos;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.isDestroyed$.next();
-  }
 }

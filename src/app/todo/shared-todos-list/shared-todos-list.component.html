@@ -4,7 +4,7 @@
 <div *ngIf="!errorMessage" class="container">
   <h3>Shared Todos list</h3>
 
-  <table mat-table [dataSource]="sharedTodos" class="mat-elevation-z8">
+  <table mat-table *ngIf="sharedTodos$ | async as sharedTodos" [dataSource]="sharedTodos" class="mat-elevation-z8">
     <!-- Title Column -->
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef>Title</th>

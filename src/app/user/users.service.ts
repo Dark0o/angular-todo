@@ -41,11 +41,11 @@ export class UsersService {
     return this.http.post<User>(`${this.url}.json`, user);
   }
 
-  loggedInUser(email: string, password: string): User | null {
+  loggedInUser(email: string, password: string): User | undefined {
     let user = this.users.find(
       (user) => user.email === email && user.password === password
     );
     if (user) return user;
-    else return null;
+    else return;
   }
 }
