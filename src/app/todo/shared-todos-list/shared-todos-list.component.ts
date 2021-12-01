@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TodoService } from 'src/app/todo/todo.service';
 import { UsersService } from 'src/app/user/users.service';
-import { EMPTY, forkJoin } from 'rxjs';
+import { EMPTY, forkJoin, Subject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Todo } from '../todo';
 interface SharedTodo {
@@ -18,13 +18,15 @@ interface SharedTodo {
 })
 export class SharedTodosListComponent {
   todo!: Todo;
-  errorMessage!: string;
   displayedColumns: string[] = [
     'title',
     'description',
     'createdAt',
     'fullName',
   ];
+
+  private errorMessageSubject = new Subject<string>();
+  errorMessage$ = this.errorMessageSubject.asObservable();
 
   sharedTodos$ = forkJoin([
     this.todosService.getSharedTodos(),
@@ -44,7 +46,7 @@ export class SharedTodosListComponent {
       })
     ),
     catchError((err) => {
-      this.errorMessage = err;
+      this.errorMessageSubject.next(err);
       return EMPTY;
     })
   );

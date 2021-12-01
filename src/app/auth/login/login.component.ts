@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    //this.agService.errorMessage$.subscribe((value) => console.log(value));
     this.userService
       .getSignedUpUsers()
       .pipe(takeUntil(this.isDestroyed$))

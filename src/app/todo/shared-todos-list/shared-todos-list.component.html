@@ -1,7 +1,7 @@
-<div *ngIf="errorMessage" class="message">
+<div *ngIf="errorMessage$ | async as errorMessage" class="message">
   <h3>{{ errorMessage}}</h3>
 </div>
-<div *ngIf="!errorMessage" class="container">
+<div *ngIf="!(errorMessage$ | async)" class="container">
   <h3>Shared Todos list</h3>
 
   <table mat-table *ngIf="sharedTodos$ | async as sharedTodos" [dataSource]="sharedTodos" class="mat-elevation-z8">

@@ -63,7 +63,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
           this.performFilter();
 
           if (this.usersTodos.length === 0) {
-            this.errorMessage = 'An error occured!';
+            this.errorMessage = 'No todos yet!';
           }
           this.loadingState = false;
         },

@@ -3,9 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Todo, TodoDto } from './todo';
-interface Response {
-  [key: string]: string;
-}
 
 @Injectable({
   providedIn: 'root',

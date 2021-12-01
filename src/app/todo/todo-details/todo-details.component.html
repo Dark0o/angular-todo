@@ -41,9 +41,9 @@
       <td>{{ todo.createdAt | customDate }}</td>
 
     </tr>
-    <tr>
+    <tr *ngIf="user$ | async as user">
       <td>Author:</td>
-      <td>{{ usersName }}</td>
+      <td>{{ user.firstName }} {{ user.lastName}}</td>
     </tr>
   </table>
   <div class="btns">
