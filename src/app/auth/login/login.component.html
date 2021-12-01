@@ -24,4 +24,7 @@
       <button class="btn"><a routerLink="/auth/signup">Sign Up</a></button>
     </div>
   </form>
+  <div *ngIf="guardErrorMessage$ | async as message">
+    <span *ngIf="message !== 'Error'">{{ message }}</span>
+  </div>
 </div>

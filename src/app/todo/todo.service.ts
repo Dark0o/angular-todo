@@ -12,7 +12,7 @@ interface Response {
 })
 export class TodoService {
   url: string =
-    'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app';
+    'https://todo-app-2e14b-default-rtdb.europe-west1.firebasedatabase.app/todos';
   usersTodos: Todo[] = [];
   sharedTodos: Todo[] = [];
 

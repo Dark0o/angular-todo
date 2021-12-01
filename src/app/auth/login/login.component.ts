@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../auth-service/auth.service';
 import { UsersService } from '../../user/users.service';
+import { AuthGuardService } from '../auth-service/auth-guard.service';
 
 @Component({
   selector: 'app-login',
@@ -13,16 +14,19 @@ import { UsersService } from '../../user/users.service';
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
   warningMessage!: string;
+  guardErrorMessage$ = this.agService.errorMessage$;
 
   private isDestroyed$ = new Subject();
 
   constructor(
     private userService: UsersService,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private agService: AuthGuardService
   ) {}
 
   ngOnInit(): void {
+    //this.agService.errorMessage$.subscribe((value) => console.log(value));
     this.userService
       .getSignedUpUsers()
       .pipe(takeUntil(this.isDestroyed$))
