@@ -1,5 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../auth-service/auth.service';
@@ -13,7 +20,6 @@ import { AuthGuardService } from '../auth-service/auth-guard.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
-  warningMessage!: string;
   guardErrorMessage$ = this.agService.errorMessage$;
 
   private isDestroyed$ = new Subject();
@@ -25,6 +31,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     private agService: AuthGuardService
   ) {}
 
+  private userExists(): ValidatorFn {
+    return (c: AbstractControl): ValidationErrors | null => {
+      const email: string = c.get('email')?.value;
+      const password: string = c.get('password')?.value;
+
+      if (this.userService.userExists(email, password)) {
+        return null;
+      } else return { exists: true };
+    };
+  }
+
   ngOnInit(): void {
     //this.agService.errorMessage$.subscribe((value) => console.log(value));
     this.userService
@@ -32,25 +49,23 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe();
 
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(5)]],
-    });
+    this.loginForm = this.fb.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(5)]],
+      },
+      { validators: this.userExists() }
+    );
   }
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
       return;
     }
-    try {
-      this.authService.login(
-        this.loginForm.get('email')!.value,
-        this.loginForm.get('password')!.value
-      );
-    } catch (e: any) {
-      this.warningMessage = 'Invalid credentials!';
-      console.error(e.message);
-    }
+    this.authService.login(
+      this.loginForm.get('email')!.value,
+      this.loginForm.get('password')!.value
+    );
   }
 
   ngOnDestroy(): void {

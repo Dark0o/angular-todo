@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class AuthGuardService implements CanActivate {
-  private errorMessageSubject = new BehaviorSubject<string>('Error');
+  private errorMessageSubject = new BehaviorSubject<string | null>(null);
   errorMessage$ = this.errorMessageSubject.asObservable();
 
   constructor(private router: Router, private authService: AuthService) {}

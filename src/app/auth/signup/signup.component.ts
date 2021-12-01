@@ -5,6 +5,7 @@ import {
   Validators,
   AbstractControl,
   ValidationErrors,
+  ValidatorFn,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -44,32 +45,48 @@ export class SignupComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
+  private alreadyExists(): ValidatorFn {
+    return (c: AbstractControl): ValidationErrors | null => {
+      const email: string = c.get('email')?.value;
+      const password: string = (c.get('passwordGroup') as FormGroup).get(
+        'password'
+      )?.value;
+
+      if (this.userService.userExists(email, password)) {
+        return { exists: true };
+      } else return null;
+    };
+  }
+
   ngOnInit(): void {
     this.userService
       .getSignedUpUsers()
       .pipe(takeUntil(this.isDestroyed$))
       .subscribe();
 
-    this.signupForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      passwordGroup: this.fb.group(
-        {
-          password: [
-            '',
-            [
-              Validators.required,
-              Validators.minLength(5),
-              Validators.pattern(this.regex),
+    this.signupForm = this.fb.group(
+      {
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        passwordGroup: this.fb.group(
+          {
+            password: [
+              '',
+              [
+                Validators.required,
+                Validators.minLength(5),
+                Validators.pattern(this.regex),
+              ],
             ],
-          ],
-          confirmPassword: ['', Validators.required],
-        },
-        { validators: comparePasswords }
-      ),
-      dateOfBirth: ['', Validators.required],
-    });
+            confirmPassword: ['', Validators.required],
+          },
+          { validators: comparePasswords }
+        ),
+        dateOfBirth: ['', Validators.required],
+      },
+      { validators: this.alreadyExists() }
+    );
   }
 
   onSubmit(): void {
@@ -89,18 +106,13 @@ export class SignupComponent implements OnInit, OnDestroy {
       dateOfBirth,
     };
 
-    try {
-      this.userService
-        .addUser(user)
-        .pipe(takeUntil(this.isDestroyed$))
-        .subscribe(() => {
-          this.userService.users.push(user);
-          this.signedUpMessage = 'You have singed up! Go to log in.';
-        });
-    } catch (e: any) {
-      this.signedUpMessage = e.message;
-      console.error(e.message);
-    }
+    this.userService
+      .addUser(user)
+      .pipe(takeUntil(this.isDestroyed$))
+      .subscribe(() => {
+        this.userService.users.push(user);
+        this.signedUpMessage = 'You have singed up! Go to log in.';
+      });
   }
 
   goToLogIn(): void {

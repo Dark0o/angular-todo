@@ -43,6 +43,8 @@
         <span *ngIf="signupForm.get('passwordGroup')?.errors?.['match']">
           Passwords dont match.
         </span>
+        <span *ngIf="signupForm.errors?.['exists'] && signupForm.touched">User with those credentials already
+          exists!</span>
       </div>
     </div>
     <div class="input-container">
@@ -51,6 +53,7 @@
         Please enter your birth day.
       </span>
     </div>
+
     <div class="input-container">
       <span *ngIf="warningMessage">{{ warningMessage }}</span>
       <span *ngIf="signedUpMessage">{{ signedUpMessage }}</span>

@@ -46,12 +46,12 @@ export class UsersService {
       .pipe(catchError(this.handleError));
   }
 
-  userExists(email: string, password: string): User {
+  userExists(email: string, password: string): User | undefined {
     let user = this.users.find(
       (user) => user.email === email && user.password === password
     );
     if (user) return user;
-    else throw new Error('User doesnt exist!');
+    else return;
   }
 
   private handleError(err: HttpErrorResponse) {
