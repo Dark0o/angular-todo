@@ -33,15 +33,14 @@ export class SharedTodosListComponent {
     map(([todos, users]) =>
       todos.map((todo) => {
         const foundUser = users.find((user) => user.id === todo.userID);
-        if (foundUser) {
-          const sharedTodo: SharedTodo = {
-            title: todo.title,
-            description: todo.description,
-            createdAt: todo.createdAt,
-            usersName: `${foundUser.firstName} ${foundUser.lastName}`,
-          };
-          return sharedTodo;
-        } else return EMPTY;
+        return {
+          title: todo.title,
+          description: todo.description,
+          createdAt: todo.createdAt,
+          usersName: foundUser
+            ? `${foundUser.firstName} ${foundUser.lastName}`
+            : null,
+        } as SharedTodo;
       })
     ),
     catchError((err) => {

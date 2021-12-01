@@ -45,6 +45,11 @@ export class SignupComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.userService
+      .getSignedUpUsers()
+      .pipe(takeUntil(this.isDestroyed$))
+      .subscribe();
+
     this.signupForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -84,17 +89,22 @@ export class SignupComponent implements OnInit, OnDestroy {
       dateOfBirth,
     };
 
-    this.userService
-      .addUser(user)
-      .pipe(takeUntil(this.isDestroyed$))
-      .subscribe(() => {
-        this.userService.users.push(user);
-        this.signedUpMessage = 'You have singed up! Go to log in.';
-      });
+    try {
+      this.userService
+        .addUser(user)
+        .pipe(takeUntil(this.isDestroyed$))
+        .subscribe(() => {
+          this.userService.users.push(user);
+          this.signedUpMessage = 'You have singed up! Go to log in.';
+        });
+    } catch (e: any) {
+      this.signedUpMessage = e.message;
+      console.error(e.message);
+    }
   }
 
   goToLogIn(): void {
-    this.router.navigate(['login']);
+    this.router.navigate(['auth/login']);
   }
 
   ngOnDestroy(): void {

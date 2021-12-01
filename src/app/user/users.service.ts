@@ -14,17 +14,6 @@ export class UsersService {
 
   constructor(private http: HttpClient) {}
 
-  private handleError(err: HttpErrorResponse) {
-    let errorMessage: string;
-    if (err.error instanceof Error) {
-      errorMessage = err.error.message;
-    } else {
-      errorMessage = `${err.status}, ${err.message}`;
-    }
-    console.error(err);
-    return throwError(errorMessage);
-  }
-
   getSignedUpUsers(): Observable<User[]> {
     if (this.users.length > 0) {
       return of(this.users);
@@ -48,8 +37,8 @@ export class UsersService {
 
   addUser(user: User): Observable<User> {
     if (this.users.length > 0) {
-      if (!!this.loggedInUser(user.email, user.password)) {
-        alert('User already exists, please Log In');
+      if (!!this.userExists(user.email, user.password)) {
+        throw new Error('User already exists, please Log In');
       }
     }
     return this.http
@@ -57,11 +46,22 @@ export class UsersService {
       .pipe(catchError(this.handleError));
   }
 
-  loggedInUser(email: string, password: string): User | undefined {
+  userExists(email: string, password: string): User {
     let user = this.users.find(
       (user) => user.email === email && user.password === password
     );
     if (user) return user;
-    else return;
+    else throw new Error('User doesnt exist!');
+  }
+
+  private handleError(err: HttpErrorResponse) {
+    let errorMessage: string;
+    if (err.error instanceof Error) {
+      errorMessage = err.error.message;
+    } else {
+      errorMessage = `${err.status}, ${err.message}`;
+    }
+    console.error(err);
+    return throwError(errorMessage);
   }
 }

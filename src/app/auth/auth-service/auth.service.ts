@@ -9,16 +9,16 @@ export class AuthService {
   constructor(private userService: UsersService, private router: Router) {}
 
   login(email: string, password: string): void {
-    if (!!this.userService.loggedInUser(email, password)) {
+    if (!!this.userService.userExists(email, password)) {
       localStorage.setItem(
         'user',
         JSON.stringify({
           email,
-          userId: this.userService.loggedInUser(email, password)!.id,
+          userId: this.userService.userExists(email, password)!.id,
         })
       );
       this.router.navigate(['todos']);
-    } else alert('Incorrect email or password!');
+    } else throw new Error('Invalid credentials!');
   }
 
   isUserLoggedIn(): boolean {

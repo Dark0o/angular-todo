@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../auth-service/auth.service';
@@ -13,6 +12,8 @@ import { UsersService } from '../../user/users.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
+  warningMessage!: string;
+
   private isDestroyed$ = new Subject();
 
   constructor(
@@ -37,10 +38,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.loginForm.invalid) {
       return;
     }
-    this.authService.login(
-      this.loginForm.get('email')!.value,
-      this.loginForm.get('password')!.value
-    );
+    try {
+      this.authService.login(
+        this.loginForm.get('email')!.value,
+        this.loginForm.get('password')!.value
+      );
+    } catch (e: any) {
+      this.warningMessage = 'Invalid credentials!';
+      console.error(e.message);
+    }
   }
 
   ngOnDestroy(): void {
