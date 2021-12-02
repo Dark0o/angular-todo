@@ -41,9 +41,7 @@ export class UsersService {
         throw new Error('User already exists, please Log In');
       }
     }
-    return this.http
-      .post<User>(`${this.url}.json`, user)
-      .pipe(catchError(this.handleError));
+    return this.http.post<User>(`${this.url}.json`, user);
   }
 
   userExists(email: string, password: string): User | undefined {

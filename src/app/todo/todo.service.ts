@@ -68,23 +68,17 @@ export class TodoService {
   }
 
   addTodo(todo: TodoDto): Observable<Todo> {
-    return this.http
-      .post<Todo>(`${this.url}.json`, todo)
-      .pipe(catchError(this.handleError));
+    return this.http.post<Todo>(`${this.url}.json`, todo);
   }
 
   updateTodo(
     todoProperty: { [key: string]: boolean | string },
     todoId: string
   ): Observable<Todo> {
-    return this.http
-      .patch<Todo>(`${this.url}/${todoId}.json`, todoProperty)
-      .pipe(catchError(this.handleError));
+    return this.http.patch<Todo>(`${this.url}/${todoId}.json`, todoProperty);
   }
 
   deleteTodo(id: string): Observable<Todo> {
-    return this.http
-      .delete<Todo>(`${this.url}/${id}.json`)
-      .pipe(catchError(this.handleError));
+    return this.http.delete<Todo>(`${this.url}/${id}.json`);
   }
 }
