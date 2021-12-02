@@ -31,14 +31,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     private agService: AuthGuardService
   ) {}
 
-  private userExists(): ValidatorFn {
+  private invalidCredentials(): ValidatorFn {
     return (c: AbstractControl): ValidationErrors | null => {
       const email: string = c.get('email')?.value;
       const password: string = c.get('password')?.value;
 
-      if (this.userService.userExists(email, password)) {
-        return null;
-      } else return { exists: true };
+      if (!this.userService.userExists(email, password)) {
+        return { invalidCredentials: true };
+      } else return null;
     };
   }
 
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(5)]],
       },
-      { validators: this.userExists() }
+      { validators: this.invalidCredentials() }
     );
   }
 
