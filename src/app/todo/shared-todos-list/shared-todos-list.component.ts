@@ -28,6 +28,8 @@ export class SharedTodosListComponent {
   private errorMessageSubject = new Subject<string>();
   errorMessage$ = this.errorMessageSubject.asObservable();
 
+  // conbineLatest, forkJoin, withLatestFrom
+
   sharedTodos$ = forkJoin([
     this.todosService.getSharedTodos(),
     this.usersService.getSignedUpUsers(),

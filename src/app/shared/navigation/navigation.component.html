@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 *ngIf="hasRoute('/auth/login') || hasRoute('/auth/signup')">Todo App</h1>
+  <h1 *ngIf="hasRoute('/login') || hasRoute('/signup')">Todo App</h1>
   <button class="btn" *ngIf="hasRoute('/todos') || this.router.url.includes('todos') || hasRoute('/profile')"
     (click)="addNew()">
     Add New
