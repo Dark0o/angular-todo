@@ -84,7 +84,7 @@ export class TodoService {
 
   deleteTodo(id: string): Observable<Todo> {
     return this.http
-      .delete<Todo>(`${this.url}/${id}.js`)
+      .delete<Todo>(`${this.url}/${id}.json`)
       .pipe(catchError(this.handleError));
   }
 }

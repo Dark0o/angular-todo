@@ -45,6 +45,6 @@
     </div>
   </div>
 
-  <app-todo-item *ngFor="let todo of filteredTodos" [todoItem]="todo" (itemDeleted)="onDelete($event)"
-    (itemChecked)="onItemChecked($event)"></app-todo-item>
+  <app-todo-item *ngFor="let todo of filteredTodos; trackBy: trackByFn" [todoItem]="todo"
+    (itemDeleted)="onDelete($event)" (itemChecked)="onItemChecked($event)"></app-todo-item>
 </div>

@@ -11,7 +11,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../auth-service/auth.service';
 import { UsersService } from '../../user/users.service';
-import { AuthGuard } from '../../shared/guards/auth-guard';
 
 @Component({
   selector: 'app-login',

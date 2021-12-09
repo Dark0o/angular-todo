@@ -84,6 +84,10 @@ export class TodoListComponent implements OnInit, OnDestroy {
       );
   }
 
+  trackByFn(index: number): number {
+    return index;
+  }
+
   sortTitle(): void {
     if (this.sortingFlags.sortTitle === true) {
       this.filteredTodos.sort((a, b) => {
