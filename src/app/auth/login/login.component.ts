@@ -11,7 +11,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../auth-service/auth.service';
 import { UsersService } from '../../user/users.service';
-import { AuthGuardService } from '../auth-service/auth-guard.service';
+import { AuthGuard } from '../../shared/guards/auth-guard';
 
 @Component({
   selector: 'app-login',
@@ -20,15 +20,13 @@ import { AuthGuardService } from '../auth-service/auth-guard.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
-  guardErrorMessage$ = this.agService.errorMessage$;
 
   private isDestroyed$ = new Subject();
 
   constructor(
     private userService: UsersService,
     private authService: AuthService,
-    private fb: FormBuilder,
-    private agService: AuthGuardService
+    private fb: FormBuilder
   ) {}
 
   private invalidCredentials(): ValidatorFn {

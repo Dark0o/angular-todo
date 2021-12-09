@@ -15,6 +15,20 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
+  {
+    path: '**',
+    redirectTo: '/not-found',
+  },
+  {
+    path: 'not-found',
+    loadChildren: () =>
+      import('./shared/shared.module').then((m) => m.SharedModule),
+  },
+  {
+    path: 'permission-denied',
+    loadChildren: () =>
+      import('./shared/shared.module').then((m) => m.SharedModule),
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

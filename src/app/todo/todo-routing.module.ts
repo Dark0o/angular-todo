@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuardService } from '../auth/auth-service/auth-guard.service';
+import { AuthGuard } from '../shared/guards/auth-guard';
 
 import {
   TodoListComponent,
@@ -13,22 +13,22 @@ const routes: Routes = [
   {
     path: '',
     component: TodoListComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuard],
   },
   {
     path: 'new',
     component: AddTodoComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuard],
   },
   {
     path: 'shared',
     component: SharedTodosListComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuard],
   },
   {
     path: ':id',
     component: TodoDetailsComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuard],
   },
 ];
 

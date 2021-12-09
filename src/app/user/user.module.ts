@@ -4,7 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { AuthGuardService } from '../auth/auth-service/auth-guard.service';
+import { AuthGuard } from '../shared/guards/auth-guard';
 
 @NgModule({
   declarations: [UserProfileComponent],
@@ -13,7 +13,7 @@ import { AuthGuardService } from '../auth/auth-service/auth-guard.service';
       {
         path: '',
         component: UserProfileComponent,
-        canActivate: [AuthGuardService],
+        canActivate: [AuthGuard],
       },
     ]),
     CommonModule,
