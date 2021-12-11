@@ -84,8 +84,8 @@ export class TodoListComponent implements OnInit, OnDestroy {
       );
   }
 
-  trackByFn(index: number): number {
-    return index;
+  trackByFn(index: number, todo: Todo): string {
+    return todo.id;
   }
 
   sortTitle(): void {
