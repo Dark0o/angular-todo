@@ -10,7 +10,7 @@ export class LogInGuard implements CanActivate {
 
   canActivate(): boolean {
     if (this.authService.isUserLoggedIn()) {
-      this.router.navigateByUrl('/permission-denied');
+      this.router.navigateByUrl('/todos');
       return false;
     } else return true;
   }

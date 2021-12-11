@@ -24,11 +24,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./shared/shared.module').then((m) => m.SharedModule),
   },
-  {
-    path: 'permission-denied',
-    loadChildren: () =>
-      import('./shared/shared.module').then((m) => m.SharedModule),
-  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
